@@ -7,11 +7,6 @@
 
 
 
-
-// text
-Tcl_Obj **text;
-char *obj_text;
-
 int size_radius(int size) {
 	if(size > 0) {
 		return(size);
@@ -1066,7 +1061,7 @@ static int display_text_Cmd(
 	Tcl_Obj **xcoord, **ycoord, **text, **color, **selected;
 	Tcl_Obj *ptr_cx, *ptr_cy, *ptr_zf, *ptr_brcol, *ptr_x, *ptr_y, *ptr_size, *ptr_sel, *ptr_col, *ptr_txt;
 	int nx,ny,nc,nsel,ntxt;
-	char *brush_color, *obj_color, *bg_color;
+	char *brush_color, *obj_color, *bg_color, *obj_text;
 	double c_x, c_y, sq_zf;
 	Tcl_Obj *ng_windowManager, *ng_data;
 	int i;
