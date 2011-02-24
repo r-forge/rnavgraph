@@ -1,0 +1,38 @@
+\begin{center}
+  \begin{tikzpicture}
+ [a/.style={circle, draw=black!50, fill=purple!80, minimum size=3mm},
+  na/.style={circle, draw=black!50, fill=violet!100, minimum size=3mm},
+  bullet/.style={circle, draw=black, fill=yellow!80,thick, minimum size=5mm},
+  nc/.style={draw=black!30,line width=1.5pt},
+  co/.style={draw=black!30,line width=4pt}]
+    
+    \begin{scope}[shift = {(1.5*\ww,0)}]
+      \ngwindow
+      \nggraph{a}{na}{na}{a}{nc}{nc}{co}{nc}{nc}
+      \node at ($(AB)!0.4!(CD)$) [bullet] {};
+      \mouse{($(AB)!0.4!(CD)$)}{}{(-60:0.8)}{right}
+      \node at (0,-0.7) [right] {40};
+    \end{scope}
+
+
+    \begin{scope}
+      \ngwindow
+      \nggraph{a}{a}{a}{a}{co}{co}{co}{nc}{nc}
+      \node at (AB) [bullet] {};
+      \mouse{(AB)}{Left Click and Drag}{(-120:1)}{right}
+      \node at (0,-0.7) [right] {0};
+    \end{scope}
+
+
+    \begin{scope}[shift = {(3*\ww,0)}]
+      \ngwindow
+      \nggraph{a}{a}{na}{a}{nc}{nc}{co}{nc}{co}
+      \draw [co, draw=gray!80!black](AB) -- (CD);
+      \node at (CD) [bullet] {};
+      \mouse{(CD)}{}{(-60:0.8)}{right}
+      \node at (0,-0.7) [right] {0};
+    \end{scope}
+
+    
+  \end{tikzpicture}
+\end{center}

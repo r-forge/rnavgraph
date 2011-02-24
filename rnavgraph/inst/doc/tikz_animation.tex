@@ -1,0 +1,39 @@
+\begin{center}
+  \begin{tikzpicture}
+ [a/.style={circle, draw=black!50, fill=purple!80, minimum size=3mm},
+  na/.style={circle, draw=black!50, fill=violet!100, minimum size=3mm},
+  bullet/.style={circle, draw=black, fill=yellow!80,thick, minimum size=5mm},
+  nc/.style={draw=black!30,line width=1.5pt},
+  co/.style={draw=black!30,line width=4pt}]
+    
+    \begin{scope}[shift = {(1.5*\ww,0)}]
+      \ngwindow
+      \nggraph{a}{na}{na}{a}{nc}{nc}{co}{nc}{nc}
+
+      \foreach \perc in {0.2,0.4,0.6,0.8} {
+        \node at ($(AB)!\perc!(CD)$) [bullet] {};
+      }
+      \node at (0,-0.7) [right] {40};
+    \end{scope}
+
+
+    \begin{scope}
+      \ngwindow
+      \nggraph{a}{a}{a}{a}{co}{co}{co}{nc}{nc}
+      \node at (AB) [bullet] {};
+      \mouse{(CD)}{Double Click}{(-30:0.5)}{right}
+      \node at (0,-0.7) [right] {0};
+    \end{scope}
+
+
+    \begin{scope}[shift = {(3*\ww,0)}]
+      \ngwindow
+      \nggraph{a}{a}{na}{a}{nc}{nc}{co}{nc}{co}
+      \draw [co, draw=gray!80!black](AB) -- (CD);
+      \node at (CD) [bullet] {};
+      \node at (0,-0.7) [right] {0};
+    \end{scope}
+
+    
+  \end{tikzpicture}
+\end{center}

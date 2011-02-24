@@ -1,0 +1,12 @@
+ng_2d_image_files_aloi	Amsterdam Library of Object Images
+ng_2d_images_alpha_letter	Binary 20x16 digits of "0" through "9" and capital "A" through "Z". 39 examples of each class.
+ng_2d_images_digits	USPS Handwritten Digits
+ng_2d_images_faces	From the Oivetti database at ATT
+ng_2d_images_frey	Almost 2000 images of Brendan's face, taken from sequential frames of a small video. Size: 20x28
+ng_2d_images_iris	Iris data example with RnavGraph plotting facility and downloaded images from the internet
+ng_2d_iris	Iris data example with RnavGraph plotting facility
+ng_2d_iris	Olive data example: 2 sessions with linked data
+ng_2d_myplot_base	Scatterplots using the base plotting device, data = iris
+ng_2d_myplot_grid	Scatterplots using the grid plotting device, data = iris
+ng_2d_myplot_rgl	Scatterplots using the rgl plotting device, data = iris
+ng_2d_myplot_hexbin	Bivariate Binning into Hexagon Cells, data = iris

@@ -1,0 +1,56 @@
+## Register an old-style (a.k.a. 'S3') class as a formally defined class
+## isS4(ggobi())
+setOldClass('GGobiScatterplotDisplay')
+setOldClass('tkwin')
+setClassUnion('OptionalTkwin',c('tkwin','NULL'))
+setClassUnion('OptionalGGobiSPDisp',c('GGobiScatterplotDisplay','NULL'))
+setClassUnion('OptionalCharNum',c('numeric','character'))
+setClassUnion('OptionalCharNumNULL',c('numeric','character','NULL'))
+setClassUnion('OptionalCharNULL',c('NULL','character'))
+
+setOldClass("GGobi")
+setClassUnion('OptionalGGobi',c('GGobi','NULL'))
+setGeneric("plot")
+
+
+## Definition of Generic Functions
+setGeneric(name = "ng_get",
+		def = function(obj,what=NULL,...){standardGeneric("ng_get")})
+
+setGeneric(name = "ng_set<-",
+		def = function(object,what,value){standardGeneric("ng_set<-")})
+
+setGeneric(name = "ng_set",
+		def = function(object){standardGeneric("ng_set")})
+
+
+## NG_Data
+setGeneric(name = "shortnames",
+		def = function(x){standardGeneric("shortnames")})
+
+setGeneric(name = "shortnames<-",
+		def = function(x,value){standardGeneric("shortnames<-")})
+
+## NG_graph
+setGeneric(name = "graphLayout",
+		def = function(graph,type,...){standardGeneric("graphLayout")})
+
+setGeneric(name = "resize",
+		def = function(object,width,height,...){standardGeneric("resize")})
+
+setGeneric(name = "adjacent",
+		def = function(graph,node,type,retNr){standardGeneric("adjacent")})
+
+
+## NG_Visualization
+setGeneric(
+		name = "inititializeViz",
+		def = function(viz,ngEnv){standardGeneric("inititializeViz")})
+
+setGeneric(
+		name = "updateViz",
+		def = function(viz,ngEnv){standardGeneric("updateViz")})
+
+setGeneric(
+		name = "closeViz",
+		def = function(viz,ngEnv){standardGeneric("closeViz")})

@@ -1,0 +1,19 @@
+# you can't use $(DYLIB_EXT) even though that's what Tcl uses
+# because R multi-arch installs won't copy it! So it must be SHLIB_EXT
+TEALIB=ImgscaleTea$(SHLIB_EXT)
+TEALIB2=DisplaystuffTea$(SHLIB_EXT)
+
+all: $(SHLIB) $(TEALIB) $(TEALIB2)
+
+$(TEALIB): ImgscaleTea.o
+	$(SHLIB_LINK) -o $(TEALIB) ImgscaleTea.o $(TCLTK_LIBS)
+
+ImgscaleTea.o: image_scale.c
+	$(CC) -DTEA=1 -c image_scale.c -o $@ $(CPPFLAGS) $(CFLAGS) $(CPICFLAGS) $(TCLTK_CPPFLAGS)
+	
+$(TEALIB2): DisplaystuffTea.o
+	$(SHLIB_LINK) -o $(TEALIB2) DisplaystuffTea.o $(TCLTK_LIBS)
+
+DisplaystuffTea.o: display_stuff.c
+	$(CC) -DTEA=1 -c display_stuff.c -o $@ $(CPPFLAGS) $(CFLAGS) $(CPICFLAGS) $(TCLTK_CPPFLAGS)
+

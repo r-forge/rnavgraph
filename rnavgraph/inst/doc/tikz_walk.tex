@@ -1,0 +1,61 @@
+\begin{center}
+  \begin{tikzpicture}
+ [a/.style={circle, draw=black!50, fill=purple!80, minimum size=3mm},
+ p/.style={circle, draw=black!50, fill=black, minimum size=3mm},
+  na/.style={circle, draw=black!50, fill=violet!100, minimum size=3mm},
+  bullet/.style={circle, draw=black, fill=yellow!80,thick, minimum size=5mm},
+  pbullet/.style={circle, draw=black, fill=black,thick, minimum size=5mm},
+ nc/.style={draw=black!30,line width=1.5pt},
+  co/.style={draw=black!30,line width=4pt}]
+    
+
+  \begin{scope}
+    \ngwindow
+    \nggraph{a}{a}{a}{a}{co}{co}{co}{nc}{nc}
+    \node at (AB) [bullet] {};
+    \node at (0,-0.7) [right] {0};
+    \mouse{(CD)}{Shift \& Click}{(160:0.2)}{left}
+  \end{scope}
+  
+  
+  \begin{scope}[shift = {(1.1*\ww,0)}]
+    \ngwindow
+    \nggraph{a}{a}{na}{p}{nc}{nc}{co}{nc}{co}
+    \draw [co, draw=black](AB) -- (CD);
+    \node at (AB) [pbullet] {};
+    \mouse{(AD)}{Shift \& Click}{(160:1.9)}{right}
+    \node at (0,-0.7) [right] {0};
+  \end{scope}
+
+  \begin{scope}[shift = {(2.2*\ww,0)}]
+    \ngwindow
+    \nggraph{a}{p}{a}{p}{co}{nc}{nc}{co}{co}
+    \draw [co, draw=black](CD) -- (AD);
+    \node at (AB) [bullet] {};
+    \mouse{(BC)}{Shift \& Double Click}{(130:0.6)}{right}
+
+    \node at (0,-0.7) [right] {0};
+  \end{scope}
+  
+  \begin{scope}[shift = {(3.3*\ww,0)}]
+    \ngwindow
+      \nggraph{a}{na}{na}{a}{nc}{nc}{co}{nc}{nc}
+      
+      \foreach \perc in {0.2,0.4,0.6,0.8,1} {
+        \node at ($(AB)!\perc!(CD)$) [bullet] {};
+      }
+      \foreach \perc in {0.2,0.4,0.6,0.8,1} {
+        \node at ($(CD)!\perc!(AD)$) [bullet] {};
+      }
+      \foreach \perc in {0.2,0.4,0.6,0.8,1} {
+        \node at ($(AD)!\perc!(BC)$) [bullet] {};
+      }
+    \end{scope}
+
+
+
+    
+
+    
+  \end{tikzpicture}
+\end{center}
