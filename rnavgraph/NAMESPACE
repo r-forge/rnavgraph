@@ -31,8 +31,6 @@ export(shortnames, "shortnames<-")
 export(ng_get,"ng_set<-", ng_set)
 
 
-## graphtools
-#export(linegraph,completegraph,newgraph)
 ## ng_graph
 #export(plot)
 ##visualization
