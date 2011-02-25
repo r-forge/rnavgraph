@@ -65,6 +65,9 @@ static int display_shapes_Cmd(
 	double x_screen, y_screen;
 
 
+	Tcl_Obj **deactivated, *ptr_deactivated;
+	int ndeactivated, obj_deactive;
+
 	// copy variables
 	ttID = Tcl_GetString(objv[1]);
 	ngInstance = Tcl_GetString(objv[2]);
@@ -168,46 +171,64 @@ static int display_shapes_Cmd(
 	}
 
 
-	if((nx == ny) && (ny == ns) && (ns == nc) && (nc == nsel)) {
+	sprintf(tclCmd,"\"%s.%s.deactivated\"",ngLinkedInstance,dataName);
+	ptr_deactivated = Tcl_ObjGetVar2(interp, ng_data, Tcl_NewStringObj(tclCmd,-1) ,TCL_GLOBAL_ONLY);
+	if(Tcl_ListObjGetElements(interp, ptr_deactivated, &ndeactivated, &deactivated)){
+		Tcl_SetResult (interp, "could not read deactivated tcl list.", TCL_STATIC);
+		return TCL_ERROR;
+	}
+
+
+
+
+
+	if((nx == ny) && (ny == ns) && (ns == nc) && (nc == nsel) && (nsel == ndeactivated)) {
 		for (i = 0; i < ns; i++) {
 
-			if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
-				x = 0;
-				puts("could not read x element.");
-			}
-			if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
-				y = 0;
-				puts("could not read y element.");
+			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
+				obj_deactive = 0;
+				puts("could not read deactive element.");
 			}
 
-			if(Tcl_GetIntFromObj(interp, size[i], &obj_size)) {
-				obj_size = 1;
-				puts("could not read object size element.");
-			}
-
-			x_screen = (x-c_x)*w2*sq_zf+w2;
-			y_screen = (-y-c_y)*h2*sq_zf+h2;
-
-			r = size_radius(obj_size);
-
-			if((x_screen+r > 0) && (x_screen-r < canvas_width) && (y_screen+r > 0) && (y_screen - r < canvas_height)) {
-				obj_color = Tcl_GetStringFromObj(color[i], NULL);
-
-				if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-					puts("could not read whether point is selected or not");
-					obj_selected = 0;
+			if(!obj_deactive) {
+				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
+					x = 0;
+					puts("could not read x element.");
+				}
+				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
+					y = 0;
+					puts("could not read y element.");
 				}
 
-				// printf("x:%f.3, y:%f.3, size:%d, col:%s, sel:%d\n",x,y,obj_size,obj_color,obj_selected);
-				if(obj_selected) {
-					sprintf(tclCmd,"%s.canvas create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i shape] -width 0",ttID,x_screen-r,y_screen-r,x_screen+r,y_screen+r, brush_color, i);
-				} else {
-					sprintf(tclCmd,"%s.canvas create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i shape] -width 0",ttID,x_screen-r,y_screen-r,x_screen+r,y_screen+r, obj_color, i);
+				if(Tcl_GetIntFromObj(interp, size[i], &obj_size)) {
+					obj_size = 1;
+					puts("could not read object size element.");
 				}
-				Tcl_Eval(interp,tclCmd);
-			}
-			//    puts(tclCmd);
 
+				x_screen = (x-c_x)*w2*sq_zf+w2;
+				y_screen = (-y-c_y)*h2*sq_zf+h2;
+
+				r = size_radius(obj_size);
+
+				if((x_screen+r > 0) && (x_screen-r < canvas_width) && (y_screen+r > 0) && (y_screen - r < canvas_height)) {
+					obj_color = Tcl_GetStringFromObj(color[i], NULL);
+
+					if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
+						puts("could not read whether point is selected or not");
+						obj_selected = 0;
+					}
+
+					// printf("x:%f.3, y:%f.3, size:%d, col:%s, sel:%d\n",x,y,obj_size,obj_color,obj_selected);
+					if(obj_selected) {
+						sprintf(tclCmd,"%s.canvas create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i shape] -width 0",ttID,x_screen-r,y_screen-r,x_screen+r,y_screen+r, brush_color, i);
+					} else {
+						sprintf(tclCmd,"%s.canvas create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i shape] -width 0",ttID,x_screen-r,y_screen-r,x_screen+r,y_screen+r, obj_color, i);
+					}
+					Tcl_Eval(interp,tclCmd);
+				}
+				//    puts(tclCmd);
+
+			}
 		}
 	} else {
 		puts("update points: Data vectors are not of the same length.");
@@ -261,6 +282,9 @@ static int display_zoombox_Cmd(
 	double zbox_p_width, zbox_p_height;
 	double region_width, region_height;
 	double region_center_x, region_center_y;
+
+	Tcl_Obj **deactivated, *ptr_deactivated;
+	int ndeactivated, obj_deactive;
 
 
 	// copy variables
@@ -451,34 +475,53 @@ static int display_zoombox_Cmd(
 	}
 
 
-	if((nx == ny) && (ny == nc) && (nc == nsel)) {
+
+	sprintf(tclCmd,"\"%s.%s.deactivated\"",ngLinkedInstance,dataName);
+	ptr_deactivated = Tcl_ObjGetVar2(interp, ng_data, Tcl_NewStringObj(tclCmd,-1) ,TCL_GLOBAL_ONLY);
+	if(Tcl_ListObjGetElements(interp, ptr_deactivated, &ndeactivated, &deactivated)){
+		Tcl_SetResult (interp, "could not read deactivated tcl list.", TCL_STATIC);
+		return TCL_ERROR;
+	}
+
+
+	if((nx == ny) && (ny == nc) && (nc == nsel) && (nsel == ndeactivated)) {
 
 		for (i = 0; i < nx; i++) {
 
-			if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
-				x = 0;
-				puts("could not read x element.");
-			}
-			if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
-				y = 0;
-				puts("could not read y element.");
-			}
-			if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-				puts("could not read whether point is selected or not");
-				obj_selected = 0;
+
+
+			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
+				obj_deactive = 0;
+				puts("could not read deactive element.");
 			}
 
-			x_screen = x*w2+zbox_width2;
-			y_screen = -y*h2 +zbox_height2;
+			if(!obj_deactive) {
 
-			obj_color = Tcl_GetStringFromObj(color[i], NULL);
+				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
+					x = 0;
+					puts("could not read x element.");
+				}
+				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
+					y = 0;
+					puts("could not read y element.");
+				}
+				if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
+					puts("could not read whether point is selected or not");
+					obj_selected = 0;
+				}
 
-			if(obj_selected) {
-				sprintf(tclCmd,"%s create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i] -width 0",tmpCmd,x_screen-1,y_screen-1,x_screen+1,y_screen+1, brush_color, i);
-			} else {
-				sprintf(tclCmd,"%s create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i] -width 0",tmpCmd,x_screen-1,y_screen-1,x_screen+1,y_screen+1, obj_color, i);
+				x_screen = x*w2+zbox_width2;
+				y_screen = -y*h2 +zbox_height2;
+
+				obj_color = Tcl_GetStringFromObj(color[i], NULL);
+
+				if(obj_selected) {
+					sprintf(tclCmd,"%s create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i] -width 0",tmpCmd,x_screen-1,y_screen-1,x_screen+1,y_screen+1, brush_color, i);
+				} else {
+					sprintf(tclCmd,"%s create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i] -width 0",tmpCmd,x_screen-1,y_screen-1,x_screen+1,y_screen+1, obj_color, i);
+				}
+				Tcl_Eval(interp,tclCmd);
 			}
-			Tcl_Eval(interp,tclCmd);
 		}
 
 	}
@@ -537,6 +580,13 @@ static int display_images_Cmd(
 	double image_width2, image_height2;
 	char *obj_image_name, *obj_image_name_orig;
 	Tk_PhotoHandle srcImage;
+
+
+	Tcl_Obj **deactivated, *ptr_deactivated;
+	int ndeactivated, obj_deactive;
+
+
+
 
 
 	// copy variables
@@ -698,6 +748,14 @@ static int display_images_Cmd(
 	}
 
 
+	sprintf(tclCmd,"\"%s.%s.deactivated\"",ngLinkedInstance,dataName);
+	ptr_deactivated = Tcl_ObjGetVar2(interp, ng_data, Tcl_NewStringObj(tclCmd,-1) ,TCL_GLOBAL_ONLY);
+	if(Tcl_ListObjGetElements(interp, ptr_deactivated, &ndeactivated, &deactivated)){
+		Tcl_SetResult (interp, "could not read deactivated tcl list.", TCL_STATIC);
+		return TCL_ERROR;
+	}
+
+
 	sprintf(tclCmd,"\"%s.%s.image_w2\"",ngInstance,viz);
 	ptr_imgw2 = Tcl_ObjGetVar2(interp, ng_windowManager, Tcl_NewStringObj(tclCmd,-1) ,TCL_GLOBAL_ONLY);
 	if(Tcl_ListObjGetElements(interp, ptr_imgw2, &nw2, &image_w2)) {
@@ -728,75 +786,83 @@ static int display_images_Cmd(
 		return TCL_ERROR;
 	}
 
-	if((nx==ny) && (ny==nc) && (nc==nsel) && (nsel == nc) && (nc == nh) && (nh == nw2) && (nw2==nh2) && (nh2 == nimg)) {
+	if((nx==ny) && (ny==nc) && (nc==nsel) && (nsel == nc) && (nc == nh) && (nh == nw2) && (nw2==nh2) && (nh2 == nimg) && (nimg == ndeactivated)) {
 		for (i = 0; i < nx; i++) {
-			//printf("p%i ",i);
-			if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
-				x = 0;
-				puts("could not read x element.");
-			}
-			//printf("x-");
-			if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
-				y = 0;
-				puts("could not read y element.");
-			}
-			//printf("y-");
-			if(Tcl_GetDoubleFromObj(interp, image_w2[i], &image_width2)) {
-				image_width2 = 5;
-				puts("could not read w2 element.");
-			}
-			//printf("w2-");
-			if(Tcl_GetDoubleFromObj(interp, image_h2[i], &image_height2)) {
-				image_height2 = 5;
-				puts("could not read h2 element.");
-			}
-			//printf("h2-");
 
-			x_screen = (x-c_x)*w2*sq_zf+w2;
-			y_screen = (-y-c_y)*h2*sq_zf+h2;
+			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
+				obj_deactive = 0;
+				puts("could not read deactive element.");
+			}
 
-
-			if((x_screen+image_width2 > 0) && (x_screen -image_width2 < canvas_width) && (y_screen+image_height2 > 0) && (y_screen - image_height2 < canvas_height)) {
-				obj_color = Tcl_GetStringFromObj(color[i], NULL);
-
-				//printf("cond-");
-				if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-					puts("could not read whether point is selected or not");
-					obj_selected = 0;
+			if(!obj_deactive) {
+				//printf("p%i ",i);
+				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
+					x = 0;
+					puts("could not read x element.");
 				}
-				//printf("sel-");
-				if(Tcl_GetIntFromObj(interp, image_halo[i], &obj_image_halo)) {
-					puts("could not read halo tcl variable");
-					obj_selected = 0;
+				//printf("x-");
+				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
+					y = 0;
+					puts("could not read y element.");
 				}
-				//printf("halo-");
-
-				if(obj_selected) {
-					sprintf(tclCmd,"%s.canvas create rectangle %.3f %.3f %.3f %.3f -fill %s -tag [list data %i halo] -width 0",ttID,
-							x_screen-image_width2 -  obj_image_halo,
-							y_screen-image_height2 - obj_image_halo,
-							x_screen+image_width2 +  obj_image_halo,
-							y_screen+image_height2 + obj_image_halo,
-							brush_color, i);
-				} else {
-					sprintf(tclCmd,"%s.canvas create rectangle %.3f %.3f %.3f %.3f -fill %s -tag [list data %i halo] -width 0",ttID,
-							x_screen-image_width2 -  obj_image_halo,
-							y_screen-image_height2 - obj_image_halo,
-							x_screen+image_width2 +  obj_image_halo,
-							y_screen+image_height2 + obj_image_halo,
-							obj_color, i);
+				//printf("y-");
+				if(Tcl_GetDoubleFromObj(interp, image_w2[i], &image_width2)) {
+					image_width2 = 5;
+					puts("could not read w2 element.");
 				}
-				Tcl_Eval(interp,tclCmd);
+				//printf("w2-");
+				if(Tcl_GetDoubleFromObj(interp, image_h2[i], &image_height2)) {
+					image_height2 = 5;
+					puts("could not read h2 element.");
+				}
+				//printf("h2-");
 
-				obj_image_name = Tcl_GetStringFromObj(images[i], NULL);
-				sprintf(tclCmd,"%s.canvas create image %.3f %.3f -anchor c -tags [list data %i image] -image %s",
-						ttID,
-						x_screen, y_screen,
-						i,obj_image_name);
-				Tcl_Eval(interp,tclCmd);
-				//printf("cmd");
+				x_screen = (x-c_x)*w2*sq_zf+w2;
+				y_screen = (-y-c_y)*h2*sq_zf+h2;
+
+
+				if((x_screen+image_width2 > 0) && (x_screen -image_width2 < canvas_width) && (y_screen+image_height2 > 0) && (y_screen - image_height2 < canvas_height)) {
+					obj_color = Tcl_GetStringFromObj(color[i], NULL);
+
+					//printf("cond-");
+					if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
+						puts("could not read whether point is selected or not");
+						obj_selected = 0;
+					}
+					//printf("sel-");
+					if(Tcl_GetIntFromObj(interp, image_halo[i], &obj_image_halo)) {
+						puts("could not read halo tcl variable");
+						obj_selected = 0;
+					}
+					//printf("halo-");
+
+					if(obj_selected) {
+						sprintf(tclCmd,"%s.canvas create rectangle %.3f %.3f %.3f %.3f -fill %s -tag [list data %i halo] -width 0",ttID,
+								x_screen-image_width2 -  obj_image_halo,
+								y_screen-image_height2 - obj_image_halo,
+								x_screen+image_width2 +  obj_image_halo,
+								y_screen+image_height2 + obj_image_halo,
+								brush_color, i);
+					} else {
+						sprintf(tclCmd,"%s.canvas create rectangle %.3f %.3f %.3f %.3f -fill %s -tag [list data %i halo] -width 0",ttID,
+								x_screen-image_width2 -  obj_image_halo,
+								y_screen-image_height2 - obj_image_halo,
+								x_screen+image_width2 +  obj_image_halo,
+								y_screen+image_height2 + obj_image_halo,
+								obj_color, i);
+					}
+					Tcl_Eval(interp,tclCmd);
+
+					obj_image_name = Tcl_GetStringFromObj(images[i], NULL);
+					sprintf(tclCmd,"%s.canvas create image %.3f %.3f -anchor c -tags [list data %i image] -image %s",
+							ttID,
+							x_screen, y_screen,
+							i,obj_image_name);
+					Tcl_Eval(interp,tclCmd);
+					//printf("cmd");
+				}
+				//printf("\n");
 			}
-			//printf("\n");
 		}
 	} else {
 		puts("update images: Data vectors are not of the same length.");
@@ -850,6 +916,10 @@ static int display_glyphs_Cmd(
 	Tcl_Obj **glyphs_outer, **glyphs_inner, **glyph_alpha;
 	int glyph_nvar;
 	double glyph_polygon;
+
+	Tcl_Obj **deactivated, *ptr_deactivated;
+	int ndeactivated, obj_deactive;
+
 
 
 	// copy variables
@@ -972,58 +1042,77 @@ static int display_glyphs_Cmd(
 		return TCL_ERROR;
 	}
 
-	if((nx == ny) && (ny == ns) && (ns == nc) && (nc == nsel) && (nsel == ngl)) {
+
+	sprintf(tclCmd,"\"%s.%s.deactivated\"",ngLinkedInstance,dataName);
+	ptr_deactivated = Tcl_ObjGetVar2(interp, ng_data, Tcl_NewStringObj(tclCmd,-1) ,TCL_GLOBAL_ONLY);
+	if(Tcl_ListObjGetElements(interp, ptr_deactivated, &ndeactivated, &deactivated)){
+		Tcl_SetResult (interp, "could not read deactivated tcl list.", TCL_STATIC);
+		return TCL_ERROR;
+	}
+
+
+
+
+
+	if((nx == ny) && (ny == ns) && (ns == nc) && (nc == nsel) && (nsel == ngl) && (ngl == ndeactivated)) {
 		for (i = 0; i < nx; i++) {
-			if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
-				x = 0;
-				puts("could not read x element.");
-			}
-			//printf("x-");
-			if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
-				y = 0;
-				puts("could not read y element.");
-			}
-			if(Tcl_GetIntFromObj(interp, size[i], &obj_size)) {
-				obj_size = 1;
-				puts("could not read object size element.");
+			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
+				obj_deactive = 0;
+				puts("could not read deactive element.");
 			}
 
-
-			x_screen = (x-c_x)*w2*sq_zf+w2;
-			y_screen = (-y-c_y)*h2*sq_zf+h2;
-			r = size_glyph_radius(obj_size);
-
-			if((x_screen+r > 0) && (x_screen-r < canvas_width) && (y_screen+r > 0) && (y_screen - r < canvas_height)) {
-
-				obj_color = Tcl_GetStringFromObj(color[i], NULL);
-
-				if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-					puts("could not read whether point is selected or not");
-					obj_selected = 0;
+			if(!obj_deactive) {
+				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
+					x = 0;
+					puts("could not read x element.");
+				}
+				//printf("x-");
+				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
+					y = 0;
+					puts("could not read y element.");
+				}
+				if(Tcl_GetIntFromObj(interp, size[i], &obj_size)) {
+					obj_size = 1;
+					puts("could not read object size element.");
 				}
 
-				if(Tcl_ListObjGetElements(interp, glyphs_outer[i], &glyph_nvar, &glyphs_inner)) {
-					Tcl_SetResult (interp, "could not read glyph inner tcl list.", TCL_STATIC);
-					return TCL_ERROR;
-				}
 
-				strcpy(tmpCmd,"");
-				for (ii = 0; ii < glyph_nvar; ii++){
-					Tcl_GetDoubleFromObj(interp, glyphs_inner[ii], &glyph_polygon);
-					Tcl_GetDoubleFromObj(interp, glyph_alpha[ii], &alpha);
+				x_screen = (x-c_x)*w2*sq_zf+w2;
+				y_screen = (-y-c_y)*h2*sq_zf+h2;
+				r = size_glyph_radius(obj_size);
 
-					sprintf(tmpStr, "%.3f ", x_screen+r*glyph_polygon*cos(alpha));
-					strcat(tmpCmd,tmpStr);
-					sprintf(tmpStr, "%.3f ", y_screen+r*glyph_polygon*sin(alpha));
-					strcat(tmpCmd,tmpStr);
-				}
+				if((x_screen+r > 0) && (x_screen-r < canvas_width) && (y_screen+r > 0) && (y_screen - r < canvas_height)) {
 
-				if(obj_selected) {
-					sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,brush_color, i);
-				} else {
-					sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,obj_color, i);
+					obj_color = Tcl_GetStringFromObj(color[i], NULL);
+
+					if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
+						puts("could not read whether point is selected or not");
+						obj_selected = 0;
+					}
+
+					if(Tcl_ListObjGetElements(interp, glyphs_outer[i], &glyph_nvar, &glyphs_inner)) {
+						Tcl_SetResult (interp, "could not read glyph inner tcl list.", TCL_STATIC);
+						return TCL_ERROR;
+					}
+
+					strcpy(tmpCmd,"");
+					for (ii = 0; ii < glyph_nvar; ii++){
+						Tcl_GetDoubleFromObj(interp, glyphs_inner[ii], &glyph_polygon);
+						Tcl_GetDoubleFromObj(interp, glyph_alpha[ii], &alpha);
+
+						sprintf(tmpStr, "%.3f ", x_screen+r*glyph_polygon*cos(alpha));
+						strcat(tmpCmd,tmpStr);
+						sprintf(tmpStr, "%.3f ", y_screen+r*glyph_polygon*sin(alpha));
+						strcat(tmpCmd,tmpStr);
+					}
+
+					if(obj_selected) {
+						sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,brush_color, i);
+					} else {
+						sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,obj_color, i);
+					}
+					Tcl_Eval(interp,tclCmd);
 				}
-				Tcl_Eval(interp,tclCmd);
 			}
 		}
 	}
@@ -1067,6 +1156,10 @@ static int display_text_Cmd(
 	int i;
 	int obj_selected, obj_size, r;
 	double x_screen, y_screen;
+
+
+	Tcl_Obj **deactivated, *ptr_deactivated;
+	int ndeactivated, obj_deactive;
 
 
 	// copy variables
@@ -1164,6 +1257,15 @@ static int display_text_Cmd(
 		return TCL_ERROR;
 	}
 
+
+	sprintf(tclCmd,"\"%s.%s.deactivated\"",ngLinkedInstance,dataName);
+	ptr_deactivated = Tcl_ObjGetVar2(interp, ng_data, Tcl_NewStringObj(tclCmd,-1) ,TCL_GLOBAL_ONLY);
+	if(Tcl_ListObjGetElements(interp, ptr_deactivated, &ndeactivated, &deactivated)){
+		Tcl_SetResult (interp, "could not read deactivated tcl list.", TCL_STATIC);
+		return TCL_ERROR;
+	}
+
+
 	sprintf(tclCmd,"\"%s.%s.text\"",ngLinkedInstance,dataName);
 	ptr_txt = Tcl_ObjGetVar2(interp, ng_data, Tcl_NewStringObj(tclCmd,-1) ,TCL_GLOBAL_ONLY);
 	if(Tcl_ListObjGetElements(interp, ptr_txt, &ntxt, &text)){
@@ -1172,40 +1274,48 @@ static int display_text_Cmd(
 	}
 
 
-	if((nx == ny) && (ny == nc) && (nc == nsel) && (nsel == ntxt)) {
+	if((nx == ny) && (ny == nc) && (nc == nsel) && (nsel == ntxt) && (ntxt == ndeactivated)) {
 
 		for (i = 0; i < nx; i++) {
 
-			if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
-				x = 0;
-				puts("could not read x element.");
-			}
-			if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
-				y = 0;
-				puts("could not read y element.");
-			}
-			if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-				puts("could not read whether point is selected or not");
-				obj_selected = 0;
+			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
+				obj_deactive = 0;
+				puts("could not read deactive element.");
 			}
 
-			obj_text = Tcl_GetStringFromObj(text[i], NULL);
-			obj_color = Tcl_GetStringFromObj(color[i], NULL);
+			if(!obj_deactive) {
 
-			x_screen = (x-c_x)*w2*sq_zf+w2;
-			y_screen = (-y-c_y)*h2*sq_zf+h2;
+				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
+					x = 0;
+					puts("could not read x element.");
+				}
+				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
+					y = 0;
+					puts("could not read y element.");
+				}
+				if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
+					puts("could not read whether point is selected or not");
+					obj_selected = 0;
+				}
+
+				obj_text = Tcl_GetStringFromObj(text[i], NULL);
+				obj_color = Tcl_GetStringFromObj(color[i], NULL);
+
+				x_screen = (x-c_x)*w2*sq_zf+w2;
+				y_screen = (-y-c_y)*h2*sq_zf+h2;
 
 
-			if(obj_selected) {
-				sprintf(tclCmd,"%s.canvas create text %.3f %.3f -anchor c -text %s -fill %s -tag [list data %i text] ",ttID,x_screen,y_screen, obj_text, brush_color, i);
-			} else {
-				sprintf(tclCmd,"%s.canvas create text %.3f %.3f -anchor c -text %s -fill %s -tag [list data %i text] ",ttID,x_screen,y_screen, obj_text, obj_color, i);
+				if(obj_selected) {
+					sprintf(tclCmd,"%s.canvas create text %.3f %.3f -anchor c -text %s -fill %s -tag [list data %i text] ",ttID,x_screen,y_screen, obj_text, brush_color, i);
+				} else {
+					sprintf(tclCmd,"%s.canvas create text %.3f %.3f -anchor c -text %s -fill %s -tag [list data %i text] ",ttID,x_screen,y_screen, obj_text, obj_color, i);
+				}
+				Tcl_Eval(interp,tclCmd);
 			}
+
+			sprintf(tclCmd,"%s.canvas raise brush",ttID);
 			Tcl_Eval(interp,tclCmd);
 		}
-
-		sprintf(tclCmd,"%s.canvas raise brush",ttID);
-		Tcl_Eval(interp,tclCmd);
 	} else {
 		puts("update points: Data vectors are not of the same length.");
 	}

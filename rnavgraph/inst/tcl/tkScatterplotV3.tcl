@@ -187,24 +187,45 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
     ## Selection
     pack [frame $ftools\.selection] -side top -fill x -pady 2
+    pack [frame $ftools\.selection.upper] -side top -fill x
+    pack [frame $ftools\.selection.lower] -side top -fill x -padx 4
 
-    label $ftools\.selection.l -text "Selection:"
-    set sel_none [label $ftools\.selection.lnone\
+    label $ftools\.selection.upper.l -text "Selection:"
+    set sel_none [label $ftools\.selection.upper.lnone\
 		      -text " none " -activebackground "darkgrey"] 
-    set sel_all [label $ftools\.selection.lall\
+    set sel_all [label $ftools\.selection.upper.lall\
 		     -text " all " -activebackground "darkgrey"] 
-    set sel_inv [label $ftools\.selection.linvert\
+    set sel_inv [label $ftools\.selection.upper.linvert\
 		     -text " invert " -activebackground "darkgrey"] 
-    
-    pack $ftools\.selection.l $sel_none $sel_all $sel_inv -side left
-    
-    foreach widget [list $sel_none $sel_all $sel_inv] { 
+    set sel_deactivate [label $ftools\.selection.lower.ldeactivate\
+			    -text " deactivate " -activebackground "darkgrey"] 
+    set sel_reactivate [label $ftools\.selection.lower.lreactivate\
+			    -text " reactivate " -activebackground "darkgrey"] 
+
+
+    pack $ftools\.selection.upper.l $sel_none $sel_all $sel_inv -side left
+    pack $sel_reactivate $sel_deactivate -side right 
+
+    foreach widget [list $sel_none $sel_all $sel_inv $sel_reactivate] { 
 	bind $widget "<Any-Enter>" {
 	    %W configure -state active
-    }
+	}
 	bind $widget "<Any-Leave>" {
 	    %W configure -state normal
 	}
+    }
+    
+    bind $sel_deactivate "<Any-Enter>" {
+	%W configure -state active
+    }
+    bind $sel_deactivate "<Any-Leave>" {
+	if {!$::ng_data("$ngLinkedInstance\.$dataName\.anyDeactivated")} {
+	    %W configure -state normal
+	}   
+    }    
+
+    if {$ng_data("$ngLinkedInstance\.$dataName\.anyDeactivated")} {
+	$sel_deactivate configure -state active
     }
 
     # Color see variable bw a few lines above
@@ -527,6 +548,63 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
     }
     
+
+    ## deactivate button
+    bind $sel_deactivate <Button-1> {
+    	global ng_data
+    	set ttID [winfo toplevel %W]
+	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
+    	set dataName [$ttID\.dataName cget -text]
+	
+
+	set selected $ng_data("$ngLinkedInstance\.$dataName\.selected")
+	foreach i $ng_data("$ngLinkedInstance\.$dataName\.total_brushed") {
+	    lset selected $i 1
+	} 
+	
+	set i 0
+	foreach sel $selected {
+	    if {$sel} {
+		lset ng_data("$ngLinkedInstance\.$dataName\.deactivated") $i 1
+		set ng_data("$ngLinkedInstance\.$dataName\.anyDeactivated") 1
+	    }
+	    incr i
+	}
+	
+	set n [llength $ng_data("$ngLinkedInstance\.$dataName\.selected")]
+	set ng_data("$ngLinkedInstance\.$dataName\.selected") [lrepeat $n 0]
+	
+	
+
+	foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
+	    set tviz [$tt\.viz cget -text]
+	    set ngInstance [$tt\.ngInstance cget -text]
+	    update_displays $tt $ngInstance $dataName $tviz
+	}
+
+    }
+    
+
+    ## reactivate button
+    bind $sel_reactivate <Button-1> {
+    	global ng_data
+    	set ttID [winfo toplevel %W]
+	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
+    	set dataName [$ttID\.dataName cget -text]
+
+	set n [llength $ng_data("$ngLinkedInstance\.$dataName\.selected")]
+	set ng_data("$ngLinkedInstance\.$dataName\.deactivated") [lrepeat $n 0]
+	set ng_data("$ngLinkedInstance\.$dataName\.anyDeactivated") 0
+	
+	$ttID\.nav\.tools\.selection.lower.ldeactivate configure -state normal
+	
+	foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
+	    set ngInstance [$tt\.ngInstance cget -text]	    
+	    set tviz [$tt\.viz cget -text]
+	    update_displays $tt $ngInstance $dataName $tviz
+	}
+    }
+    
     
     
     
@@ -843,7 +921,6 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     brush_highlight $ttID $ngInstance $ngLinkedInstance $dataName 0    
 
 }
-
 
 ## zoom main canvas
 proc zoom_main {ttID x y direction} {

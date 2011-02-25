@@ -1045,6 +1045,8 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 				## selected points (initialize none)
 				##ng_data("$ngLinkedInstance\.$dataName\.selected")
 				tcl('set',paste('ng_data("',ng_LinkedInstance,'.',dataName,'.','selected','")',sep = ''), rep(0,t.ndata))
+				tcl('set',paste('ng_data("',ng_LinkedInstance,'.',dataName,'.','deactivated','")',sep = ''), rep(0,t.ndata))
+				tcl('set',paste('ng_data("',ng_LinkedInstance,'.',dataName,'.','anyDeactivated','")',sep = ''), 0)
 				
 				## total_brushed (initialize none)
 				## ng_data("$ngLinkedInstance\.$dataName\.total_brushed") ""
