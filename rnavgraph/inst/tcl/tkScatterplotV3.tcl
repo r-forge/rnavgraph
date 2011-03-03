@@ -580,8 +580,10 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set tviz [$tt\.viz cget -text]
 	    set ngInstance [$tt\.ngInstance cget -text]
 	    update_displays $tt $ngInstance $dataName $tviz
+	    if {$ng_data("$ngLinkedInstance\.$dataName\.anyDeactivated")} {
+		$tt\.nav\.tools\.selection.lower.ldeactivate configure -state active	
+	    }
 	}
-
     }
     
 
@@ -596,12 +598,13 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	set ng_data("$ngLinkedInstance\.$dataName\.deactivated") [lrepeat $n 0]
 	set ng_data("$ngLinkedInstance\.$dataName\.anyDeactivated") 0
 	
-	$ttID\.nav\.tools\.selection.lower.ldeactivate configure -state normal
+
 	
 	foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 	    set ngInstance [$tt\.ngInstance cget -text]	    
 	    set tviz [$tt\.viz cget -text]
 	    update_displays $tt $ngInstance $dataName $tviz
+	    $tt\.nav\.tools\.selection.lower.ldeactivate configure -state normal
 	}
     }
     
