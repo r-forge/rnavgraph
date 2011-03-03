@@ -226,7 +226,9 @@ ng_2d_dist <- function(viz,ngEnv) {
 		} else {
 			d <- (ngEnv$scaledData[[viz@data]][,ii_y[2]]*viz@mat[ii_y[1],2]/viz@mat[ii_y[2],2] - ngEnv$scaledData[[viz@data]][,ii_y[1]])
 		}
-	} else {
+	} else if ((n_x == 1) && (n_y == 1)) {
+		d = "scatterplot"
+	}else {
 		d = NULL
 	}
 	return(d)
