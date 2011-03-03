@@ -432,13 +432,21 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	set ttID [winfo toplevel %W]
 	set ngInstance [$ttID\.ngInstance cget -text]
 	set viz [$ttID\.viz cget -text]
+	
 	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "on"} {
+	    ## if brush is on move brush rectang
 	    set brush_xy [$ttID\.canvas coords "brush && area"]
 	    set dx [expr {%x-[lindex $brush_xy 2]}]
 	    set dy [expr {%y-[lindex $brush_xy 3]}]
 	    brush $ttID $dx $dy
 	}
     }
+
+    bind $canvas_2d <Button-3> {
+	set ::ng_mouse_x %x
+	set ::ng_mouse_y %y
+    }
+
 
     bind $ttID <KeyPress-Shift_L> {
 	#puts stdout "Shift down"
@@ -474,11 +482,13 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     
 
     # select Bindings
-    $canvas_2d bind data <Shift-Button-1> {
+    $canvas_2d bind data <Button-1> {
+	## change item from select to deselect and vice verca
 	set ttID [winfo toplevel %W]
-	## TODO maybe a %... will do?
-	set id [$ttID\.canvas find withtag current]
-	modify_2d $ttID select $id
+	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "off"} {
+	    set id [$ttID\.canvas find withtag current]
+	    modify_2d $ttID select $id
+	}
     }
 
     ## reset button
@@ -644,7 +654,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     }
     
 
-    ## Move and resize brush    
+    ## Move brush    
     bind $canvas_2d <B1-Motion> {
 #	puts stdout all
 	set dx [expr {%x - $::ng_mouse_x}]
@@ -652,44 +662,12 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 		
 	set ttID [winfo toplevel %W]
 	set ngInstance [$ttID\.ngInstance cget -text]
-	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
-	set dataName [$ttID\.dataName cget -text]
 	set viz [$ttID\.viz cget -text]
 	## if brush is over
 
 	## if brush is on move brush
 	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "on"} {
 	    brush $ttID $dx $dy
-	} else {
-	    if {!$::ng_shift_L} {
-	    set path "$ngInstance\.$viz\."
-	    ## otherwise move zoom area if zoom > 1
-	    if {$::ng_windowManager("$path\zoom_factor")>1} {		
-		set ddx [expr {double($dx)/$::ng_windowManager("$path\cwidth")\
-				   /sqrt($::ng_windowManager("$path\zoom_factor"))\
-				   *2.0}]
-		set ddy [expr {double($dy)/$::ng_windowManager("$path\cheight")\
-				   /sqrt($::ng_windowManager("$path\zoom_factor"))\
-				   *2.0}]
-		
-		set ::ng_windowManager("$path\zoom_center_x")\
-		    [expr {$::ng_windowManager("$path\zoom_center_x")-$ddx}]
-		set ::ng_windowManager("$ngInstance\.$viz\.zoom_center_y")\
-		    [expr {$::ng_windowManager("$path\zoom_center_y")-$ddy}]
-		
-		## HERE
-		update_zoomfactor $ttID $path\
-		    $::ng_windowManager("$path\zoom_factor")\
-		    $::ng_windowManager("$path\zoom_center_x")\
-		    $::ng_windowManager("$path\zoom_center_y")
-		
-		set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
-		display_data $ttID $ngInstance $ngLinkedInstance $dataName $viz
-		display_zoombox $ttID $ngInstance $ngLinkedInstance $dataName $viz
-		brush $ttID 0 0
-		update idletasks
-	    }
-	    }
 	}
 	
 	set ::ng_mouse_x %x
@@ -731,6 +709,53 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	set ::ng_mouse_y %y
     }
     
+
+
+    ## change view view in canvas2d window
+    bind $canvas_2d <B3-Motion> {
+	#puts stdout "B3 Motion"
+	set dx [expr {%x - $::ng_mouse_x}]
+	set dy [expr {%y - $::ng_mouse_y}]
+		
+	set ttID [winfo toplevel %W]
+	set ngInstance [$ttID\.ngInstance cget -text]
+	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
+	set dataName [$ttID\.dataName cget -text]
+	set viz [$ttID\.viz cget -text]
+	## if brush is over
+	
+	set path "$ngInstance\.$viz\."
+	## otherwise move zoom area if zoom > 1
+	if {$::ng_windowManager("$path\zoom_factor")>1} {		
+	    set ddx [expr {double($dx)/$::ng_windowManager("$path\cwidth")\
+			       /sqrt($::ng_windowManager("$path\zoom_factor"))\
+			       *2.0}]
+	    set ddy [expr {double($dy)/$::ng_windowManager("$path\cheight")\
+			       /sqrt($::ng_windowManager("$path\zoom_factor"))\
+			       *2.0}]
+	    
+	    set ::ng_windowManager("$path\zoom_center_x")\
+		[expr {$::ng_windowManager("$path\zoom_center_x")-$ddx}]
+	    set ::ng_windowManager("$ngInstance\.$viz\.zoom_center_y")\
+		[expr {$::ng_windowManager("$path\zoom_center_y")-$ddy}]
+	    
+	    
+	    update_zoomfactor $ttID $path\
+		$::ng_windowManager("$path\zoom_factor")\
+		$::ng_windowManager("$path\zoom_center_x")\
+		$::ng_windowManager("$path\zoom_center_y")
+	    
+	    set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
+	    display_data $ttID $ngInstance $ngLinkedInstance $dataName $viz
+	    display_zoombox $ttID $ngInstance $ngLinkedInstance $dataName $viz
+	    brush $ttID 0 0
+	    update idletasks
+	}
+	
+	set ::ng_mouse_x %x
+	set ::ng_mouse_y %y
+    }
+
 
    
     ## resize window
