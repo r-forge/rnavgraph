@@ -183,6 +183,7 @@ scagNav <- function (data,   # ngdata object
 		# "Outlying","NotOutlying",
 		# "Sparse", "NotSparse",
 		# "Striated", "NotStriated",
+		# "Skewed", "Skewed"
 		topFrac=0.2,
 		# Fraction of top values to use in (0,1],
 		combineFn=NULL,

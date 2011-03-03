@@ -10,3 +10,4 @@ ng_2d_myplot_base	Scatterplots using the base plotting device, data = iris
 ng_2d_myplot_grid	Scatterplots using the grid plotting device, data = iris
 ng_2d_myplot_rgl	Scatterplots using the rgl plotting device, data = iris
 ng_2d_myplot_hexbin	Bivariate Binning into Hexagon Cells, data = iris
+ng_2d_scagnostics_olive	Scagnostics example using the olive data set
