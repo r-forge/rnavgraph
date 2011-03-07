@@ -46,10 +46,6 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     #pack propagate $ttID\.nav 0
     
     
-    
-    
-    
-    
     set canvas_2d [canvas $ttID\.canvas\
 		       -bg $ng_data("$ngLinkedInstance\.$dataName\.bg")\
 		       -width 600\
@@ -88,6 +84,11 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	[frame  $nav\.tools]\
 	-side top -fill x -padx 5 -pady 2.5 -anchor w
     
+    ## initialize variable for temporary selected points
+    if {![info exists ng_data("$ngLinkedInstance\.$dataName\.temp_selected")]} {
+	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
+    }
+
 
     ## Plot type radio buttons
     pack [label $nav\.plotType.label -text "Plot Type:"] -side top -anchor w
@@ -219,6 +220,10 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	%W configure -state active
     }
     bind $sel_deactivate "<Any-Leave>" {
+	set ttID [winfo toplevel %W]
+	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
+	set dataName [$ttID\.dataName cget -text]
+		
 	if {!$::ng_data("$ngLinkedInstance\.$dataName\.anyDeactivated")} {
 	    %W configure -state normal
 	}   
@@ -464,6 +469,9 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 		brush $tt 0 0
 	    }
 	}
+	
+	set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") "-1"
+	
     }    
     bind $ttID <KeyRelease-Shift_L> {
 	#puts stdout "Shift release"
@@ -485,17 +493,58 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     $canvas_2d bind data <Button-1> {
 	## change item from select to deselect and vice verca
 	set ttID [winfo toplevel %W]
+	set ngInstance [$ttID\.ngInstance cget -text]	    
+	set viz [$ttID\.viz cget -text]	
+	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]	    
+	set dataName [$ttID\.dataName cget -text]	
+	
 	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "off"} {
-	    set id [$ttID\.canvas find withtag current]
-	    modify_2d $ttID select $id
+	    set canvasId [$ttID\.canvas find withtag current]
+	    set dataId [lindex [$ttID\.canvas gettags current] 1]
+
+	    
+	    set tmpdataId $::ng_data("$ngLinkedInstance\.$dataName\.temp_selected")
+
+	    if { $tmpdataId ne "-1"} {
+		set tmpcanvasId [$ttID\.canvas find withtag "data && $tmpdataId"]
+		
+		if {$tmpcanvasId ne $canvasId} {
+		    modify_2d $ttID select $tmpcanvasId
+		    set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") $dataId
+		} else {
+		    set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") "-1"
+		}
+		
+	    } else {
+		set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") $dataId
+	    }
+
+	    modify_2d $ttID select $canvasId
 	}
     }
+
+    # select permanent Bindings
+    $canvas_2d bind data <Shift-Button-1> {
+	set ttID [winfo toplevel %W]
+	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]	    
+	set dataName [$ttID\.dataName cget -text]	
+
+
+	## TODO maybe a %... will do?
+	set id [$ttID\.canvas find withtag current]
+	modify_2d $ttID select $id
+	
+	#set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") "-1"
+
+    }
+    
 
     ## reset button
     bind $sel_none <Button-1> {
     	global ng_data
     	set ttID [winfo toplevel %W]
 	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
+	set dataName [$ttID\.dataName cget -text]
 	
 	set n [llength $ng_data("$ngLinkedInstance\.$dataName\.selected")]
 	set ng_data("$ngLinkedInstance\.$dataName\.selected") [lrepeat $n 0]
@@ -505,10 +554,10 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 		set tviz [$tt\.viz cget -text]
 	    update_displays $tt $ngInstance $dataName $tviz
 	}
-
-
 	
+	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
     }
+
 
     ## Highlight all
     bind $sel_all <Button-1> {
@@ -526,6 +575,9 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set ngInstance [$tt\.ngInstance cget -text]
 	    update_displays $tt $ngInstance $dataName $tviz
 	}
+	
+	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
+
     }
     
     
@@ -555,6 +607,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    update_displays $tt $ngInstance $dataName $tviz
 	}
 
+	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
 
     }
     
@@ -651,6 +704,8 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     	set dataName [$ttID\.dataName cget -text]
 	
     	brush_highlight $ttID $ngInstance $ngLinkedInstance $dataName false
+
+	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
     }
     
 
@@ -773,8 +828,6 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
 	if {!(($::ng_windowManager("$ngInstance\.$viz\.width") == $w) &&\
 		 ($::ng_windowManager("$ngInstance\.$viz\.height") == $h))} { 
-	    
-
 
 	    if {[info exists ::_(after)]} { 
 		foreach e $::_(after) {
