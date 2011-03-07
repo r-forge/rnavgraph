@@ -4,6 +4,8 @@ echo Build R package
 R CMD build --no-vignettes rnavgraph/
 echo Compile R package
 sudo R CMD INSTALL RnavGraph_0.0.7.tar.gz
+echo Delete Package
+rm RnavGraph_0.0.7.tar.gz
 echo Start R with debug Code
 R 
 
