@@ -1,0 +1,10 @@
+Package: RnavGraphImgData
+Type: Package
+Title: Some large data sets
+Version: 0.0.1
+Date: 2010-06-28
+Author: Adrian R. Waddell and Wayne R. Oldford
+Maintainer: Adrian Waddell <arwaddell@math.uwaterloo.ca>
+Description: TODO
+License: GPL-2
+LazyLoad: no   
