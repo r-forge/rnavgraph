@@ -866,7 +866,7 @@ shell("convert image.png image.jpg")
 \end{table}
 
 
-We work with a data set from the Library of Amsterdam \modify{http://staff.science.uva.nl/$\sim$aloi/}. The download is the ``Quater resolution (192 $\times$ 144)'' which whose size is 60MB and contains $1000-250$ objects with each three different viewing angles \modify{2250} images.
+We work with a data set from the Library of Amsterdam \modify{http://staff.science.uva.nl/$\sim$aloi/}. The download is the ``Quater resolution (192 $\times$ 144)'' which whose size is 60MB and contains $1000-250$ objects with each three different viewing angles \modify{2250} images. We have attached a resized version ($38x29$ pixels) in the \texttt{RnavGraphImgData} package in order to save space. 
 
 \begin{center}
   \includegraphics[width = 0.6\textwidth]{img/aloi.jpg}
@@ -874,7 +874,7 @@ We work with a data set from the Library of Amsterdam \modify{http://staff.scien
 
 The path to the images is
 <<>>=
-imgPath <- system.file("aloi", package="RnavGraphImgData")
+imgPath <- system.file("aloi_small", package="RnavGraphImgData")
 aloi_images <- list.files(path=imgPath, full.names=TRUE)
 length(aloi_images)
 aloi_images[1:5]

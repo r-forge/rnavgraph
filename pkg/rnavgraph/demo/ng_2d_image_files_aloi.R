@@ -4,7 +4,7 @@ require(png) || stop('You need the png package installed!')
 
 local({
 			## path to the object images
-			imgPath <- system.file("aloi", package="RnavGraphImgData")
+			imgPath <- system.file("aloi_small", package="RnavGraphImgData")
 			aloi_images <- list.files(path=imgPath, full.names=TRUE)
 			length(aloi_images)
 			aloi_images[1:5]

@@ -12,6 +12,7 @@ linegraph <- function(graph, sep = ':'){
 			warning(paste('[linegraph] sep character "',sep,'" already exists somewhere in the node names.', sep=''))
 		}
 		
+		## TODO test with duplicates=FALSE
 		## from-to matrix
 		eM <- edgeMatrix(as(graph,"graphNEL"))
 		
