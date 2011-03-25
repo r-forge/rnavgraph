@@ -563,11 +563,14 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	## paths: add edge - intialize path
 	isKeyShift <- FALSE
 	tkbind(tt,'<KeyPress-Shift_L>', function(){
-				if(ngEnv$bulletState$to == "") {
-					tclObj(ngEnv$activePath) <- ngEnv$bulletState$from
-					tclvalue(ngEnv$activePathGraph) <- ngEnv$graph@name
+				## Careful, When shifts is beeing kept pressed in windows it fire repeatedly events
+				if(!ngEnv$isKeyShift) {
+					if(ngEnv$bulletState$to == "") {
+						tclObj(ngEnv$activePath) <- ngEnv$bulletState$from
+						tclvalue(ngEnv$activePathGraph) <- ngEnv$graph@name
+					}
+					ngEnv$isKeyShift <- TRUE
 				}
-				ngEnv$isKeyShift <- TRUE
 			})
 	
 	
@@ -602,7 +605,6 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 							to <- tags[3]
 						}
 						
-						
 						#cat(paste('from',from,'to',to,'\n'))
 						## is the node adjacent?
 						adjEdge <- .tcl2str(.Tcl(paste(canvas$ID," find withtag {edge&&",from,'&&',to,'}', sep = '')))
@@ -611,11 +613,10 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 							if(from != to) {
 								##add to active Path
 								#cat('add it\n')
-								tclvalue(activePath) <- paste(tclvalue(activePath),to)
+								tclvalue(ngEnv$activePath) <- paste(tclvalue(activePath),to)
 								## Highlight Path
 								.highlightPath(ngEnv,from,to)
 								## Highlight adjoining edges
-								
 							}
 						}
 						
@@ -926,7 +927,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 										.tcl2num(tcl('image','width',img.w))/2
 									})
 							tcl('set',paste('ng_windowManager("',ng_instance,'.',viz@viz_name,'.','image_w2','")',sep = ''), t.w2)
-
+							
 							
 							## image_h
 #							ng_windowManager("$ngInstance\.$viz\.image_h2")
@@ -1056,7 +1057,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 				## ng_data("$ngLinkedInstance\.$dataName\.radius") 
 				tcl('set',paste('ng_data("',ng_LinkedInstance,'.',dataName,'.','size','")',sep = ''), rep(5,t.ndata))
 				
-			
+				
 			} else {
 				cat(paste("Session ", ngEnv$ng_instance,", Data ",dataName," is linked!\n",sep=''))
 			}

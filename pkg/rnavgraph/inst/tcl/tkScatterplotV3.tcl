@@ -32,7 +32,9 @@ set ::ng_windowManager("zbox_height") [expr {1.125*90}]
 proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages withGlyphs {title "tk2d display"}} {
     global ng_windowManager
     global ng_data
-
+    
+    set isWindows [regexp -nocase Windows $::tcl_platform(os)]
+    
     ## Window can only be destroyed by navGraph
     wm protocol $ttID WM_DELETE_WINDOW {
 	tk_messageBox -message "Only RnavGraph can destroy this window!"
@@ -88,7 +90,6 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     if {![info exists ng_data("$ngLinkedInstance\.$dataName\.temp_selected")]} {
 	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
     }
-
 
     ## Plot type radio buttons
     pack [label $nav\.plotType.label -text "Plot Type:"] -side top -anchor w
@@ -240,7 +241,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     pack $canvas_col -side top -pady 2
     set x 0; set y 1
     
-        
+
     foreach col $ng_data("$ngLinkedInstance\.$dataName\.brush_colors")\
 	id [list 0 1 2 3 4 5 6 7 8] {
 	$canvas_col create rect [expr $x*$bw] [expr $y*$bw]\
@@ -361,7 +362,6 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     }
     
 
-    
    
     ## Size
     pack [frame $ftools\.scale] -side top -fill x -pady 2
@@ -374,6 +374,8 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     set sp_abs [label $ftools\.scale.lpabs -text " + " -bg grey -activebackground darkgray]
     set sm_abs [label $ftools\.scale.lmabs -text " - " -bg grey -activebackground darkgray]
     
+
+
  
     foreach widget [list $sm_rel $sp_rel $sm_abs $sp_abs] { 
 	bind $widget "<Any-Enter>" {
@@ -390,12 +392,11 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     pack $ftools\.scale.lrel -side left -padx 2
     pack $sm_rel $sp_rel -side left -padx 1
     
-    
-    
-    pack [ttk::frame $nav\.statusbar] -side bottom -fill x
-    pack [ttk::sizegrip $nav\.statusbar.grip] -side right -anchor se
-    
-
+    ## little triangle to assist resizing in linux and osx
+    if {$isWindows ne 1} {
+	pack [ttk::frame $nav\.statusbar] -side bottom -fill x
+	pack [ttk::sizegrip $nav\.statusbar.grip] -side right -anchor se
+    }
     
 
     ## #############################
@@ -555,7 +556,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    update_displays $tt $ngInstance $dataName $tviz
 	}
 	
-	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
+	set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
     }
 
 
@@ -576,7 +577,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    update_displays $tt $ngInstance $dataName $tviz
 	}
 	
-	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
+	set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
 
     }
     
@@ -607,7 +608,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    update_displays $tt $ngInstance $dataName $tviz
 	}
 
-	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
+	set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
 
     }
     
@@ -686,10 +687,10 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 #	puts stdout "Toggle Brush $ngInstance"
 
     	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq on} {
-    	    #puts stdout "turn off"
+#    	    puts stdout "turn off"
     	    $ttID\.canvas delete brush
     	} else {
-    	    #puts stdout "turn on"
+#    	    puts stdout "turn on"
     	    $ttID\.canvas create rect 10 10 70 70 -outline grey85 -width 2\
     		-tag [list brush area]
     	    $ttID\.canvas create rect 67 67 73 73 -fill grey\
@@ -703,9 +704,9 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
     	set dataName [$ttID\.dataName cget -text]
 	
-    	brush_highlight $ttID $ngInstance $ngLinkedInstance $dataName false
+    	after 1 {brush_highlight $ttID $ngInstance $ngLinkedInstance $dataName false}
 
-	set ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
+	set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
     }
     
 
@@ -812,7 +813,6 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     }
 
 
-   
     ## resize window
     set ng_windowManager("$ngInstance\.$viz\.isConfigured") 0
     bind $ttID <Configure> {
@@ -882,7 +882,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	
 	}
     }
-    
+
 #    bind $ttID <FocusIn> {
 #	set ttID [winfo toplevel %W]
 #	set ngInstance [$ttID\.ngInstance cget -text]
@@ -901,10 +901,20 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
     
     ## Zooming with scroll wheel in main window
-
-
-    if {[regexp -nocase Windows $::tcl_platform(os)]} {
+    if {$isWindows eq 1} {
 	# zoom windows
+	
+	bind $canvas_2d <Enter> {
+##	    set ttID [winfo toplevel %W]
+##	    focus $ttID\.canvas
+	    focus %W
+	}
+	
+	bind $canvas_2d <Leave> {
+	    focus [winfo toplevel %W]
+	}
+	
+	
 	bind $canvas_2d <MouseWheel> {
 	    if {%D > 0} {
 		zoom_main [winfo toplevel %W] %x %y +1
@@ -912,7 +922,17 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 		zoom_main [winfo toplevel %W] %x %y -1
 	    }
 	}
-	## add interactivity to zoom box    
+	## add interactivity to zoom box 
+	bind $canvas_zoom <Enter> {
+##	    set ttID [winfo toplevel %W]
+##	    focus $ttID\.nav.zoom.fcanvas.canvas
+	    focus %W
+	}
+ 
+	bind $canvas_zoom <Leave> {
+	    focus [winfo toplevel %W]
+	}
+   
 	bind $canvas_zoom <MouseWheel> {
 	    if {%D > 0} {
 		zoom_world [winfo toplevel %W] +1

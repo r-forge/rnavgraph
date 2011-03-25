@@ -99,6 +99,40 @@
 ## Settings Menue
 .settingsMenue <- function(ngEnv){
 	
+	.updateValues <- function(ngEnv, obj){
+		vname <- paste("v.",obj, sep="")  ## tcl variable name
+		value <- as.numeric(tclvalue(ngEnv$windowManager$settings[[vname]]))
+		
+		if(obj == "NSteps") {
+			ngEnv$settings@interaction@NSteps <- value
+		}else if(obj == "animationTime") {
+			ngEnv$settings@interaction@animationTime <- value
+		}else if(obj == "dragSelectRadius") {
+			ngEnv$settings@interaction@dragSelectRadius <- value 
+		}else if(obj == "labelDistRadius") {
+			ngEnv$settings@interaction@labelDistRadius <- value 
+		}else if(obj == "bulletRadius") {
+			ratio <- value/ngEnv$settings@display@bulletRadius
+			xy <- .tcl2xy(tkcoords(ngEnv$canvas,'bullet'))		
+			tkitemscale(ngEnv$canvas, 'bullet', xy[1], xy[2], ratio, ratio)
+			ngEnv$settings@display@bulletRadius <- value
+			
+		}else if(obj == "nodeRadius") {
+			ratio <- value/ngEnv$settings@display@nodeRadius		
+			tcl('scaleNodes',ngEnv$canvas,ratio)
+			ngEnv$settings@display@nodeRadius <- value
+		}else if(obj == "lineWidth") {
+			ngEnv$settings@display@lineWidth <- value
+			tkitemconfigure(ngEnv$canvas, "edge", width = value)
+			.normalState(ngEnv)
+		}else if(obj == "highlightedLineWidth") {
+			ngEnv$settings@display@highlightedLineWidth <- value
+			.normalState(ngEnv)
+		}else {
+			
+		}
+	}
+	
 	if(!is.null(ngEnv$windowManager$settings)) {
 		## bring window to front
 		tkraise(ngEnv$windowManager$settings$tt)
@@ -254,41 +288,7 @@
 							})
 				})
 	}
-	
-	
-	.updateValues <- function(ngEnv, obj){
-		vname <- paste("v.",obj, sep="")  ## tcl variable name
-		value <- as.numeric(tclvalue(ngEnv$windowManager$settings[[vname]]))
-		
-		if(obj == "NSteps") {
-			ngEnv$settings@interaction@NSteps <- value
-		}else if(obj == "animationTime") {
-			ngEnv$settings@interaction@animationTime <- value
-		}else if(obj == "dragSelectRadius") {
-			ngEnv$settings@interaction@dragSelectRadius <- value 
-		}else if(obj == "labelDistRadius") {
-			ngEnv$settings@interaction@labelDistRadius <- value 
-		}else if(obj == "bulletRadius") {
-			ratio <- value/ngEnv$settings@display@bulletRadius
-			xy <- .tcl2xy(tkcoords(ngEnv$canvas,'bullet'))		
-			tkitemscale(ngEnv$canvas, 'bullet', xy[1], xy[2], ratio, ratio)
-			ngEnv$settings@display@bulletRadius <- value
-			
-		}else if(obj == "nodeRadius") {
-			ratio <- value/ngEnv$settings@display@nodeRadius		
-			tcl('scaleNodes',ngEnv$canvas,ratio)
-			ngEnv$settings@display@nodeRadius <- value
-		}else if(obj == "lineWidth") {
-			ngEnv$settings@display@lineWidth <- value
-			tkitemconfigure(ngEnv$canvas, "edge", width = value)
-			.normalState(ngEnv)
-		}else if(obj == "highlightedLineWidth") {
-			ngEnv$settings@display@highlightedLineWidth <- value
-			.normalState(ngEnv)
-		}else {
-			
-		}
-	}
+
 }
 
 

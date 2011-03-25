@@ -183,6 +183,8 @@ setMethod(f = "show",
 		.pathDel <- function(){
 			sel <- as.numeric(tkcurselection(tl))+1
 			if(length(sel)!=0){
+				cat("pathDel: ")
+				print(sel)
 				ngEnv$paths <- ngEnv$paths[-sel,"all"]
 				.updatePaths(sel)
 			}
@@ -191,6 +193,9 @@ setMethod(f = "show",
 		
 		.pathToActive <- function(){
 			sel <- as.numeric(tkcurselection(tl))+1
+			cat("pathToActive: ")
+			print(sel)
+			
 			tclvalue(ngEnv$activePath) <- ngEnv$paths@path[sel]
 			.updatePaths(sel)
 		}
@@ -201,6 +206,8 @@ setMethod(f = "show",
 		}
 		
 		.updatePaths <- function(j){
+			cat(paste(".updatePaths:",j,'\n'))
+			
 			tkdelete(tl,0,"end")
 			tkdelete(tl2,0,"end")
 			sapply(ngEnv$paths@path,function(path)tkinsert(tl,"end",paste(path,collapse = " ")))		
