@@ -1289,7 +1289,7 @@ proc brush_highlight {ttID ngInstance ngLinkedInstance dataName freshPlot} {
 		    set col [lindex $ng_data("$ngLinkedInstance\.$dataName\.color") $point]
 		    foreach tt1 $ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 			## color it to its original color
-			$tt1.canvas itemconfigure "data && $point && !image" -fill $col
+			$tt1.canvas itemconfigure "data && $point && !image && !sunflower" -fill $col
 			$tt1\.nav.zoom.fcanvas.canvas itemconfigure "data && $point" -fill $col
 		    }
 		    
@@ -1301,7 +1301,7 @@ proc brush_highlight {ttID ngInstance ngLinkedInstance dataName freshPlot} {
     ## color all points below a brush
     foreach tt1 $ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 	foreach point $total_sel {
-	    $tt1\.canvas itemconfigure "data && $point && !image" -fill $ng_data("$ngLinkedInstance\.$dataName\.brush_color")
+	    $tt1\.canvas itemconfigure "data && $point && !image && !sunflower" -fill $ng_data("$ngLinkedInstance\.$dataName\.brush_color")
 	    $tt1\.nav.zoom.fcanvas.canvas itemconfigure "data && $point" -fill $ng_data("$ngLinkedInstance\.$dataName\.brush_color")
 	}
     }
@@ -1334,7 +1334,7 @@ proc modify_2d {ttID what ids} {
 		    set col [lindex $ng_data("$ngLinkedInstance\.$dataName\.color") $data_i]
 		    foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 			
-			$tt\.canvas itemconfigure "data && $data_i && !image" -fill $col
+			$tt\.canvas itemconfigure "data && $data_i && !image && !sunflower" -fill $col
 			$tt\.nav.zoom.fcanvas.canvas itemconfigure "data && $data_i" -fill $col
 			
 			## TODO: delete the following: 	$tt\.canvas dtag "data && $data_i" selected
@@ -1344,7 +1344,7 @@ proc modify_2d {ttID what ids} {
 		    #puts stdout "select id=$data_i"
 		    foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 #			set ngLinkedInstance [$tt\.ngLinkedInstance cget -text]
-			$tt\.canvas itemconfigure "data && $data_i && !image" -fill $ng_data("$ngLinkedInstance\.$dataName\.brush_color")
+			$tt\.canvas itemconfigure "data && $data_i && !image && !sunflower" -fill $ng_data("$ngLinkedInstance\.$dataName\.brush_color")
 			$tt\.nav.zoom.fcanvas.canvas itemconfigure "data && $data_i" -fill $ng_data("$ngLinkedInstance\.$dataName\.brush_color")
 
 			## TODO: delete the following: $tt\.canvas addtag selected withtag "data && $data_i"
@@ -1365,7 +1365,7 @@ proc modify_2d {ttID what ids} {
 		set data_i [lindex $tags 1]
 		    foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 #			set ngLinkedInstance [$tt\.ngLinkedInstance cget -text]
-			$tt\.canvas itemconfigure "data && $data_i && !image"\
+			$tt\.canvas itemconfigure "data && $data_i && !image && !sunflower"\
 			    -fill $ng_data("$ngLinkedInstance\.$dataName\.brush_color")
 			$tt\.nav.zoom.fcanvas.canvas itemconfigure "data && $data_i" -fill $ng_data("$ngLinkedInstance\.$dataName\.brush_color")
 

@@ -919,7 +919,9 @@ static int display_glyphs_Cmd(
 
 	Tcl_Obj **deactivated, *ptr_deactivated;
 	int ndeactivated, obj_deactive;
-
+	
+	double inner_Radius = 5;
+	double rtmp;
 
 
 	// copy variables
@@ -1097,21 +1099,30 @@ static int display_glyphs_Cmd(
 
 					strcpy(tmpCmd,"");
 					for (ii = 0; ii < glyph_nvar; ii++){
-						Tcl_GetDoubleFromObj(interp, glyphs_inner[ii], &glyph_polygon);
-						Tcl_GetDoubleFromObj(interp, glyph_alpha[ii], &alpha);
-
-						sprintf(tmpStr, "%.3f ", x_screen+r*glyph_polygon*cos(alpha));
-						strcat(tmpCmd,tmpStr);
-						sprintf(tmpStr, "%.3f ", y_screen+r*glyph_polygon*sin(alpha));
-						strcat(tmpCmd,tmpStr);
+					  Tcl_GetDoubleFromObj(interp, glyphs_inner[ii], &glyph_polygon);
+					  Tcl_GetDoubleFromObj(interp, glyph_alpha[ii], &alpha);
+					  
+					  rtmp = (inner_Radius + r*glyph_polygon);
+					  
+					  sprintf(tmpStr, "%.3f ", x_screen+rtmp*cos(alpha));
+					  strcat(tmpCmd,tmpStr);
+					  sprintf(tmpStr, "%.3f ", y_screen+rtmp*sin(alpha));
+					  strcat(tmpCmd,tmpStr);
 					}
-
+					
 					if(obj_selected) {
-						sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,brush_color, i);
+					  sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,brush_color, i);
 					} else {
-						sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,obj_color, i);
+					  sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,obj_color, i);
 					}
 					Tcl_Eval(interp,tclCmd);
+
+					// black dot
+					strcpy(tmpCmd,"");
+					sprintf(tclCmd,"%s.canvas create oval %.3f %.3f %.3f %.3f -fill black -tag [list data %i glyph sunflower] -width 0",ttID,x_screen-inner_Radius,y_screen-inner_Radius,x_screen+inner_Radius,y_screen+inner_Radius,i);
+					//printf("%s\n",tclCmd);
+					Tcl_Eval(interp,tclCmd);
+
 				}
 			}
 		}

@@ -358,6 +358,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 		ng_LinkedInstance <- ng_instance
 	}
 	
+
 	
 	tt <- tktoplevel()
 	tktitle(tt) <- paste("Session ", ng_instance,", RnavGraph Version ", utils::packageDescription("RnavGraph", field="Version"), sep = '')
@@ -1086,8 +1087,8 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	
 	
 	
+
 	.initializePlots(ngEnv)
-	
 	
 	
 # Create navGraph handler
