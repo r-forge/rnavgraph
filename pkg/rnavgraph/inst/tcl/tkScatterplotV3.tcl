@@ -1,4 +1,4 @@
-## Author: Adrian Waddell
+# Author: Adrian Waddell
 ## Date Sep 9, 2010
 
 #package require Tk
@@ -507,19 +507,29 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set tmpdataId $::ng_data("$ngLinkedInstance\.$dataName\.temp_selected")
 
 	    if { $tmpdataId ne "-1"} {
-		set tmpcanvasId [$ttID\.canvas find withtag "data && $tmpdataId"]
+		## one point was temporarily selected
+		## deselect the previously selected point
 		
-		if {$tmpcanvasId ne $canvasId} {
+		if {$dataId ne $tmpdataId} {
+		    ## new point temporarily selected
+		    ## deselect old one
+		    set tmpcanvasId [$ttID\.canvas find withtag "data && $tmpdataId && !sunflower && !image"]
+		    
 		    modify_2d $ttID select $tmpcanvasId
 		    set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") $dataId
+
 		} else {
+		    ## current selected point is the same as the previously temporarily selected point
+		    ## hence deselect
 		    set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") "-1"
 		}
 		
 	    } else {
+		## no point was temporarily selected
 		set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") $dataId
 	    }
 
+	    ## select/deselect current point
 	    modify_2d $ttID select $canvasId
 	}
     }
