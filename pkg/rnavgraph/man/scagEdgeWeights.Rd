@@ -16,7 +16,7 @@ scagEdgeWeights(data, scags = c("Clumpy"), combineFn = NULL)
     data.frame.
   }
   \item{scags}{
-    Single element or a subset of: \cr
+    Single element or a subset of (with possible a "Not" preceding): \cr
       "Outlying", "Skewed", "Clumpy", "Sparse", "Striated",\cr
       "Convex", "Skinny", "Stringy", "Monotonic"
 }
