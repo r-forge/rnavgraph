@@ -32,6 +32,9 @@ setGeneric(name = "shortnames<-",
 		def = function(x,value){standardGeneric("shortnames<-")})
 
 ## NG_graph
+setGeneric(name = "linegraph",
+		def = function(graph,sep=":"){standardGeneric("linegraph")})
+
 setGeneric(name = "graphLayout",
 		def = function(graph,type,...){standardGeneric("graphLayout")})
 

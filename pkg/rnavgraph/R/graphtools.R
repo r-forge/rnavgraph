@@ -1,39 +1,34 @@
-## This function creates the linegraph of a graph of class "graphNEL".
-linegraph <- function(graph, sep = ':'){
-	
-	if(!is(graph,"graph")) {
-		stop("[linegraph] argument graph is not a graph object.")
-	}
-	if(graph@graphData$edgemode != "undirected"){
-		stop("[linegraph] needs an graph is directed.")
-	}else{
-		
-		if(any(grepl(sep,nodes(graph),fixed = TRUE))) {
-			warning(paste('[linegraph] sep character "',sep,'" already exists somewhere in the node names.', sep=''))
-		}
-		
-		## TODO test with duplicates=FALSE
-		## from-to matrix
-		eM <- edgeMatrix(as(graph,"graphNEL"))
-		
-		## node names of new graph
-		V <- paste(nodes(graph)[eM[1,]],nodes(graph)[eM[2,]],sep=sep)
-		
-		new_eM <- NULL
-		
-		n <- dim(eM)[2]
-		for(i in 1:n){
-			for(ii in i:n){
-				if(i!=ii){
-					if(any(match(eM[,i],eM[,ii],nomatch=FALSE))){
-						new_eM <- rbind(new_eM,c(i,ii))
+setMethod(
+		f = "linegraph",
+		signature = "graph",
+		definition = function(graph,sep=":"){
+			
+			if(isDirected(graph)){
+				stop("Graph must not be directed an graph is directed.")
+			}else{
+				
+				## TODO test with duplicates=FALSE
+				## from-to matrix
+				eM <- edgeMatrix(as(graph,"graphNEL"), duplicates=FALSE)
+				
+				## node names of new graph
+				V <- paste(nodes(graph)[eM[1,]],nodes(graph)[eM[2,]],sep=sep)
+				
+				new_eM <- NULL
+				
+				n <- dim(eM)[2]
+				for(i in 1:n){
+					for(ii in i:n){
+						if(i!=ii){
+							if(any(match(eM[,i],eM[,ii],nomatch=FALSE))){
+								new_eM <- rbind(new_eM,c(i,ii))
+							}
+						}
 					}
 				}
+				return(ftM2graphNEL(ft=cbind(V[new_eM[,1]],V[new_eM[,2]]), V=V, edgemode = "undirected"))
 			}
-		}
-		return(ftM2graphNEL(ft=cbind(V[new_eM[,1]],V[new_eM[,2]]), V=V, edgemode = "undirected"))
-	}
-}
+		})
 
 
 
