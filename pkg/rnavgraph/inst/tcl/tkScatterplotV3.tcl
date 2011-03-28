@@ -578,9 +578,16 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     	set dataName [$ttID\.dataName cget -text]
 	
 	
-	set n [llength $ng_data("$ngLinkedInstance\.$dataName\.selected")]
-	set ng_data("$ngLinkedInstance\.$dataName\.selected") [lrepeat $n 1]
-
+	set i 0
+	foreach deactive $ng_data("$ngLinkedInstance\.$dataName\.deactivated") {
+	    if ($deactive) {
+		lset ng_data("$ngLinkedInstance\.$dataName\.selected") $i 0
+	    } else {
+		lset ng_data("$ngLinkedInstance\.$dataName\.selected") $i 1
+	    }
+	    incr i
+	}
+	
 	foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 	    set tviz [$tt\.viz cget -text]
 	    set ngInstance [$tt\.ngInstance cget -text]
@@ -602,8 +609,9 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
 
 	set i 0
-	foreach sel $ng_data("$ngLinkedInstance\.$dataName\.selected") {
-	    if {$sel} {
+	foreach sel $ng_data("$ngLinkedInstance\.$dataName\.selected")\
+	    deactive $ng_data("$ngLinkedInstance\.$dataName\.deactivated") {
+	    if {$sel || $deactive} {
 		lset ng_data("$ngLinkedInstance\.$dataName\.selected") $i 0
 	    } else {
 		lset ng_data("$ngLinkedInstance\.$dataName\.selected") $i 1
