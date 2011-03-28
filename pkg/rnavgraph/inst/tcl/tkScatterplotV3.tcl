@@ -80,10 +80,11 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     
     
     ## Create Navigation frames
-    pack [frame $nav\.axis]\
-	[frame  $nav\.zoom]\
-	[frame  $nav\.plotType]\
-	[frame  $nav\.tools]\
+    pack [labelframe  $nav\.zoom -text "World View"]\
+	[labelframe  $nav\.plotType -text "Plot Type"]\
+	[labelframe  $nav\.selection -text "Select"]\
+	[labelframe  $nav\.modify -text "Modify"]\
+	[labelframe  $nav\.tools -text "Tools"]\
 	-side top -fill x -padx 5 -pady 2.5 -anchor w
     
     ## initialize variable for temporary selected points
@@ -92,7 +93,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     }
 
     ## Plot type radio buttons
-    pack [label $nav\.plotType.label -text "Plot Type:"] -side top -anchor w
+   # pack [label $nav\.plotType.label -text "Plot Type:"] -side top -anchor w
     set ng_windowManager("$ngInstance\.$viz.plotType") "shapes"
     radiobutton $nav\.plotType.rshape -text dots\
 	-variable ng_windowManager("$ngInstance\.$viz.plotType")\
@@ -137,31 +138,32 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
     ## Tools
     ##
-    set ftools "$nav\.tools"
+    set fbrush "$nav\.selection.brush"
     
     ## Brush
     set ng_windowManager("$ngInstance\.$viz\.brush") off
     ## CARE: set ng_data("$ngLinkedInstance\.$viz\.brush.data_i") ""
     
-    pack [frame $ftools\.brush] -fill x -side top -pady 2
-    label $ftools\.brush.l -text "Brush:"
+    pack [frame $fbrush] -fill x -side top -pady 2
+
+    label $fbrush.l -text "Brush:"
     set cb_brush\
-	[checkbutton $ftools\.brush.cb\
+	[checkbutton $fbrush.cb\
 	     -variable ng_windowManager("$ngInstance\.$viz\.brush")\
 	     -onvalue on -offvalue off]
-    pack $ftools\.brush.l $cb_brush -side left 
+    pack $fbrush.l $cb_brush -side left 
 
 
     ## used also later
     set bw [expr {$ng_windowManager("zbox_width")/9}]  
     
-    pack [frame $ftools\.brush.sp -width 5] -side right
-    pack [canvas $ftools\.brush.c -width [expr {$bw-8}] -height [expr {$bw-8}] -bg $ng_data("$ngLinkedInstance\.$dataName\.brush_color")] -side right
+    pack [frame $fbrush.sp -width 5] -side right
+    pack [canvas $fbrush.c -width [expr {$bw-8}] -height [expr {$bw-8}] -bg $ng_data("$ngLinkedInstance\.$dataName\.brush_color")] -side right
 
-    pack [label $ftools\.brush.cl -text "color: "] -side right
+    pack [label $fbrush.cl -text "color: "] -side right
 
     ## change brush color
-    bind $ftools\.brush.c <Double-ButtonRelease-1> {
+    bind $fbrush.c <Double-ButtonRelease-1> {
 
 	set col [%W cget -bg]
 	set new_col [tk_chooseColor -initialcolor $col]
@@ -176,7 +178,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
 	    foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 		set ngInstance [$tt\.ngInstance cget -text]
-		$tt\.nav\.tools\.brush\.c configure -bg $new_col
+		$tt\.nav\.selection\.brush\.c configure -bg $new_col
 		update_displays $tt $ngInstance $dataName $viz
 	    }
 
@@ -188,24 +190,24 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
 
     ## Selection
-    pack [frame $ftools\.selection] -side top -fill x -pady 2
-    pack [frame $ftools\.selection.upper] -side top -fill x
-    pack [frame $ftools\.selection.lower] -side top -fill x -padx 4
+#    pack [frame $nav\.selection] -side top -fill x -pady 2
+    pack [frame $nav\.selection.upper] -side top -fill x
+    pack [frame $nav\.selection.lower] -side top -fill x -padx 4 -pady 4
 
-    label $ftools\.selection.upper.l -text "Selection:"
-    set sel_none [label $ftools\.selection.upper.lnone\
+    label $nav\.selection.upper.l -text "Selection:"
+    set sel_none [label $nav\.selection.upper.lnone\
 		      -text " none " -activebackground "darkgrey"] 
-    set sel_all [label $ftools\.selection.upper.lall\
+    set sel_all [label $nav\.selection.upper.lall\
 		     -text " all " -activebackground "darkgrey"] 
-    set sel_inv [label $ftools\.selection.upper.linvert\
+    set sel_inv [label $nav\.selection.upper.linvert\
 		     -text " invert " -activebackground "darkgrey"] 
-    set sel_deactivate [label $ftools\.selection.lower.ldeactivate\
+    set sel_deactivate [label $nav\.selection.lower.ldeactivate\
 			    -text " deactivate " -activebackground "darkgrey"] 
-    set sel_reactivate [label $ftools\.selection.lower.lreactivate\
+    set sel_reactivate [label $nav\.selection.lower.lreactivate\
 			    -text " reactivate " -activebackground "darkgrey"] 
 
 
-    pack $ftools\.selection.upper.l $sel_none $sel_all $sel_inv -side left
+    pack $nav\.selection.upper.l $sel_none $sel_all $sel_inv -side left
     pack $sel_reactivate $sel_deactivate -side right 
 
     foreach widget [list $sel_none $sel_all $sel_inv $sel_reactivate] { 
@@ -235,7 +237,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     }
 
     # Color see variable bw a few lines above
-    set canvas_col [canvas $ftools\.can -width $ng_windowManager("zbox_width")\
+    set canvas_col [canvas $nav\.modify.can -width $ng_windowManager("zbox_width")\
 			-height [expr {2*$bw}]]
     
     pack $canvas_col -side top -pady 2
@@ -277,8 +279,8 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	set dataName [$ttID\.dataName cget -text]
 
 	foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
-	    $tt\.nav\.tools\.can itemconfigure rect -fill ""
-	    $tt\.nav\.tools\.can itemconfigure "$widget && rect"\
+	    $tt\.nav\.modify\.can itemconfigure rect -fill ""
+	    $tt\.nav\.modify\.can itemconfigure "$widget && rect"\
 		-fill darkgray
 	}
     }
@@ -293,13 +295,13 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 		## apply coloring
 	set col ""
 	for {set i 0} {$i < 9} {incr i} {
-	    if {[$ttID\.nav\.tools\.can itemcget "$i && rect" -fill] eq "darkgray"} {
-		set col [$ttID\.nav\.tools\.can itemcget "$i && dot" -fill]
+	    if {[$ttID\.nav\.modify\.can itemcget "$i && rect" -fill] eq "darkgray"} {
+		set col [$ttID\.nav\.modify\.can itemcget "$i && dot" -fill]
 	    }
 	}
 	if {$col ne ""} {
 	    foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
-		$tt\.nav\.tools\.can itemconfigure rect -fill ""
+		$tt\.nav\.modify\.can itemconfigure rect -fill ""
 	    }
 	    change_color $ngLinkedInstance $dataName $col
 	}
@@ -307,7 +309,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
 
 	foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
-	    $tt\.nav\.tools\.can itemconfigure rect -fill ""
+	    $tt\.nav\.modify\.can itemconfigure rect -fill ""
 	} 
 
     }
@@ -326,7 +328,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set dataName [$ttID\.dataName cget -text]
 	    
 	    foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
-		$tt\.nav\.tools\.can itemconfigure "$widget && dot"\
+		$tt\.nav\.modify\.can itemconfigure "$widget && dot"\
 		    -fill $new_col
 	    }
 	    
@@ -355,7 +357,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 		$tt\.canvas configure -bg $new_col
 		$tt\.nav.zoom.fcanvas.canvas itemconfigure "zbox" -fill $new_col
-		$tt\.nav\.tools\.can itemconfigure "bg && dot"\
+		$tt\.nav\.modify\.can itemconfigure "bg && dot"\
 		    -fill $new_col
 	    }
 	}
@@ -364,15 +366,15 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
    
     ## Size
-    pack [frame $ftools\.scale] -side top -fill x -pady 2
+    pack [frame $nav\.modify.scale] -side top -fill x -pady 2
 
-    label $ftools\.scale.l -text "size:" 
-    label $ftools\.scale.labs -text "abs:" 
-    label $ftools\.scale.lrel -text "rel:" 
-    set sp_rel [label $ftools\.scale.lp -text " + " -bg grey -activebackground darkgray]
-    set sm_rel [label $ftools\.scale.lm -text " - " -bg grey -activebackground darkgray]
-    set sp_abs [label $ftools\.scale.lpabs -text " + " -bg grey -activebackground darkgray]
-    set sm_abs [label $ftools\.scale.lmabs -text " - " -bg grey -activebackground darkgray]
+    label $nav\.modify.scale.l -text "size:" 
+    label $nav\.modify.scale.labs -text "abs:" 
+    label $nav\.modify.scale.lrel -text "rel:" 
+    set sp_rel [label $nav\.modify.scale.lp -text " + " -bg grey -activebackground darkgray]
+    set sm_rel [label $nav\.modify.scale.lm -text " - " -bg grey -activebackground darkgray]
+    set sp_abs [label $nav\.modify.scale.lpabs -text " + " -bg grey -activebackground darkgray]
+    set sm_abs [label $nav\.modify.scale.lmabs -text " - " -bg grey -activebackground darkgray]
     
 
 
@@ -386,10 +388,10 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	}
     }
     
-    pack $ftools\.scale.l -side left
-    pack $ftools\.scale.labs -side left -padx 2
+    pack $nav\.modify.scale.l -side left
+    pack $nav\.modify.scale.labs -side left -padx 2
     pack $sm_abs $sp_abs -side left -padx 1
-    pack $ftools\.scale.lrel -side left -padx 2
+    pack $nav\.modify.scale.lrel -side left -padx 2
     pack $sm_rel $sp_rel -side left -padx 1
     
     ## little triangle to assist resizing in linux and osx
@@ -663,7 +665,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set ngInstance [$tt\.ngInstance cget -text]
 	    update_displays $tt $ngInstance $dataName $tviz
 	    if {$ng_data("$ngLinkedInstance\.$dataName\.anyDeactivated")} {
-		$tt\.nav\.tools\.selection.lower.ldeactivate configure -state active	
+		$tt\.nav\.selection.lower.ldeactivate configure -state active	
 	    }
 	}
     }
@@ -686,7 +688,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set ngInstance [$tt\.ngInstance cget -text]	    
 	    set tviz [$tt\.viz cget -text]
 	    update_displays $tt $ngInstance $dataName $tviz
-	    $tt\.nav\.tools\.selection.lower.ldeactivate configure -state normal
+	    $tt\.nav\.selection.lower.ldeactivate configure -state normal
 	}
     }
     
@@ -1239,7 +1241,7 @@ proc brush {ttID dx dy} {
 	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "on"} {
 	    set brush_xy [$ttID\.canvas coords brush]
 	    if {$brush_xy eq ""} {
-		$ttID\.nav.tools.brush.cb toggle
+		$ttID\.nav.selection.brush.cb toggle
 		$ttID\.canvas delete brush
 	    } else {
 		set sel [$ttID\.canvas find overlapping\
@@ -1277,7 +1279,7 @@ proc brush_highlight {ttID ngInstance ngLinkedInstance dataName freshPlot} {
 #	    puts stdout "BRUSH XY COORD: $brush_xy"
 	    
 	    if {$brush_xy eq ""} {
-		$tt\.nav.tools.brush.cb toggle
+		$tt\.nav.selection.brush.cb toggle
 		$tt\.canvas delete brush
 	    } else {
 		
