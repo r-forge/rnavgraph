@@ -44,11 +44,10 @@ scagEdgeWeights <- function(
 	
 	scag <- scagnostics(data)  ## returns a matrix
 
-	scags <- tolower(scags)
 	
-	isNotSomething <- grepl("^not", scags)
+	isNotSomething <- grepl("^not", tolower(scags))
 	## get the scagnostic strings
-	scagNames <- gsub("^not","",scags)
+	scagNames <- gsub("^not","",tolower(scags))
 	
 	if(!all(scagNames %in% tolower(rownames(scagnostics(data.frame(a = c(1,0,1), b = c(2,3,0), c = c(1,9,3))))))) {
 		stop('[scagEdgeWeights] argument scags contains invalid names.')
@@ -71,9 +70,9 @@ scagEdgeWeights <- function(
 	
 	
 	## make a matrix with the weights for each scags element
-	iScags <- match(scagNames,rownames(scag))
+	iScags <- match(scagNames,tolower(rownames(scag)))
 	
-	scagColNames <- colnames(scag)
+	scagColNames <- tolower(colnames(scag))
 	
 	weightsScag <- matrix(rep(-99, nE*length(scags)), nrow = nE)
 	for(i in 1:nE) {
