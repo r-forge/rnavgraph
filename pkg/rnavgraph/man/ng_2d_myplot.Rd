@@ -12,8 +12,8 @@
   \code{navGraph} will call at any bullet state change a function the
   user defines in the global environment.
 
-  The executed function should contain plot instruction and have the
-  arguments
+  The executed function should contain plot instruction and have any
+  subset of these arguments
 
   \tabular{ll}{
     \bold{argument} \tab \bold{description}\cr 
@@ -23,7 +23,11 @@
     labels \tab labels slot from NG_data object\cr
     order \tab order of points. In 3d rigid rotation,
     the order increases with the distance
-    of a the point from the viewer.
+    of a the point from the viewer.\cr
+    from \tab node name the bullet moves from\cr
+    to \tab node name the bullet moves to\cr
+    percentage \tab in between percentage of bullet\cr
+    data \tab data name of NG_data object
   }
     
 }

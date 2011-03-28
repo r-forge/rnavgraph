@@ -69,13 +69,18 @@ setMethod(
 				}
 			} 
 			
-
+			ii <-  c("x","y","group","labels","order","from","to","percentage","data") %in% names(formals(get(fun)))
+	
 			## plot regular update function
 			do.call(fun, list(x = ng_2d_xcoord(viz,ngEnv),
 							y =  ng_2d_ycoord(viz,ngEnv),
 							group = ngEnv$dataList[[viz@data]]@group,
 							labels = ngEnv$dataList[[viz@data]]@labels,
-							order =  ng_2d_dist(viz,ngEnv)),
+							order =  ng_2d_dist(viz,ngEnv),
+							from = ngEnv$bulletState$from,
+							to = ngEnv$bulletState$to,
+							percentage = ngEnv$bulletState$percentage,
+							data = viz@data)[ii],
 					envir = .GlobalEnv)
 			
 			return(viz)
@@ -102,12 +107,20 @@ setMethod(
 			
 			viz <- ng_2dRotationMatrix(viz,ngEnv)		
 
+			ii <-  c("x","y","group","labels","order","from","to","percentage","data") %in% names(formals(get(viz@FUN)))
+			
+			## plot regular update function
 			do.call(viz@FUN, list(x = ng_2d_xcoord(viz,ngEnv),
 							y =  ng_2d_ycoord(viz,ngEnv),
 							group = ngEnv$dataList[[viz@data]]@group,
 							labels = ngEnv$dataList[[viz@data]]@labels,
-							order =  ng_2d_dist(viz,ngEnv)),
+							order =  ng_2d_dist(viz,ngEnv),
+							from = ngEnv$bulletState$from,
+							to = ngEnv$bulletState$to,
+							percentage = ngEnv$bulletState$percentage,
+							data = viz@data)[ii],
 					envir = .GlobalEnv)
+			
 			
 			return(viz)
 		})
