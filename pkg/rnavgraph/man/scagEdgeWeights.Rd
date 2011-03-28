@@ -7,7 +7,13 @@
 \description{
 }
 \usage{
-scagEdgeWeights(data, scags = c("Clumpy"), combineFn = NULL)
+scagEdgeWeights(data,
+				scags = c("Clumpy", "NotClumpy", "Monotonic", "NotMonotonic",
+						  "Convex", "NotConvex", "Stringy", "NotStringy",
+						  "Skinny", "NotSkinny", "Outlying","NotOutlying",
+						  "Sparse", "NotSparse", "Striated", "NotStriated",
+						  "Skewed", "NotSkewed"),
+			    combineFn = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

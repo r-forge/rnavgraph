@@ -9,16 +9,16 @@
 ## get scagnostic weights for scatterplots
 scagEdgeWeights <- function(
 		data, ## data.frame or NG_data
-		scags=c("Clumpy"),
-		# any subset list from 
-		# "Clumpy", "NotClumpy",
-		# "Monotonic", "NotMonotonic",
-		# "Convex", "NotConvex",  
-		# "Stringy", "NotStringy",
-		# "Skinny", "NotSkinny",
-		# "Outlying","NotOutlying",
-		# "Sparse", "NotSparse",
-		# "Striated", "NotStriated",
+		scags=c(		# any subset list from 		
+		 "Clumpy", "NotClumpy",
+		 "Monotonic", "NotMonotonic",
+		 "Convex", "NotConvex",  
+		 "Stringy", "NotStringy",
+		 "Skinny", "NotSkinny",
+		 "Outlying","NotOutlying",
+		 "Sparse", "NotSparse",
+		 "Striated", "NotStriated",
+		 "Skewed", "NotSkewed"),
 		combineFn = NULL  # function to combine across scagnostics
 # Fraction of top values to use in (0,1]
 ) {
@@ -175,17 +175,16 @@ scagGraph <- function(edgeWeights, topFrac = 0.2){
 #  Putting it all together with navGraph
 #
 scagNav <- function (data,   # ngdata object
-		scags=c("Clumpy","Outlying"),
-		# any subset list from 
-		# "Clumpy", "NotClumpy",
-		# "Monotonic", "NotMonotonic",
-		# "Convex", "NotConvex",  
-		# "Stringy", "NotStringy",
-		# "Skinny", "NotSkinny",
-		# "Outlying","NotOutlying",
-		# "Sparse", "NotSparse",
-		# "Striated", "NotStriated",
-		# "Skewed", "Skewed"
+		scags=c(	# any subset list from 
+				"Clumpy", "NotClumpy",
+				"Monotonic", "NotMonotonic",
+				"Convex", "NotConvex",  
+				"Stringy", "NotStringy",
+				"Skinny", "NotSkinny",
+				"Outlying","NotOutlying",
+				"Sparse", "NotSparse",
+				"Striated", "NotStriated",
+				"Skewed", "NotSkewed"),
 		topFrac=0.2,
 		# Fraction of top values to use in (0,1],
 		combineFn=NULL,

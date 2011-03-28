@@ -16,11 +16,16 @@
   See the vignette for more examples.
 }
 \usage{
-scagNav(data, scags = c("Clumpy", "Outlying"),
-         topFrac = 0.2, combineFn = NULL,
-         settings = NULL, glyphs = NULL,
-         images = NULL, sep = ":",
-         layout = "circle")
+scagNav(data,
+	 	scags = c("Clumpy", "NotClumpy", "Monotonic", "NotMonotonic",
+				"Convex", "NotConvex", "Stringy", "NotStringy",
+				"Skinny", "NotSkinny", "Outlying","NotOutlying",
+				"Sparse", "NotSparse", "Striated", "NotStriated",
+				"Skewed", "NotSkewed"),
+        topFrac = 0.2, combineFn = NULL,
+        settings = NULL, glyphs = NULL,
+        images = NULL, sep = ":",
+        layout = "circle")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
