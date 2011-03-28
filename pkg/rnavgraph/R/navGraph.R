@@ -358,7 +358,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 		ng_LinkedInstance <- ng_instance
 	}
 	
-
+	
 	
 	tt <- tktoplevel()
 	tktitle(tt) <- paste("Session ", ng_instance,", RnavGraph Version ", utils::packageDescription("RnavGraph", field="Version"), sep = '')
@@ -386,6 +386,56 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	tkadd(topMenu,"cascade",label="File",menu=fileMenu)
 	
 	tkadd(fileMenu,"command", label="Settings", command=function(){.settingsMenue(ngEnv)})
+	tkadd(fileMenu,"command",label="Reset Edges Seen",command=function(){
+				tkitemconfigure(ngEnv$canvas,'edge && graph', fill=ngEnv$settings@color@notVisitedEdge)
+				tkdtag(ngEnv$canvas, 'all', 'visited')
+			})
+	tkadd(fileMenu,"command", label="Save navGraph Handler", command=function(){				
+				ttwin <- tktoplevel()
+				tktitle(ttwin) <- "Save a navGraph handler"
+				loc <- .tcl2str(tkwm.geometry(ngEnv$tt))
+				loc1 <- unlist(strsplit(loc,split = '+',  fixed = TRUE))
+				tkwm.geometry(ttwin,paste("+",as.numeric(loc1[2])+30,"+",as.numeric(loc1[3])+150,sep=""))			
+				tkgrab(ttwin)
+				tkpack(tkframe(ttwin, height = 10),side = "top")
+				l <- tklabel(ttwin, text = "Save the navGraph handler in the global environment as:")
+				tkpack(l,side = "top", anchor = "w", padx = 5)
+				entry <- tkentry(ttwin)
+				tkpack(entry, side = "top", fill = "x",padx = 5, pady = 5)
+				f.b <- tkframe(ttwin)
+				tkpack(f.b, side = "top", padx = 5)
+				tkpack(tkframe(ttwin, height = 5),side = "top")
+				bok <- tkbutton(f.b,text="OK", command=function(){.save()})
+				bcan <- tkbutton(f.b,text="Cancel", command=function(){tkdestroy(ttwin)})
+				tkpack(bok,bcan, side = "left", anchor = "center", padx = 10)
+				tkfocus(entry)
+				tkbind(entry,"<Return>",function(){.save()})
+				.save <- function(){
+					varName <- .tcl2str(tkget(entry))
+					if (length(varName) != 0) {
+						if (varName %in% ls(.GlobalEnv)) {
+							if (tk_messageBox("yesno",paste('Variable "',varName,'" already exists. Overwrite it?',sep=""), parent = ttwin) == "yes") {
+								cat(paste("Session", ngEnv$ng_instance,"navGraph handler saved (overwritten) as:",varName,'\n'))
+								assign(varName, new("NavGraph_handler", env = ngEnv, ggobi = NULL,
+												graphs = graphList, data = dataList, viz = vizList,
+												settings = settings, paths = paths, activePath = tclvalue(activePath),
+												activePathGraph = tclvalue(activePathGraph), dateCreated = date(),
+												dateUpdated = "not"), envir = .GlobalEnv)
+								tkdestroy(ttwin)
+							}
+						} else {
+							cat(paste("Session", ngEnv$ng_instance, "navGraph handler saved as:",varName,'\n'))
+							assign(varName, new("NavGraph_handler", env = ngEnv, ggobi = NULL,
+											graphs = graphList, data = dataList, viz = vizList,
+											settings = settings, paths = paths, activePath = tclvalue(activePath),
+											activePathGraph = tclvalue(activePathGraph), dateCreated = date(),
+											dateUpdated = "not"), envir = .GlobalEnv)
+							tkdestroy(ttwin)
+						}
+					}
+				}
+			})
+	
 	tkadd(fileMenu,"separator")
 	tkadd(fileMenu,"command",label="Quit",command=function(){
 				tkdestroy(ngEnv$tt)
@@ -404,10 +454,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 #	tkadd(toolsMenu,"separator")
 	
 #	tkadd(toolsMenu,"command",label="Reset Graph Layout",command=function(){})
-	tkadd(toolsMenu,"command",label="Reset Edges Seen",command=function(){
-				tkitemconfigure(ngEnv$canvas,'edge && graph', fill=ngEnv$settings@color@notVisitedEdge)
-				tkdtag(ngEnv$canvas, 'all', 'visited')
-			})
+	
 	
 	
 	
@@ -1087,7 +1134,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	
 	
 	
-
+	
 	.initializePlots(ngEnv)
 	
 	
