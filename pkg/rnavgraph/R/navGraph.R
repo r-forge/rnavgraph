@@ -13,7 +13,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 		##.Tcl('set ng_windowManager ""')
 		
 	}else if(is(data, "NavGraph_handler")){
-	
+		
 		
 		## if navgraph handler gets passed by
 		graphList <- data@graphs
@@ -222,7 +222,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 			## weird combination of arguments passed by	
 			stop("[navGraph] if the graph argument is used, then viz argument must be used too and vice versa.")
 		}
-	
+		
 		
 		
 		## check if data and graph names are unique
@@ -662,41 +662,53 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	
 	
 #	
+	tkbind(tt,'<Enter>',function()tkfocus(tt))
 	tkitembind(canvas,'node || label','<Shift-Button-1>', function(){})	
 	tkitembind(canvas,'node || label || bullet','<Shift-Button-1>', function(){
-				if(isKeyShift) {
+				
+			#	tkfocus(tt)	
+				if(!ngEnv$isKeyShift) {
 					if(ngEnv$bulletState$to == "") {
-						
-						path <- .parsePath2Vec(tclvalue(activePath))
-						## get last node of activePath						
-						from <- tail(path,1)
-						## get node
-						tags <- .tcl2str(tkgettags(ngEnv$canvas,'current'))
-						if('bullet' %in% tags) {
-							to <- ngEnv$bulletState$from
-						} else {
-							to <- tags[3]
-						}
-						
-						#cat(paste('from',from,'to',to,'\n'))
-						## is the node adjacent?
-						adjEdge <- .tcl2str(.Tcl(paste(canvas$ID," find withtag {edge&&",from,'&&',to,'}', sep = '')))
-						
-						if(length(adjEdge) != 0) {
-							if(from != to) {
-								##add to active Path
-								#cat('add it\n')
-								tclvalue(ngEnv$activePath) <- paste(tclvalue(activePath),to)
-								## Highlight Path
-								.highlightPath(ngEnv,from,to)
-								## Highlight adjoining edges
-							}
-						}
-						
+						tclObj(ngEnv$activePath) <- ngEnv$bulletState$from
+						tclvalue(ngEnv$activePathGraph) <- ngEnv$graph@name
 					}
-				} else {
-					tk_messageBox(message = "Please focus on the window containing the graph\nAn ordinary mouse-click should be sufficient.")
+					ngEnv$isKeyShift <- TRUE
 				}
+				
+				
+				if(ngEnv$bulletState$to == "") {
+					
+					path <- .parsePath2Vec(tclvalue(activePath))
+					## get last node of activePath						
+					from <- tail(path,1)
+					## get node
+					tags <- .tcl2str(tkgettags(ngEnv$canvas,'current'))
+					if('bullet' %in% tags) {
+						to <- ngEnv$bulletState$from
+					} else {
+						to <- tags[3]
+					}
+					
+					#cat(paste('from',from,'to',to,'\n'))
+					## is the node adjacent?
+					adjEdge <- .tcl2str(.Tcl(paste(canvas$ID," find withtag {edge&&",from,'&&',to,'}', sep = '')))
+					
+					if(length(adjEdge) != 0) {
+						if(from != to) {
+							##add to active Path
+							#cat('add it\n')
+							tclvalue(ngEnv$activePath) <- paste(tclvalue(activePath),to)
+							## Highlight Path
+							.highlightPath(ngEnv,from,to)
+							## Highlight adjoining edges
+						}
+					}
+					
+				}
+
+				#else {
+				#tk_messageBox(message = "The window containing the graph must be the needs Please first focus on the window containing the graph.\nAn ordinary mouse-click should be sufficient.", parent=tt)
+				#}
 				
 			})
 	
@@ -1143,7 +1155,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 			}
 		}
 	}
-
+	
 	tkconfigure(progress.label, text = "Vizlist")
 	tkconfigure(progress, value = "90")
 	
@@ -1189,9 +1201,9 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 				dateCreated = date(),
 				dateUpdated = "not")
 		
-			tkconfigure(progress.label, text = "Vizlist")
-			tkconfigure(progress, value = "100")
-			tkdestroy(ttp)
+		tkconfigure(progress.label, text = "Vizlist")
+		tkconfigure(progress, value = "100")
+		tkdestroy(ttp)
 		
 	}else{
 		ng <- data
