@@ -5,7 +5,8 @@ setClass(
 				toplevel = "OptionalTkwin",
 				glyphVarOrder = "OptionalCharNumNULL",
 				imgIds = "OptionalCharNULL",
-				scaled = "logical"
+				scaled = "logical",
+				geometry = "character"
 		),
 		contains = "NG_Visualization2d"
 )
@@ -13,7 +14,7 @@ setClass(
 
 
 ng_2d <- function(data, graph, images = NULL, glyphs = NULL) {
-
+	
 	if(!is(data,"NG_data")) {
 		stop("[ng_2d] data argument is not an NG_data object.")
 	}
@@ -81,11 +82,20 @@ setMethod(
 			
 			viz@toplevel <- tktoplevel()
 			
+			if(length(viz@geometry)>0) {
+				tkwm.geometry(viz@toplevel,viz@geometry)
+			}else {
+				if(exists('tk2dDefaultSize',envir = ngEnv)){
+					tkwm.geometry(viz@toplevel,ngEnv$tk2dDefaultSize)
+				}
+			}
 			
 			viz <- initRotation(viz,ngEnv)
 			tcl('set', paste("ng_data(\"",ngEnv$ng_instance,".",viz@data,".xcoord\")", sep = ''), ng_2d_xcoord(viz,ngEnv))
 			tcl('set', paste("ng_data(\"",ngEnv$ng_instance,".",viz@data,".ycoord\")", sep = ''), ng_2d_ycoord(viz,ngEnv))
 			tcl('tk_2d_display', viz@toplevel, ngEnv$ng_instance, ngEnv$ng_LinkedInstance, viz@data, viz@viz_name, !is.null(viz@imgIds), !is.null(viz@glyphVarOrder), paste('Session ', ngEnv$ng_instance,', data: ',viz@data,", graph: ",viz@graph,sep=""))
+			
+			
 			return(viz)
 		})
 
@@ -97,14 +107,14 @@ setMethod(
 			
 			## TODO: check changed plots variable
 			#if(ngEnv$changedPlots){				
-				viz <- ng_2dRotationMatrix(viz,ngEnv)			
-				tcl('set', paste("ng_data(\"",ngEnv$ng_instance,".",viz@data,".xcoord\")", sep = ''), ng_2d_xcoord(viz,ngEnv))
-				tcl('set', paste("ng_data(\"",ngEnv$ng_instance,".",viz@data,".ycoord\")", sep = ''), ng_2d_ycoord(viz,ngEnv))
+			viz <- ng_2dRotationMatrix(viz,ngEnv)			
+			tcl('set', paste("ng_data(\"",ngEnv$ng_instance,".",viz@data,".xcoord\")", sep = ''), ng_2d_xcoord(viz,ngEnv))
+			tcl('set', paste("ng_data(\"",ngEnv$ng_instance,".",viz@data,".ycoord\")", sep = ''), ng_2d_ycoord(viz,ngEnv))
 			#	ngEnv$changedPlots <- FALSE
 			#}
 			
 			tcl('update_displays',viz@toplevel, ngEnv$ng_instance, viz@data, viz@viz_name)
-
+			
 			return(viz)
 		})
 
@@ -113,8 +123,12 @@ setMethod(
 		f = "closeViz",
 		signature = "NG_Viztk2d",
 		definition = function(viz,ngEnv){
+			## first save window size
+			viz@geometry <- .tcl2str(tkwm.geometry(viz@toplevel))
+			ngEnv$tk2dDefaultSize <- viz@geometry 
+			
 			tkdestroy(viz@toplevel)
-
+			
 			t.array <- paste("ng_windowManager(\"",ngEnv$ng_LinkedInstance,".",viz@data,".ttID\")", sep = '')
 			i <- .tcl2num(.Tcl(paste('lsearch -exact $',t.array, ' ', viz@toplevel, sep = '')))
 			
@@ -124,6 +138,6 @@ setMethod(
 				warning("[closeViz] could not find toplevel window!")
 			}
 			viz@toplevel <- NULL
-
+			
 			return(viz)
 		})
