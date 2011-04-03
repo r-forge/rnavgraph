@@ -13,6 +13,8 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 		##.Tcl('set ng_windowManager ""')
 		
 	}else if(is(data, "NavGraph_handler")){
+	
+		
 		## if navgraph handler gets passed by
 		graphList <- data@graphs
 		dataList <- data@data
@@ -220,6 +222,8 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 			## weird combination of arguments passed by	
 			stop("[navGraph] if the graph argument is used, then viz argument must be used too and vice versa.")
 		}
+	
+		
 		
 		## check if data and graph names are unique
 		data_names <- sapply(dataList,FUN=function(x)x@name)
@@ -343,6 +347,12 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	## 
 	###################################################################
 	
+	
+	
+	
+	
+	
+	
 	## TODO: document linked state in vignette
 	if(as.numeric(.Tcl('info exists ng_windowManager("ngInstance")'))) {
 		ng_instance <- as.numeric(.Tcl('incr ng_windowManager("ngInstance") 1'))
@@ -358,6 +368,20 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 		ng_LinkedInstance <- ng_instance
 	}
 	
+	
+	
+	## Progress bar
+	ttp <- tktoplevel()
+	tktitle(ttp) <- paste("Session", ng_instance)	
+	tkgrab(ttp)
+	tkpack(f.progress <- tkframe(ttp, padx = 5, pady = 5))
+	
+	progress <- tkwidget(f.progress,"ttk::progressbar", orient = 'horizontal', length=200, mode='determinate')
+	tkpack(progress, side = "top", anchor = "w")
+	progress.label <- tklabel(f.progress, text = "Graph Display")
+	tkpack(progress.label, side = "top", anchor = "w")
+	
+	tkconfigure(progress, value = "10")
 	
 	
 	tt <- tktoplevel()
@@ -463,7 +487,8 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	## tk binding
 	##
 	#####################################
-	
+	tkconfigure(progress.label, text = "Define Bindings")
+	tkconfigure(progress, value = "20")
 	
 	## Buttonclick on every canvas element
 	## register it
@@ -764,6 +789,8 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 			})
 	
 	
+	tkconfigure(progress.label, text = "Load Graph")
+	tkconfigure(progress, value = "40")
 	
 	
 	##
@@ -785,6 +812,8 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	##  Visualization of data
 	##
 	## #################################
+	tkconfigure(progress.label, text = "Visualize Data")
+	tkconfigure(progress, value = "50")
 	
 	##
 	## with GGobi
@@ -880,6 +909,9 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	}else{
 		ngEnv$g <- NULL
 	}
+	
+	tkconfigure(progress.label, text = "Scale Data")
+	tkconfigure(progress, value = "70")
 	
 	
 	## Tk Canvas Scatterplot
@@ -1111,6 +1143,9 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 			}
 		}
 	}
+
+	tkconfigure(progress.label, text = "Vizlist")
+	tkconfigure(progress, value = "90")
 	
 	
 	## Make new lists: viz1, viz2, ... vizn (n = number of graphs)
@@ -1153,6 +1188,11 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 				activePathGraph = "",
 				dateCreated = date(),
 				dateUpdated = "not")
+		
+			tkconfigure(progress.label, text = "Vizlist")
+			tkconfigure(progress, value = "100")
+			tkdestroy(ttp)
+		
 	}else{
 		ng <- data
 		ng@env <- ngEnv

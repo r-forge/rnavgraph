@@ -20,7 +20,7 @@ local({
 					data = data.frame(d_low[sel,]),
 					shortnames = mapply(function(x){paste("i",x,sep="")},1:5))
 			
-			nav <- navGraph(ng.lle.frey,c("Clumpy","Outlying","Skewed","Monotonic", "Striated"),
+			nav <- scagNav(ng.lle.frey,c("Clumpy","Outlying","Skewed","Monotonic", "Striated"),
 					images=ng.frey)
 			
 		})

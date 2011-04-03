@@ -4,38 +4,38 @@ setClass(
 		representation = representation(
 				path = "character",
 				info = "character",
-				graphName = "character"
+				graph = "character"
 		),
 		validity = function(object){		
-			if(length(object@path) == length(object@info)){# && length(object@info) == length(object@graph)){
-				return(TRUE)
-			}else{
-				return(FALSE)
-			}
+			#if(length(object@path) == length(object@info)){# && length(object@info) == length(object@graph)){
+			#	return(TRUE)
+			#}else{
+			#	return(FALSE)
+			#}
 		})
-
-setMethod(f = "[",
-		signature = "NG_path",
-		definition = function(x,i,j,drop){
-			if(all(length(i)==1, j %in% c("path","info","comment","graph","all"))){
-				if( j == "all"){ ## delete element
-					return(new("NG_path", path = x@path[i], info = x@info[i], graphName = x@graphName[i]))					
-				}else if(all(i > 0,any(match(j, c("path","info","graph","comment"))))){
-					if(j == "path"){
-						return(unlist(strsplit(x@path[i],' ')))
-					}else if(j %in% c("info","comment")){
-						return(x@info[i])
-					}else if(j == "graph"){
-						return(x@graphName[i])
-					}
-					
-				}else{
-					stop("[NG_path:'[' ]: wrong indices i and j")					
-				}		
-			}
-			
-		}
-)
+#
+#setMethod(f = "[",
+#		signature = "NG_path",
+#		definition = function(x,i,j,drop){
+#			if(all(length(i)==1, j %in% c("path","info","comment","graph","all"))){
+#				if( j == "all"){ ## delete element
+#					return(new("NG_path", path = x@path[i], info = x@info[i], graphName = x@graphName[i]))					
+#				}else if(all(i > 0,any(match(j, c("path","info","graph","comment"))))){
+#					if(j == "path"){
+#						return(unlist(strsplit(x@path[i],' ')))
+#					}else if(j %in% c("info","comment")){
+#						return(x@info[i])
+#					}else if(j == "graph"){
+#						return(x@graphName[i])
+#					}
+#					
+#				}else{
+#					stop("[NG_path:'[' ]: wrong indices i and j")					
+#				}		
+#			}
+#			
+#		}
+#)
 
 setMethod(f = "show",
 		signature = "NG_path",
@@ -67,197 +67,268 @@ setMethod(f = "show",
 	return(unlist(strsplit(.parsePath(path), split = " ")))
 }
 
-
-
-## TODO: pathGui has a few bugs documented in the vignette
-## TODO: make buttons visually more pleasing
 .pathGUI <- function(ngEnv) {
-	
 	if(!is.null(ngEnv$windowManager$paths)) {
 		## bring window to front
 		tkraise(ngEnv$windowManager$paths$tt)
 	}else {
-		boldfont <- tkfont.create(weight="bold")
-		
-		##GUI
-		tt <- tktoplevel(, borderwidth = 5)  ## main tk window
-		tktitle(tt) <- tktitle(tt) <- paste("Session ", ngEnv$ng_instance,", RnavGraph Paths", sep = '')
-		ngEnv$windowManager$paths$tt <- tt
 		
 		
-		tkbind(tt, '<Destroy>', function(){
+		ttwin <- tktoplevel(borderwidth=5)
+		tktitle(ttwin) <- paste("Session ", ngEnv$ng_instance,", RnavGraph Paths", sep = '')
+		
+		ngEnv$windowManager$paths$tt <- ttwin
+		tkbind(ttwin, '<Destroy>', function(){
 					ngEnv$ngEnv$windowManager$paths <- NULL
 				})
 		
-		f.active <- tkframe(tt)#, bg = 'blue')
-		f.updown <- tkframe(tt)#, bg = 'red')
-		f.paths <- tkframe(tt)#, bg = 'green')
-		f.comments <- tkframe(tt)#, bg = 'orange')
-		tkpack(f.active, f.updown, side = "top", fill = "x")
 		
+		f.active <- tkwidget(ttwin,"labelframe",text = "Active Path:")
+		f.paths <- tkwidget(ttwin,"labelframe",text = "Saved Paths:")
+		f.comments <- tkwidget(ttwin,"labelframe",text = "Comments on the selected path:")
+		
+		tkpack(f.active, side = "top", fill = "x",pady=2)
 		tkpack(f.paths, side = "top", fill = "both", expand = TRUE)
-		tkpack(f.comments, side = "top", fill = "x")
+		tkpack(f.comments, side = "top", fill = "x",pady=2)
 		
 		## active Path
-		f.active_t <- tkframe(f.active)#, bg = 'lightblue')
-		f.active_b <- tkframe(f.active)#, bg = 'lightblue')
-		tkpack(f.active_t, f.active_b, side = "top", fill = "x", anchor = "nw")
-		
-		tkpack(tklabel(f.active_t, text = "Active Path:"), side = "left", anchor = "w")
-		entry.activePath <- tkentry(f.active_b, bg = "white", relief = "sunken", textvariable = ngEnv$activePath)
+		entry.activePath <- tkentry(f.active, bg = "white", relief = "sunken", textvariable = ngEnv$activePath)
 		tkpack(entry.activePath, side="left", expand = TRUE, fill = "x", anchor="w")
+		tkfocus(entry.activePath)
 		
-		## controls
-		b.view <- tkbutton(f.active_b, text = "V")
-		b.play <- tkbutton(f.active_b, text = "W")
-		b.record <- tkbutton(f.active_b, text = "R")
-		tkpack(b.record, b.play, b.view,tkframe(f.active_b, width = 10), side = "right", anchor = "e")
+		## walk
 		
-		## up down
-		b.up <- tkbutton(f.updown, text = "up")
-		b.down <- tkbutton(f.updown, text = "down")
-		tkpack(tkframe(f.updown,width = 5),b.up,b.down, side = "left", anchor = "w", padx = 5)
+		l.walk <- tklabel(f.active, text = "walk")# , activebackground="darkgrey")
+		normalcolor <- tkcget(l.walk,background=NULL)
+		tkbind(l.walk, '<Enter>', function(){tkconfigure(l.walk,background="darkgrey")})
+		tkbind(l.walk, '<Leave>', function(){tkconfigure(l.walk,background=normalcolor)})
+		tkbind(l.walk, '<Button-1>', function().walkPath(ngEnv, tclvalue(ngEnv$activePath)))
+		
+		
+		
+		## view
+		l.view <- tklabel(f.active, text = "view")#, activebackground="darkgrey")
+		tkbind(l.view, '<Enter>', function(){tkconfigure(l.view,background="darkgrey")})
+		tkbind(l.view, '<Leave>', function(){tkconfigure(l.view,background=normalcolor)})
+		tkbind(l.view, '<Button-1>', function().showPath(ngEnv, tclvalue(ngEnv$activePath)))
+		
+		
+		
+		## save
+		l.save <- tklabel(f.active, text = "save")# , activebackground="darkgrey")
+		tkbind(l.save, '<Enter>', function(){tkconfigure(l.save,background="darkgrey")})
+		tkbind(l.save, '<Leave>', function(){tkconfigure(l.save,background=normalcolor)})
+		
+		
+		tkpack(l.walk,l.view,l.save, side = "right", padx = "2")
+		
+		
 		
 		## Saved Paths
-		f.paths_t <- tkframe(f.paths)
-		f.paths_b <- tkframe(f.paths)
-		tkpack(f.paths_t, side = "top", fill = "both")
-		tkpack(f.paths_b, side = "top", fill = "both", expand = TRUE)
-		f.paths_b_l <- tkframe(f.paths_b)
-		f.paths_b_r <- tkframe(f.paths_b)
-		tkpack(f.paths_b_l, side = "left", fill = "both", expand = TRUE)
-		tkpack(f.paths_b_r, side = "left", fill = "y")
-		
-		tkpack(tklabel(f.paths_t, text = "Saved Paths:"), side = "left", anchor = "w", fill = "x")
-		scr <- tkscrollbar(f.paths_b_r, repeatinterval=5, command=function(...){tkyview(tl,...);tkyview(tl2,...)})
-		tl<-tklistbox(f.paths_b_l,height=12, selectmode="single", yscrollcommand=function(...)tkset(scr,...), background="white", exportselection=0)
-		tl2<-tklistbox(f.paths_b_r,height=12, width = 20, selectmode="single", yscrollcommand=function(...)tkset(scr,...), background="white", exportselection=0)
+		savedPaths <- tclVar(ngEnv$paths@path)
+#tclvalue(savedPaths) <- paths
+		scr0 <- tkscrollbar(f.paths, repeatinterval=5, command=function(...){tkyview(tl,...);tkyview(tl2,...)})
+		tl<-tklistbox(f.paths,height=12, selectmode="browse", listvariable=savedPaths, yscrollcommand=function(...){tkset(scr0,...)}, background="white", exportselection=0)
 		tkpack(tl, side="left", fill = "both", expand = TRUE)
-		tkpack(scr, side="left", fill= "y")
-		tkpack(tl2, side="left", fill="y")
+		tkpack(scr0, side="left", fill= "y")
+		
+		savedGraphs <- tclVar(ngEnv$paths@path)
+		tl2<-tklistbox(f.paths,height=12, listvariable=savedGraphs, width = 20, selectmode="browse", yscrollcommand=function(...){tkset(scr0,...)}, background="white", exportselection=0)
+		tkpack(tl2, side="right", fill = "both")
 		
 		
-		## comments
+		## saved comments
 		
-		f.comments_t <- tkframe(f.comments)
-		f.comments_b <- tkframe(f.comments)
-		tkpack(f.comments_t, f.comments_b, side = "top", fill = "x")
-		
-		tkpack(tklabel(f.comments_t, text = "Comments on the selected path"), side = "left", anchor = "w")
-		
-		b.saveComment <- tkbutton(f.comments_t, text = "save comment")
-		tkpack(b.saveComment, side = "right", anchor = "e")
-		
-		
-		scr1 <- tkscrollbar(f.comments_b, repeatinterval=5, command=function(...)tkyview(txt,...))
-		txt <- tktext(f.comments_b,bg="white",font="courier",yscrollcommand=function(...)tkset(scr1,...), width=30, height = 12, wrap="word")
+		scr1 <- tkscrollbar(f.comments, repeatinterval=5, command=function(...)tkyview(txt,...))
+		txt <- tktext(f.comments,bg="white",font="courier",yscrollcommand=function(...)tkset(scr1,...), width=30, height = 12, wrap="word")
 		tkpack(txt, side="left", fill = "x", expand = TRUE)
 		tkpack(scr1, side="left",fill="y")
 		
 		
-		## Functionality
-		.pathAdd <- function(path, graphName, info = ""){
-			## parse path delete unneeded spaces
-			path <- .parsePath(path)
-			## does Path already exist?
-			if(length(ngEnv$paths@path)>0) {
-				sel1 <- path == ngEnv$paths@path
-				sel2 <- graphName == ngEnv$paths@graphName
-				sel3 <- sel1 & sel2
-			} else {
-				sel3 <- FALSE
-			}
-			
-			if(sum(sel3) == 0) { ## graph is new
-				ngEnv$paths <- new("NG_path", path = c(ngEnv$paths@path,path),
-						graphName = c(ngEnv$paths@graphName,graphName),
-						info = c(ngEnv$paths@info,info))
-				num <- length(ngEnv$paths@path)
-				.updatePaths(num+1)
-			} else {
-				.updatePaths(which(sel3)[1])
-			}
-		}
-		
-		
-		.pathDel <- function(){
-			sel <- as.numeric(tkcurselection(tl))+1
-			if(length(sel)!=0){
-				cat("pathDel: ")
-				print(sel)
-				ngEnv$paths <- ngEnv$paths[-sel,"all"]
-				.updatePaths(sel)
-			}
-		}
-		
-		
-		.pathToActive <- function(){
-			sel <- as.numeric(tkcurselection(tl))+1
-			cat("pathToActive: ")
-			print(sel)
-			
-			tclvalue(ngEnv$activePath) <- ngEnv$paths@path[sel]
-			.updatePaths(sel)
-		}
-		
-		.saveComment <- function(){
-			sel <- as.numeric(tclvalue(tkcurselection(tl)))+1
-			ngEnv$paths@info[sel] <- tclvalue(tkget(txt,"0.0","end"))
-		}
-		
-		.updatePaths <- function(j){
-			cat(paste(".updatePaths:",j,'\n'))
-			
-			tkdelete(tl,0,"end")
-			tkdelete(tl2,0,"end")
-			sapply(ngEnv$paths@path,function(path)tkinsert(tl,"end",paste(path,collapse = " ")))		
-			sapply(ngEnv$paths@graphName,function(graph)tkinsert(tl2,"end",paste(graph,collapse = " ")))
+		## initialize
+		## TODO match active path
+		pathEnv <- environment()
+		tcl(tl,'activate',0)
+		tcl(tl,'selection','set',0)
+		tcl(tl,'see',0)
+		tcl(tl2,'activate',0)
+		tcl(tl2,'selection','set',0)
+		tcl(tl2,'see',0)
+		if(length(ngEnv$paths@path)>0){
 			tkdelete(txt, '0.0', 'end')
-			
-			if(is.na(j) || j == 0 || length(ngEnv$paths@path) == 0){
-				j <- 0
-			}else{
-				npaths <- length(ngEnv$paths@path)
-				j <- min(max(j,1),npaths)
-				## add background
-				if(ngEnv$paths@graphName[j] == ngEnv$graph@name){
-					tkconfigure(tl2,selectbackground = "green")
-				}else{
-					tkconfigure(tl2,selectbackground = "red")
-				}		
-			}
-			tkinsert(txt, "end", ngEnv$paths@info[j])
-			tkselection.set(tl,j-1)
-			tkselection.set(tl2,j-1)
+			tkinsert(txt, "end", ngEnv$paths@info[1])
 		}
+		isBrowsing <- FALSE
 		
+		## interaction
 		
-		## Functionality with GUI
-		tkconfigure(b.down, command = function().pathAdd(tclvalue(ngEnv$activePath),tclvalue(ngEnv$activePathGraph)))		
-		tkconfigure(b.up, command = function().pathToActive())	
-		tkconfigure(b.saveComment, command = function().saveComment())	
-		
-		
-		tkbind(tl, "<Button-1>",function(W,y){sel <- as.numeric(tclvalue(tcl(W,"nearest",y)))+1;.updatePaths(sel)})
-		tkbind(tl2, "<Button-1>",function(W,y){sel <- as.numeric(tclvalue(tcl(W,"nearest",y)))+1;.updatePaths(sel)})
-		
-		tkbind(tl, "<Key-Delete>",function(){.pathDel()})
-		tkbind(tl, "<Key-BackSpace>",function(){.pathDel()})
-		tkbind(tl2, "<Key-Delete>",function(){.pathDel()})
-		tkbind(tl2, "<Key-BackSpace>",function(){.pathDel()})
-		
-		tkbind(entry.activePath, "<Button-1>", function(){
-					if(tclvalue(ngEnv$activePath) %in% ngEnv$paths@path){ ## a new path
-						.updatePaths(0)
-					}else{
-						.updatePaths(sel)
+		tkbind(tl, "<<ListboxSelect>>", function(){
+					if(length(ngEnv$paths@path)>0){
+						new <- as.numeric(tkcurselection(tl))
+						tcl(tl2,'selection','clear',0,'end')
+						tcl(tl2,'activate',new)
+						tcl(tl2,'selection','set',new)
+						tcl(tl2,'see',new)
+						if(!pathEnv$isBrowsing){
+							pathEnv$isBrowsing <- TRUE
+							old <- as.numeric(tcl(tl,'index','active'))
+							pathEnv$ngEnv$paths@info[old+1] <- gsub("\n$","",tclvalue(tkget(txt,"0.0","end")))    
+						}
+						tkdelete(txt, '0.0', 'end')
+						tkinsert(txt, "end", ngEnv$paths@info[new+1])
 					}
 				})
 		
-		tkconfigure(b.view, command = function().showPath(ngEnv, tclvalue(ngEnv$activePath)))
-		tkconfigure(b.play, command = function().walkPath(ngEnv, tclvalue(ngEnv$activePath)))
+		tkbind(tl2, "<<ListboxSelect>>", function(){
+					if(length(ngEnv$paths@path)>0){
+						new <- as.numeric(tkcurselection(tl2))
+						tcl(tl,'selection','clear',0,'end')
+						tcl(tl,'activate',new)
+						tcl(tl,'selection','set',new)
+						tcl(tl,'see',new)
+						if(!pathEnv$isBrowsing){
+							pathEnv$isBrowsing <- TRUE
+							old <- as.numeric(tcl(tl2,'index','active'))
+							pathEnv$ngEnv$paths@info[old+1] <- gsub("\n$","",tclvalue(tkget(txt,"0.0","end")))        
+						}
+						tkdelete(txt, '0.0', 'end')
+						tkinsert(txt, "end", ngEnv$paths@info[new+1])
+					}
+				})
+		
+		tkbind(tl, "<ButtonRelease-1>", function(){pathEnv$isBrowsing <- FALSE})
+		tkbind(tl2, "<ButtonRelease-1>", function(){pathEnv$isBrowsing <- FALSE})
 		
 		
+		tkbind(l.save, '<Button-1>', function(){
+					.saveComment()
+					aPath <- as.character(tclvalue(ngEnv$activePath))
+					aGraph <- as.character(tclvalue(ngEnv$activePathGraph))
+					
+					isNew <- FALSE
+					
+					
+					lP <- ngEnv$paths@path %in% aPath
+					lG <- ngEnv$paths@graph %in% aGraph
+					
+					if(any(lP & lG)){
+						i <- which((lP & lG) == TRUE)[1]
+					}else {
+						isNew <- TRUE
+					}
+					
+					if(!isNew) {
+						## old Path
+						tcl(tl,'selection','clear',0,'end')
+						tcl(tl,'activate',i-1)
+						tcl(tl,'selection','set',i-1)
+						tcl(tl,'see',i-1)
+						tcl(tl2,'selection','clear',0,'end')
+						tcl(tl2,'activate',i-1)
+						tcl(tl2,'selection','set',i-1)
+						tcl(tl2,'see',i-1)
+						tkdelete(txt, '0.0', 'end')
+						tkinsert(txt, "end", ngEnv$paths@info[i])
+					}else {
+						## add new path
+						ngEnv$paths@path <- c(ngEnv$paths@path,aPath)
+						ngEnv$paths@graph <- c(ngEnv$paths@graph,aGraph)
+						ngEnv$paths@info <- c(ngEnv$paths@info,"")
+						if(length(ngEnv$paths@path) == 1) {
+							tclvalue(savedPaths) <- paste('{',ngEnv$paths@path,'}')
+							tclvalue(savedGraphs) <-  paste('{',ngEnv$paths@graph,'}')
+						}else {
+							tclvalue(savedPaths) <- ngEnv$paths@path
+							tclvalue(savedGraphs) <- ngEnv$paths@graph
+						}
+						tcl(tl,'selection','clear',0,'end')
+						tcl(tl,'selection','set','end')
+						tcl(tl,'activate','end')
+						tcl(tl,'see','end')
+						tcl(tl2,'selection','clear',0,'end')
+						tcl(tl2,'selection','set','end')
+						tcl(tl2,'activate','end')
+						tcl(tl2,'see','end')
+						tkdelete(txt, '0.0', 'end')
+					}
+				})
+		
+		
+		
+		.saveComment <- function(){
+			i <- as.numeric(tkcurselection(tl))+1
+			pathEnv$ngEnv$paths@info[i] <- gsub("\n$","",tclvalue(tkget(txt,"0.0","end")))
+			return(i)
+		}
+		
+		
+		tkbind(tl,"<Key-Delete>",function().delCurrent())
+		tkbind(tl2,"<Key-Delete>",function().delCurrent())
+		
+		tkbind(tl,"<Key-BackSpace>",function().delCurrent())
+		tkbind(tl2,"<Key-BackSpace>",function().delCurrent())
+		
+		.delCurrent <- function(){
+			i <- as.numeric(tkcurselection(tl))+1
+			if(length(i)>0){
+				ngEnv$paths@info <- ngEnv$paths@info[-i]
+				ngEnv$paths@path <- ngEnv$paths@path[-i]		
+				ngEnv$paths@graph <- ngEnv$paths@graph[-i]
+				if(length(ngEnv$paths@path) == 1) {
+					tclvalue(savedPaths) <- paste('{',ngEnv$paths@path,'}')
+					tclvalue(savedGraphs) <-  paste('{',ngEnv$paths@graph,'}')
+				}else {
+					tclvalue(savedPaths) <- ngEnv$paths@path
+					tclvalue(savedGraphs) <- ngEnv$paths@graph
+				}
+				
+				if(i > length(ngEnv$paths@path)) {
+					i <- length(ngEnv$paths@path )
+				}
+				tcl(tl,'selection','clear',0,'end')
+				tcl(tl,'selection','set',i-1)
+				tcl(tl,'activate',i-1)
+				tcl(tl2,'selection','clear',0,'end')
+				tcl(tl2,'selection','set',i-1)
+				tcl(tl2,'activate',i-1)
+				tkdelete(txt, '0.0', 'end')
+				tkinsert(txt, "end", ngEnv$paths@info[i])
+			} else {
+				tkdelete(txt, '0.0', 'end')
+			}
+		}
+		
+		
+		tkbind(tl,"<Double-Button-1>",function().save2active())
+		tkbind(tl2,"<Double-Button-1>",function().save2active())
+		
+		tkbind(tl,"<KeyPress-KP_Enter>",function().save2active())
+		tkbind(tl2,"<KeyPress-KP_Enter>",function().save2active())
+		
+		tkbind(tl,"<KeyPress-Return>>",function().save2active())
+		tkbind(tl2,"<KeyPress-Return>>",function().save2active())
+		
+		
+		
+		.save2active <- function(){
+			i <- as.numeric(tkcurselection(tl))
+			if(length(i)>0){  
+				print(i)
+				tclvalue(ngEnv$activePath) <- ngEnv$paths@path[i+1]
+				tclvalue(ngEnv$activePathGraph) <- ngEnv$paths@graph[i+1]
+#		tkdelete(txt, '0.0', 'end')
+#		tkinsert(txt, "end", comments[i+1])
+			}
+		}
+		
+		
+		
+		
+		closeWin <- function(){
+			.saveComment()
+			tkdestroy(ttwin)
+		}
+		tcl("wm", "protocol", ttwin, "WM_DELETE_WINDOW", function()closeWin())
 	}
 	
 }
@@ -315,7 +386,7 @@ setMethod(f = "show",
 .walkPath <- function(ngEnv, path) {
 	if(path != "") {
 		.isPathOnCanvas(ngEnv, path)
-
+		
 		if(length(path) == 1) {
 			nodes <- .parsePath2Vec(path)
 		}else {
@@ -324,7 +395,7 @@ setMethod(f = "show",
 		
 		n <- length(nodes)
 		#browser()
-
+		
 		
 		## first color the total path
 		for(i in 1:(n-1)) {
@@ -347,7 +418,7 @@ setMethod(f = "show",
 #			ngEnv$bulletState$from <- nodes[i]
 			ngEnv$bulletState$to <- nodes[i]
 			ngEnv$bulletState$percentage <- 0
-	
+			
 			tkitemconfigure(ngEnv$canvas, 'edge', width = ngEnv$settings@display@lineWidth)
 			
 			tkitemconfigure(ngEnv$canvas, paste('edge && ', nodes[i-1], ' && ', nodes[i]),
@@ -416,4 +487,9 @@ setMethod(f = "ng_get",
 				}
 			}
 		})
+
+
+
+
+
 
