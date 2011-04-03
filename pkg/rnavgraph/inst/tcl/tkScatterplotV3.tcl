@@ -193,6 +193,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 #    pack [frame $nav\.selection] -side top -fill x -pady 2
     pack [frame $nav\.selection.upper] -side top -fill x
     pack [frame $nav\.selection.lower] -side top -fill x -padx 4 -pady 4
+    frame $nav\.modify.activation
 
     label $nav\.selection.upper.l -text "Selection:"
     set sel_none [label $nav\.selection.upper.lnone\
@@ -201,9 +202,9 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 		     -text " all " -activebackground "darkgrey"] 
     set sel_inv [label $nav\.selection.upper.linvert\
 		     -text " invert " -activebackground "darkgrey"] 
-    set sel_deactivate [label $nav\.selection.lower.ldeactivate\
+    set sel_deactivate [label $nav\.modify.activation.ldeactivate\
 			    -text " deactivate " -activebackground "darkgrey"] 
-    set sel_reactivate [label $nav\.selection.lower.lreactivate\
+    set sel_reactivate [label $nav\.modify.activation.lreactivate\
 			    -text " reactivate " -activebackground "darkgrey"] 
 
 
@@ -367,6 +368,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
    
     ## Size
     pack [frame $nav\.modify.scale] -side top -fill x -pady 2
+    pack $nav\.modify.activation -side top -fill x -pady 5
 
     label $nav\.modify.scale.l -text "size:" 
     label $nav\.modify.scale.labs -text "abs:" 
@@ -665,7 +667,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set ngInstance [$tt\.ngInstance cget -text]
 	    update_displays $tt $ngInstance $dataName $tviz
 	    if {$ng_data("$ngLinkedInstance\.$dataName\.anyDeactivated")} {
-		$tt\.nav\.selection.lower.ldeactivate configure -state active	
+		$tt\.nav\.modify.activation.ldeactivate configure -state active	
 	    }
 	}
     }
@@ -688,7 +690,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set ngInstance [$tt\.ngInstance cget -text]	    
 	    set tviz [$tt\.viz cget -text]
 	    update_displays $tt $ngInstance $dataName $tviz
-	    $tt\.nav\.selection.lower.ldeactivate configure -state normal
+	    $tt\.nav\.modify.activation.ldeactivate configure -state normal
 	}
     }
     
