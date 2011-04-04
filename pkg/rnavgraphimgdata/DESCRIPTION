@@ -1,6 +1,6 @@
 Package: RnavGraphImgData
 Type: Package
-Title: Some large data sets
+Title: Some image data used in the RnavGraph package demos
 Version: 0.0.1
 Date: 2010-06-28
 Author: Adrian R. Waddell and Wayne R. Oldford
