@@ -24,20 +24,15 @@ ng_2d_ggobi(data, graph)
     NG_graph object.
 }
 }
-\details{
-}
+%\details{}
 \value{
   NG_Viz2D_Ggobi object that inherits from the NG_Visualization class.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+%\references{%% ~put references to the literature/web site here ~}
 \author{
 Adrian Waddell and R. Wayne Oldford
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

@@ -42,21 +42,15 @@ ng_data(name, data, shortnames = character(0), group = numeric(0), labels = char
   }
 }
 
-\details{
-  
-}
+%\details{}
 \value{
   NG_data object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+%\references{%% ~put references to the literature/web site here ~}
 \author{
   Adrian Waddell and R. Wayne Oldford
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 \seealso{
   \code{\link{navGraph}}, \code{\link{shortnames-methods}},

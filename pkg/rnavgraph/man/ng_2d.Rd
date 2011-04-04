@@ -45,15 +45,11 @@ ng_2d(data, graph, images = NULL, glyphs = NULL)
 \value{
   NG_Viztk2d object that inherits from the NG_Visualization class.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+%\references{%% ~put references to the literature/web site here ~}
 \author{
 Adrian Waddell and R. Wayne Oldford
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

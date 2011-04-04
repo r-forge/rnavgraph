@@ -21,21 +21,15 @@ scagGraph(edgeWeights, topFrac = 0.2)
     weights.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+%\details{%%  ~~ If necessary, more details than the description above ~~}
 \value{
   graph object or a list of graph objects.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+%\references{%% ~put references to the literature/web site here ~}
 \author{
   Adrian Waddell and R. Wayne Oldford
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

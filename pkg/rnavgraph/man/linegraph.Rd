@@ -15,23 +15,17 @@ linegraph(graph, sep = ":")
   \item{graph}{ Undirected graph of class \code{graph}.
 }
   \item{sep}{
-    Separates the node names of G in the node names of the new graph L(G).
+    Separates the node names of G in the node names of the new graph L(G).}
 }
-}
-\details{
-}
+%\details{}
 \value{
   graphNEL object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+%\references{% ~put references to the literature/web site here ~}
 \author{
   Adrian Waddell and R. Wayne Oldford
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 \seealso{

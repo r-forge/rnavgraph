@@ -23,8 +23,6 @@ package. Use \code{vignette("RnavGraph")}.
 }
 \author{
 Adrian Waddell and R. Wayne Oldford
-
-Maintainer: Adrian Waddell \email{adrian@waddell.ch}
 }
 \references{
   ## TODO

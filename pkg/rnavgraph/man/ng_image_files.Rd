@@ -28,21 +28,15 @@ ng_image_files(name, paths)
     A vector of image paths.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+%\details{%%  ~~ If necessary, more details than the description above ~~}
 \value{
   NG_image object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+%\references{%% ~put references to the literature/web site here ~}
 \author{
   Adrian Waddell and R. Wayne Oldford.
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

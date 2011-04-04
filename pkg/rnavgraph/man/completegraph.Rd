@@ -13,23 +13,17 @@ completegraph(nodeNames)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{nodeNames}{ Numeric or character string vector.
+  \item{nodeNames}{ Numeric or character string vector. }
 }
-}
-\details{
-}
+%\details{}
 \value{
   graphAM object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+%\references{%% ~put references to the literature/web site here ~}
 \author{
 Adrian Waddell and R. Wayne Oldford
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 \seealso{
   \code{\link{navGraph}}, \code{\link{newgraph}},

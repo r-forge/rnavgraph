@@ -4,8 +4,7 @@
 \title{
   Create a from-to edge matrix with the scagnostic weights
 }
-\description{
-}
+%\description{}
 \usage{
 scagEdgeWeights(data,
 				scags = c("Clumpy", "NotClumpy", "Monotonic", "NotMonotonic",
@@ -32,22 +31,16 @@ scagEdgeWeights(data,
   of the nodes get selected from.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+%\details{%%  ~~ If necessary, more details than the description above ~~}
 \value{
   a named list with \code{fromToEdgeMatrix} being a matrix and
   \code{nodeNames} being a vector.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+%\references{%% ~put references to the literature/web site here ~}
 \author{
   Adrian Waddell and R. Wayne Oldford
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

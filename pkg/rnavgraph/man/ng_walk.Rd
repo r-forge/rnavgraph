@@ -27,20 +27,13 @@ ng_walk(nghandler, path)
   single character string with the node names separated by a space also works.
 }
 }
-\details{
-  %%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-}
-\references{
-  %% ~put references to the literature/web site here ~
-}
+%\details{  %%  ~~ If necessary, more details than the description above ~~}
+%\value{}
+%\references{  %% ~put references to the literature/web site here ~}
 \author{
   Adrian Waddell and R. Wayne Oldford
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

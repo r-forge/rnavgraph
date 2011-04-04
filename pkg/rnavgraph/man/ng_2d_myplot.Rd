@@ -56,9 +56,7 @@ ng_2d_myplot(data, graph, fnName, device = "base", scaled = TRUE)
     (-1,-1) and (1,1).
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+%\details{%%  ~~ If necessary, more details than the description above ~~}
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
@@ -66,9 +64,7 @@ ng_2d_myplot(data, graph, fnName, device = "base", scaled = TRUE)
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+%\references{%% ~put references to the literature/web site here ~}
 \author{
   Adrian Waddell and R. Wayne Oldford
 }
