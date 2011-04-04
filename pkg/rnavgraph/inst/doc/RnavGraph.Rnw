@@ -4,7 +4,7 @@
 
 \setlength{\parindent}{0cm}
 
-\SweaveOpts{prefix=TRUE,prefix.string=a5_p}
+\SweaveOpts{prefix=TRUE,prefix.string=sweave_p}
 
 \usepackage[intlimits]{amsmath}  % AMS-Latex
 \usepackage{amssymb}             % AMS-Latex
@@ -41,7 +41,7 @@
 \subsection{Getting started}
 The \texttt{RnavGraph}  package is available from the Comprehensive R Archive Network (CRAN). We used extensively S4 classes and the Tcl and Tk API via the \texttt{tcltk} R package. Most of the visualization, both for the graph and the 2d scatterplots, build upon the Tk canvas widget.\\
 
-\texttt{RnavGraph} depends on the packages: \texttt{methods}, \texttt{graphics}, \texttt{tcltk}, \texttt{graph} and \texttt{RBGL}. However to be able to run all demos and examples we suggest to install the following packages: \texttt{Rgraphviz}, \texttt{PairViz}, \texttt{scagnostics}, \texttt{rgl}, \texttt{grid}, \texttt{MASS}, \texttt{hexbin} and, optionally, \texttt{rggobi}.   These packages are available through the CRAN and/or Bioconductor R repositories. \\
+\texttt{RnavGraph} depends on the packages: \texttt{methods}, \texttt{graphics}, \texttt{tcltk}, \texttt{graph} and \texttt{RBGL}. However to be able to run all demos and examples we suggest to install the following packages: \texttt{Rgraphviz}, \texttt{PairViz}, \texttt{scagnostics}, \texttt{rgl}, \texttt{grid}, \texttt{MASS}, \texttt{hexbin}, \texttt{RDRToolbox} and, optionally, \texttt{rggobi}.   These packages are available through the CRAN and/or Bioconductor R repositories. \\
 
 Once the package and all of its dependencies have been installed,  \texttt{RnavGraph} is loaded using
 <<echo=TRUE>>=
@@ -61,6 +61,8 @@ The source code of these demos can be found in the system directory shown in the
 <<echo=TRUE,eval=FALSE>>=
 system.file("demo", package="RnavGraph")
 @ 
+Many of the demos require data from the \texttt{RnavGraphImgData} package also written by us.\\
+
 All said, though, this vignette should itself provide the best introduction to \texttt{RnavGraph} and its full functionality.
 \subsection{A simple example}
 We start with a simple example, using the famous Anderson Iris data, to quickly introduce the
@@ -74,7 +76,7 @@ ng.iris <- ng_data(name = "iris", data = iris[,1:4],
                    labels = substr(iris$Species,1,2))
 @
 As the name suggests, \texttt{ng\_data} sets up a ``navgraph'' or ``ng'' data object (more on this later). 
-Its  \texttt{data} argument takes a \texttt{data.frame} identifying the numeric variables to be explored.  The Iris data consists of measurements of the \texttt{Sepal.Length}, \texttt{Sepal.Width}, \texttt{Petal.Length}, and  \texttt{Petal.Width} on 50 flowers of each of three \texttt{Species} of Iris. (The above construction uses the argument \texttt{shortnames}, instead of the variable names, just to give more compact labelling in the subsequent displays.) \\
+Its  \texttt{data} argument takes a \texttt{data.frame} identifying the numeric variables to be explored.  The Iris data consists of measurements of the \texttt{Sepal.Length}, \texttt{Sepal.Width}, \texttt{Petal.Length}, and  \texttt{Petal.Width} on $50$ flowers of each of three \texttt{Species} of Iris. (The above construction uses the argument \texttt{shortnames}, instead of the variable names, just to give more compact labelling in the subsequent displays.) \\
 
 The Iris data provides a set of 150 points in a four-dimensional space; our objective is to visually explore the structure of this data.  To begin this exploration, we simply call \texttt{navGraph} on the prepared data.
 <<eval=FALSE>>=
@@ -86,7 +88,9 @@ navGraph(ng.iris, settings=list(defaultDisplay = "ggobi"))
 @ 
 Either of these calls will produce a {\em navigation graph} (or {\em navgraph} for short) as shown in
 Figure \ref{fig:session1}(a)
-\begin{figure}[h]
+
+
+\begin{figure}[h]   
   \centering
   \begin{tabular}{cc}
   \includegraphics[width = 2.0in]{img/Iris3Dgraph.png} &
@@ -95,7 +99,7 @@ Figure \ref{fig:session1}(a)
   {\small (b) The associated display: 2D plot}\\
   \end{tabular}
   \caption{navGraph on the Anderson Iris data.}
-  \label{fig:session1}
+\label{fig:session1}
 \end{figure}
 and a ``visualization'' such as that of Figure  \ref{fig:session1}(b).
 Here, Figure  \ref{fig:session1}(b) is a \texttt{2D} display, native to \texttt{navGraph}, as produced by the first of the above \texttt{navGraph} calls (the second call would produce a \texttt{ggobi} session instead).   
@@ -125,7 +129,7 @@ The effect is made more apparent by explicitly choosing the entire path in advan
 a path of your choice.  The path will be highlighted as you go.  Double-click for the final destination
 and the bullet will immediately start to walk the path you have identified.  This will allow you to focus on the movement in the scatterplot display as the path is walked.\\
 
-Having just walked a path, you might care to re-run it.  To do so, choose the ``Tools'' menu on the navgraph display and select the menu item ``Paths''.  A new window will open where the path just walked is recorded as the ``Active Path''.   This path may be viewed on the navgraph by pressing the ``view'' or ``v'' button, or walked again by pressing the ``walk'' or ``w'' button.  The active path may also be saved by pushing the ``down'' button and, once saved, made active again by selecting the path in the list of saved paths and pushing the ``up'' button.   It is also possible to select paths and type in comments related to the selected path.  In this way, the user can record interesting paths, describe the interesting features found, and walk them again at a later date.  Simply close the paths display when finished.\\
+Having just walked a path, you might care to re-run it.  To do so, choose the ``Tools'' menu on the navgraph display and select the menu item ``Paths''.  A new window will open where the path just walked is recorded as the ``Active Path''.   This path may be viewed on the navgraph by pressing the ``view'' button, or walked again by pressing the ``walk'' button.  The active path may also be saved by pushing the ``save'' button and, once saved, made active again by double-clicking on the path in the list of saved paths.  It is also possible to select paths and type in comments related to the selected path.  In this way, the user can record interesting paths, describe the interesting features found, and walk them again at a later date.  Simply close the paths display when finished.\\
 
 (The graphical user interface is described later in much more detail.)
 
@@ -137,9 +141,9 @@ In the Iris example just considered, the nodes of Figure \ref{fig:session1}(a) a
  a rigid rotation through a three dimensional subspace from one two-dimensional space (or scatterplot) to another.   Because the edges are restricted in this way, Hurley and Oldford (2011) call such a graph, a  {\em 3D transition graph}.\\
 
 The {\em complement} of a 3D transition graph is the graph having the same nodes but with edges
-appearing only between nodes that have {\bf no} variates in common.  That is only those edges missing between nodes in Figure \ref{fig:sesssion1}(a) will appear in its complement.  Hurley and Oldford (2011) call this graph the corresponding {\em 4D transition graph}. \\
+appearing only between nodes that have {\bf no} variates in common.  That is only those edges missing between nodes in Figure \ref{fig:session1}(a) will appear in its complement.  Hurley and Oldford (2011) call this graph the corresponding {\em 4D transition graph}. \\
 
-In our Iris example, choosing the ``Graph'' menu from the navgraph display of Figure \ref{fig:sesssion1}(a) gives a menu of graphs to choose from.  Selecting the menu item ``iris: 4D'' will
+In our Iris example, choosing the ``Graph'' menu from the navgraph display of Figure \ref{fig:session1}(a) gives a menu of graphs to choose from.  Selecting the menu item ``iris: 4D'' will
 cause the 4D transition graph to be displayed in place of the 3D transition graph and will also update the
 scatterplot display.   \\
 
@@ -157,7 +161,7 @@ For example, if we consider again the Iris data with $p=4$ variates and assume t
 the leftmost graph of Figure \ref{LLGLGNOT} (where \textit{A = Sepal.Length, B = Sepal.Width, C = Petal.Length, D = Petal.Width}).
 \begin{figure}[h]
   \centering
-  \includegraphics[width = 0.9 \textwidth]{lg.jpg}
+  \input{lg.tex}% \includegraphics[width = 0.9 \textwidth]{lg.jpg}
   \caption{Complete graph $G$ with the individual variables as nodes. Line graph $L(G)$ which is equivalent to the 3d-transition graph. $\overline{L(G)}$ the 4d transition graph.}
   \label{LLGLGNOT}
 \end{figure}
@@ -173,7 +177,8 @@ Figure \ref{fig:prduct} shows these, and other, graph products.
 \begin{figure}[h]
   \begin{tiny}
     \begin{center}
-      \includegraphics[width =  \textwidth]{products.jpg}
+      %\includegraphics[width =  \textwidth]{products.jpg}
+      \input{products.tex}
     \end{center}  
   \end{tiny}  
   \caption{Graph products}
@@ -296,7 +301,7 @@ This is what we did in the introductory example.\\
 \subsubsection{The simple example, in detail.}
 In the Iris data example, we simply relied on \texttt{RnavGraph} to fill in the details.
 Now, we revisit this example; this time filling in the details so as to demonstrate the fine control
-over graphs, data, and visualization instructions which \texttt{RnavGraph} offers to the user.
+over graphs, data, and visualization instructions which \texttt{RnavGraph} offers to the user.\\
 
 The following code may also be found in the \texttt{ng\_2d\_iris} demo.
 
@@ -364,7 +369,6 @@ ng.test <- ng_data("test", data = data.frame(a = c("A","B","C","B")))
 try(ng.test <- ng_data("test", data = data.frame(a = c("A","B","C","B"))))
 @ 
 
-\modify{Sweave does not show the complete error message...}\\
 
 The \texttt{name} argument takes a string which must be unique between all \texttt{NG\_data} objects passed on to \texttt{navGraph}. \texttt{navGraph} will, based on the data- and graph- names, link graph and data via the visualization instructions. A minimal working \texttt{NG\_data} object can be created with
 <<>>=
@@ -429,7 +433,7 @@ This produces a rectangular grid of $900$ points where each point has a differen
 nav <- navGraph(ng.test)
 @ 
 
-The output of \texttt{navGraph} is shown in figure \ref{fig:tk2dCols}. \texttt{navGraph} matches the first nine groups to the colors shown in its brushing menu and the rest to the colors returned by the R function \texttt{colors()}.{\modify{We will change this to something more sensible!}} Note that \texttt{navGraph} only distinguishes between as many groups as \texttt{colors()} knows colors. If more groups exist, the remaining points get mapped to the first color in the brushing menu.
+The output of \texttt{navGraph} is shown in figure \ref{fig:tk2dCols}. \texttt{navGraph} matches the first nine groups to the colors shown in its brushing menu and the rest to the colors returned by the R function \texttt{colors()}. Note that \texttt{navGraph} only distinguishes between as many groups as \texttt{colors()} knows colors. If more groups exist, the remaining points get mapped to the first color in the brushing menu.
 
 \begin{figure}[h]
   \label{fig:tk2dCols}
@@ -593,7 +597,7 @@ G <- completegraph(V)
 LG <- linegraph(G, sep = '::')
 nodes(LG)
 @   
-\modify{Notice, if G had edge weights, then they are lost now... (due to the nature of the \texttt{linegraph} function.)}
+\modify{Notice, if G had edge weights, then they are lost now. Also the line graph is only defined for undirected graphs at the moment.}
 
 
 
@@ -622,7 +626,7 @@ plot(ng.LGnot)
 @ 
 \end{center}
 
-As for the \texttt{NG\_data} object, you can access or modify \modify{elements} with the \texttt{ng\_get} and \texttt{ng\_set} function, respectively.
+As for the \texttt{NG\_data} object, you can access or modify with the \texttt{ng\_get} and \texttt{ng\_set} function, respectively.
 <<>>=
 ng_get(ng.LG)
 ng_set(ng.LG, "name") <- "3d transition graph"
@@ -630,9 +634,9 @@ ng_set(ng.LG, "name") <- "3d transition graph"
 \modify{Careful, some things are linked: graph, visitedEdges and layout. Changing one should affect the whole object (which it does not at the moment)}.
 
 \section{Visualization Instructions}
-Once the \texttt{NG\_data} and \texttt{NG\_graph} objects have been defined, they have to be connected with some visualization instructions. That is, the visualization instructions tell \texttt{navGraph} what and how \texttt{navGraph} should visualize when the ball gets moved along the edges of the graph. Conceptually, \texttt{navGraph} allows for any visualization of the data, as long the user can implement them. That is, there are no constrains to dimensionality of data represented by a node or the ``morphing'' defined along an edge \modify{currently only accessible to the package developers, but feature will be introduced at a later stage}. However the \texttt{RnavGraph} package implements the 2d-scatterplot example \modify{for the moment} and provides an interface for the user to implement their own --possibly new-- ideas.\\
+Once the \texttt{NG\_data} and \texttt{NG\_graph} objects have been defined, they have to be connected with some visualization instructions. That is, the visualization instructions tell \texttt{navGraph} what and how \texttt{navGraph} should visualize when the ball gets moved along the edges of the graph. Conceptually, \texttt{navGraph} allows for any visualization of the data, as long the user can implement them. That is, there are no constrains to dimensionality of data represented by a node or the ``morphing'' defined along an edge. \modify{This feature is not documented yet, however you can achieve this with the \texttt{ng\_2d\_myplot} function}. However the \texttt{RnavGraph} package implements the 2d-scatterplot example \modify{for the moment} and provides an interface for the user to implement their own --possibly new-- ideas.\\
 
-For the 2d- scatterplot example, we need a device that plots some objects at the $x$ and $y$ euclidean coordinate. The objects could be either dots, images, glyphs, text or anything else you can imagine (and implement). There are many plotting devices available in \texttt{R} (e.g. traditional graphics, grid, rgl and ggobi) and \texttt{navGraph} can deal with most of them. However when it comes to speed and \modify{double buffering}, only few of them produce satisfactory output. In addition, different devices allow for different objects to be plotted. \modify{We have implemented a new device, lets call it \texttt{tk2d},} that builds upon the tk canvas widget (so does the interactive graph). Alternatively to \texttt{tk2d} one can use the \texttt{rggobi} package and \texttt{ggobi} to visualize the scatterplots. \texttt{ggobi} however does only allow to visualize dots, rectangles and \modify{crosses} in different colors. Ggobi has an advantage over \texttt{tk2d} when it comes to visualizing large data sets \modify{maybe, I have re-written the canvas updating functions in C}. \texttt{Ggobi} has not been maintained for a while and hence does not run well on \modify{all to my knowledge?} current operating systems. For what follows, we will give a detailed explanation of each device. \modify{Most likely you only want to read the \texttt{tk2d} and \texttt{ggobi} subsection and then return to this section once you have more custom needs}. 
+For the 2d- scatterplot example, we need a device that plots some objects at the $x$ and $y$ euclidean coordinate. The objects could be either dots, images, glyphs, text or anything else you can imagine (and implement). There are many plotting devices available in \texttt{R} (e.g. traditional graphics, grid, rgl and ggobi) and \texttt{navGraph} can deal with most of them. However when it comes to speed and \modify{double buffering}, only few of them produce satisfactory output. In addition, different devices allow for different objects to be plotted. \modify{We have implemented a new device, lets call it \texttt{tk2d},} that builds upon the tk canvas widget (so does the interactive graph). Alternatively to \texttt{tk2d} one can use the \texttt{rggobi} package and \texttt{ggobi} to visualize the scatterplots. \texttt{ggobi} however does only allow to visualize dots, rectangles and \modify{crosses} in different colors. \texttt{Ggobi} has not been maintained for a while and hence does not run well on \modify{all to my knowledge?} current operating systems. For what follows, we will give a detailed explanation of each device. \modify{Most likely you only want to read the \texttt{tk2d} and \texttt{ggobi} subsection and then return to this section once you have more custom needs}. 
 
 
 \subsection{\texttt{tk2d}}
@@ -725,7 +729,7 @@ The \texttt{tk2d} device can either display dots, images, glyphs or text (string
 
 \end{tikzpicture}
 \end{center}
-  \caption{\texttt{tk2d} can visualize dots, images, glyphs and text \modify{out of the box}.}
+  \caption{\texttt{tk2d} can visualize dots, images, glyphs and text.}
   \label{fig:tk2d}
 \end{figure}
 
@@ -791,7 +795,7 @@ which would yield something like (it's random because of the sampling!)
 \begin{center}
   \includegraphics[width = 5cm]{img/tk2dimages1.png}
 \end{center}
-where the scroll bar can be used to navigate through all the images. The name you specified does not have to be unique since here the image ids are the only important part. \modify{The name is only used for the \texttt{print} output of the \texttt{NG\_image} object}. We also need data on the images. Many scenario are possible, i.e. we could have measured data for each image or we could perform some kind of feature extraction for each image or we reduce the dimensionality (number of pixel) of each image to something manageable, say $4$ or $5$ dimension --rather than the commonly conveniently chosen two dimensions--. For the rest of this vignette, we choose the dimensionality reduction approach using isomap \modify{cite} provided in the \texttt{vegan} R package. 
+where the scroll bar can be used to navigate through all the images. The name you specified does not have to be unique since here the image ids are the only important part. \modify{The name is only used for the \texttt{print} output of the \texttt{NG\_image} object}. We also need data on the images. Many scenario are possible, i.e. we could have measured data for each image or we could perform some kind of feature extraction for each image or we reduce the dimensionality (number of pixel) of each image to something manageable, say $4$ or $5$ dimension --rather than the commonly conveniently chosen two dimensions--. For the rest of this vignette, we choose the dimensionality reduction approach using isomap provided in the \texttt{vegan} (or also by the \texttt{RDRToolbox}) R package. 
 <<>>=
 library(vegan)
 @ 
@@ -833,7 +837,7 @@ Starting a \texttt{navGraph} session is simple (but in more detail discussed lat
 <<eval=FALSE>>=
 nav <- navGraph(data = ng.iso.digits, graph = list(ng.LG, ng.LGnot), viz = list(vizDigits1, vizDigits2))
 @ 
-\modify{et voila:}
+
 
 \begin{center}
 \includegraphics[width = 0.6 \textwidth]{img/imageDigits.png}  
@@ -940,7 +944,7 @@ and you should expect to see something like
   
   
 \subsubsection{Working with Star Glyphs}
-A star glyph is a visual representation of one data entity. If the entity has p-dimensional data associated, say $x_{i} = (x_{11},x_{12},..., x_{1p})$, a star glyph then maps the outcome ... \modify{explain... later ...length of evenly spaced rays emanating from center}...\\ 
+A star glyph is a visual representation of one data entity. If the entity has p-dimensional data associated, say $x_{i} = (x_{11},x_{12},..., x_{1p})$, the glyph gets constructed as the following graphic outlines:
 
 \begin{center}
   \begin{tikzpicture}
@@ -1033,7 +1037,7 @@ A star glyph is a visual representation of one data entity. If the entity has p-
 <<>>=
 vizGlyph1 <- ng_2d(data = ng.iris, graph=ng.lg, glyph=names(ng.iris)[c(1,2,3,4,3,2,3,4,1)])
 vizGlyph2 <- ng_2d(data = ng.iris, graph=ng.lgnot, glyph=shortnames(ng.iris)[c(1,2,3,4,3,2,3,4,1)])
-vizGlyph1
+vizGlyph2
 @ 
 Note that you can either use the \texttt{shortnames} or the \texttt{names} to define the glyph sequence. It stays to call \texttt{navGraph}
 <<eval=FALSE>>=
@@ -1071,13 +1075,31 @@ nav <- navGraph(ng.iris, settings=list(defaultDisplay = "ggobi"))
 %The \texttt{RnavGraph} package allows for additional specific visualization instructions. If you are new to \texttt{navGraph}, you likely should skip this part and move on to the section ``Starting a navGraph Session''. We first initialize the \texttt{iris} data again
 
 \subsubsection{traditional graphic device}
-If you want to create your own visualization from scratch instead of using for example the \texttt{tk2d} display, you can define a display function that takes x,y, col and label argument. \modify{This should in future also take an order argument to see the 3d movements better}. Let's give an example with the traditional graphic device. First of all, a plotting function is needed
+If you want to create your own visualization from scratch instead of using for example the \texttt{tk2d} display, you can define a display function that takes any subset of the following as arguments\\
+\begin{center}
+ 
+\begin{tabular}{lp{10cm}}
+    \textbf{argument} & \textbf{description}\\ \hline
+    x & x-coordinate \\
+    y & y-coordinate \\
+    group & group slot from \texttt{NG\_data} object\\
+    labels & labels slot from \texttt{NG\_data} object\\
+    order & order of points. In 3d rigid rotation, the order increases with the distance  of a the point from the viewer.\\
+    from & node name the bullet moves from\\
+    to & node name the bullet moves to\\
+    percentage & in between percentage of bullet\\
+    data & data name of \texttt{NG\_data} object  
+\end{tabular}
+\end{center}
+
+\vspace{1em}
+Let's give an example with the traditional graphic device. First of all, a plotting function is needed
 <<>>=
-myPlot <<- function(x,y,group,labels,order) {
+myPlot <<- function(x,y,group,labels) {
   plot(x,y,col = group, pch = 19)
 }
 @ 
-\modify{note the order argument does not work correctly at the moment.}\\
+\modify{note that the order argument only gives an order while the bullet is traversing a 3d rotation (no order at a node).}\\
 then, a visualization instruction has to be defined using \texttt{ng\_2d\_myplot}
 <<>>=
 viz1 <- ng_2d_myplot(ng.iris,ng.lg,fnName = "myPlot" ,device = "base")
@@ -1377,39 +1399,32 @@ ng_walk(nav,c("s.L:s.W","s.L:p.L","p.L:p.W","s.L:p.W"))
 
 Theoretically, the navGraph handler can be saved using \texttt{save} and restored in a new R session using the \texttt{load} command. However we recommend to initialize a new \texttt{navGraph} session from  scratch if possible.\\
 
-If a \texttt{ggobi} and \texttt{tk2d} display show the same data, then the \texttt{ng\_update} function will ask you whether you want to save the grouping of the \texttt{tk2d} or \texttt{ggobi} display.\\
+If a \texttt{ggobi} and \texttt{tk2d} display show the same data, then the \texttt{ng\_update} function will ask you whether you want to save the grouping of the \texttt{tk2d} or \texttt{ggobi} display.
 
-\modify{The brushing colors in \texttt{tk2d} don't get saved. Paths objects can be passed on to the \texttt{navGraph} function.}
 
 
 \subsection{The \texttt{tk2d} Display}
 The \texttt{tk2d} display was programmed by us for the \texttt{RnavGraph} package. It accommodates displaying dots, images, glyphs and text. It also provides the user with a lot of interactivity possibilities such as brushing, zooming and resizing of the window. Further if for a particular graph two \texttt{tk2d} windows display the same data, then the data points are linked between the windows. This means that if you for example change the color and size of some points on one display, the same points in the other window also change color and size.\\
 
 
-A slightly simplified \texttt{tk2d} display looks as follows
-
-\newcommand{\datap}{-0.8/0.5/2/violet,-0.7/0.6/2/violet,-0.56/0.36/2/violet,-0.4/0.7/2/violet,-.3/0.5/2/violet,0.2/0.3/2/red,0.3/0.5/2/red,0.5/0.7/2/red,0.43/0.34/2/red,0.54/0.55/2/red,0.6/0.12/2/red,0.33/0.16/2/red,0.49/-0.1/2/red,0.23/-.21/2/red, 0.61/-0.32/2/red,-0.5/-0.52/2/green,-0.4/-.83/2/green,-0.4/-0.35/2/green,-.58/-0.73/2/green,-0.72/-0.46/2/green,-0.23/-.69/2/green}
-
-\renewcommand{\ww}{9}
-\renewcommand{\wh}{6}
-
-
-
-{\fontsize{11pt}{20pt}
+The \texttt{tk2d} window for the iris data looks as follows
 \begin{center}
- \input{tikz_tk2d_main.tex} 
+  \includegraphics[width = 0.7 \textwidth]{img/Iris2D.png}
 \end{center}
-}
+
 The display is designed to be intuitive. So getting familiar with it should not pose any big problems. 
 
 \subsubsection{Zooming and Moving the viewing region}
-The \texttt{tk2d} displays the data always twice, in the ``main view'' on the left and in the ``map view'' or ``world view'' in the upper right corner. The ``map view'' in the upper right corner always displays all your data points and provides as its name suggest a map to your current view. The ``main view'' allows the user to zoom in and out and brush points. The zoom factor of the ``main view'' is displayed above the map view. The mouse scroll wheel is used to zoom in and out either while the mouse is placed within the ``map view'' or ``main view''. If the user zooms in or out in the ``main view'' the center of zooming is where the mouse curser points at, where in the ``map view'' the zooming center is always in the middle of the viewing rectangle. When you zoom in, your current view at the data is shown in the ``map view'' with a rectangle of the same color as background color of the ``main view''.\\
+The \texttt{tk2d} displays the data always twice, in the ``main view'' on the left and in the ``world view'' in the upper right corner. The ``world view'' in the upper right corner always displays all the data points and provides as its name suggest a view of ``your whole data world''. The ``main view'' allows the user to zoom in and out, brush points and deactivate and reactivate points. The zoom factor of the ``main view'' is displayed above the map view. The mouse scroll wheel is used to zoom in and out either while the mouse is placed within the ``world view'' or ``main view''. If the user zooms in or out in the ``main view'' the center of zooming is where the mouse cursor points at, where in the ``world view'' the zooming center is always in the middle of the viewing rectangle. When you zoom in, your current view at the data is shown in the ``world view'' with a rectangle of the same color as background color of the ``main view''.\\
 
-If zoomed in, you can move your current view in the ``main view'' by pressing the mouse button and dragging your view to the desired place. In the ``map view''
- you can just drag and drop the viewing rectangle. Note that moving in the ``main view'' is just enabled if the brush is disabled.
+If zoomed in, you can move your current view in the ``main view'' by pressing the right mouse button and dragging your view to the desired place. In the ``world view'' you can just drag and drop the viewing rectangle (left mouse button).
  
  \subsubsection{Brushing and Selecting}
-The \texttt{tk2d} display allows to change the color and size of each object since size and color are the only two convenient attributes that are shared between points, glyphs, images and text. \modify{Currently the text size however does not change!}. You can select points \modify{objects} only in the ``main view'' by either selecting and deselecting them with a left mouse click while the Shift key is pressed or by using the brush tool. When you check the brush checkbox, a gray rectangle appears in the upper right corner. You can resize the brush rectangle by dragging the solid rectangle on its right lower corner. You can move the rectangle by clicking anywhere in the ``main view'' and the brush rectangle jumps to your mouse cursor and also moves with it while your mouse button is still pressed. By default, the points below the brush rectangle don't get brushed permanently. If you want to brush permanently you need to press the shift key while brushing. Points can only be deselected individually by clicking on them with the shift key pressed, or all together by pressing the non button. 
+The \texttt{tk2d} display allows to change the color, size and hiding (deactivate) of each object. We use size and color since they are (the only) two attributes that are shared between points, glyphs, images and text. \modify{Currently the text size however does not change!}. You can select points \modify{objects} only in the ``main view'' by either selecting and deselecting them with a left mouse click or by using the brush tool. Selecting them with a mouse click deselects the previously with a mouse click selected point. If you want to select points permanently you need to press the Shift key. When you check the brush checkbox, a gray rectangle appears in the upper right corner. You can resize the brush rectangle by dragging the solid rectangle on its right lower corner. You can move the rectangle by clicking anywhere in the ``main view'' and the brush rectangle jumps to your mouse cursor and also moves with it while your mouse button is still pressed. By default, the points below the brush rectangle don't get brushed permanently. If you want to brush permanently you need to press the Shift key while brushing. Points can only be deselected individually by clicking on them with the shift key pressed, or all together by pressing the non button.
+
+\subsubsection{Deactivating and Reactivating points}
+Once you have grouped a set of points by assigning them different color and size, you might want to hide them so you can group the rest of the points without the distraction of the already grouped points. You can do this by selecting these points and then press ``deactivate'' in the modify menu. The button will then stay highlighted to indicate that not all the data is shown. You can deactivate different data points in multiple steps by selecting them and repeatedly pressing the ``deactivate'' button. Once you press the ``reactivate'' button all point will appear again.
+
 
  \subsubsection{Changing Color and Size}
 Once you have some points selected, you can change their size and color. You can change the size of the points immediately pressing the ``abs'' or ``rel'' + or -. The \texttt{tk2d} gives each object a size attribute. absolute (abs) resizing changes all selected objects to the minimum of the object's sizes plus or minus one size. The relative (rel) resizing increments or decrements all sizes by one. If you were to select five objects with the sizes $\{2,3,3,4,6\}$ and press the rel - button, your new sizes would be $\{1,2,2,3,5\}$ and if you were to press the rel - button again you would get $\{0,1,1,2,5\}$. \modify{Note that you can get negative sizes which theoretically would not show on the ``main view'' anymore, we chose however to display them with minimal possible display size. This might be confusing at the beginning}. If you have a set of points selected with the sizes $\{2,3,3,4,6\}$ and you were to press the abs + button you would get $\{3,3,3,3,3\}$ or the abs - button you would get $\{1,1,1,1,1\}$. Size changes take effect immediately.\\
@@ -1578,7 +1593,7 @@ Now start \texttt{navGraph}
 <<eval = FALSE>>=
 nav <- navGraph(ng.olive, graphList)
 @ 
-\modify{Currently only picks up the first graph}.
+%\modify{Currently only picks up the first graph}.
 
 \section{Example sessions on different data}
 In this last section, we will give example code for \texttt{navGraph} sessions using different well known data sets. Some of them are provided by the \texttt{MASS} library

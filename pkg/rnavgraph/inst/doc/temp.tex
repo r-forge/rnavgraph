@@ -2,6 +2,8 @@
 
 \usepackage[margin = 0.75in]{geometry} 
 
+\usepackage{amssymb,amsmath}
+
 \setlength{\parindent}{0cm}
 
 
@@ -470,6 +472,145 @@
  \end{tikzpicture}
 \end{center}
 
+\newpage
 
+\begin{tikzpicture}
+[node/.style={shape = circle, fill=black,inner sep = 3pt},
+edge/.style={line width=2pt}]
+\def\radius{1}
+\begin{scope}
+  \coordinate (A) at (135:\radius);
+  \coordinate (B) at (45:\radius);
+  \coordinate (C) at (-45:\radius);
+  \coordinate (D) at (-135:\radius);
+  
+  \draw [-,edge] (A) -- (C);
+    \draw [-,edge] (B) -- (D);
+  \draw [-,edge] 
+  (A) node [node,label=above left:{\scriptsize A}] {} -- 
+  (B) node [node,label=above right:{\scriptsize B}] {} --
+  (C) node [node,label=below right:{\scriptsize C}] {} --
+  (D) node [node,label=below left:{\scriptsize D}] {} -- (A);
+
+  \node at (0,-2.7) {$G$};
+\end{scope}
+
+\def\radius{1.414214}
+\begin{scope}[shift={(5,0)}]
+  \coordinate (AB) at (90:\radius);
+  \coordinate (AD) at (150:\radius);
+  \coordinate (AC) at (210:\radius);
+  \coordinate (CD) at (270:\radius);
+  \coordinate (BC) at (330:\radius);
+  \coordinate (BD) at (30:\radius);  
+
+  \draw [-,edge] (AD) -- (BD) -- (CD) -- cycle;
+  \draw [-,edge] (AB) -- (AC) -- (BC) -- cycle;
+  \draw [-,edge] 
+  (AB) node [node,label=above:{\scriptsize AB}] {} -- 
+  (AD) node [node,label=above left:{\scriptsize AD}] {} --
+  (AC) node [node,label=below left:{\scriptsize AC}] {} --
+  (CD) node [node,label=below:{\scriptsize CD}] {} -- 
+  (BC) node [node,label=below right:{\scriptsize BC}] {} -- 
+  (BD) node [node,label=above right:{\scriptsize BD}] {} -- (AB);
+  \node at (0,-2.7) {$L(G)$};
+\end{scope}
+
+
+\def\radius{1.414214}
+\begin{scope}[shift={(11,0)}]
+  \coordinate (AB) at (90:\radius);
+  \coordinate (AD) at (150:\radius);
+  \coordinate (AC) at (210:\radius);
+  \coordinate (CD) at (270:\radius);
+  \coordinate (BC) at (330:\radius);
+  \coordinate (BD) at (30:\radius);  
+
+  \draw [-,edge] 
+  (AB) node [node,label=above:{\scriptsize AB}] {} -- 
+  (CD) node [node,label=below:{\scriptsize CD}] {};
+  \draw [-,edge] 
+  (AD) node [node,label=above left:{\scriptsize AD}] {} --
+  (BC) node [node,label=below right:{\scriptsize BC}] {};
+  \draw [-,edge] 
+  (AC) node [node,label=below left:{\scriptsize AC}] {} --
+  (BD) node [node,label=above right:{\scriptsize BD}] {};
+  \node at (0,-2.7) {$\overline{L(G)}$};
+\end{scope}
+
+
+\end{tikzpicture}
+
+
+
+\begin{tikzpicture}
+  [node/.style={shape = circle, fill=black,inner sep = 3pt},
+edge/.style={line width=2pt}]
+
+\begin{scope}
+  \coordinate (U1) at (0,2);
+  \coordinate (U2) at (0,1);
+  \coordinate (U3) at (0,0);
+  \coordinate (V1) at (1,0.4);
+  \coordinate (V2) at (2,0.4);
+
+ \draw [-,edge] 
+  (U1) node [node,label=left:{\scriptsize $U_1$}] {} --
+  (U2) node [node,label=left:{\scriptsize $U_2$}] {} --
+  (U3) node [node,label=left:{\scriptsize $U_3$}] {};
+  
+ \draw [-,edge] 
+  (V1) node [node,label=below:{\scriptsize $V_1$}] {} --
+  (V2) node [node,label=below:{\scriptsize $V_2$}] {};  
+
+\node at (0,-1) {$G$};
+\node at (1.5,-1) {$H$};
+\end{scope}
+
+
+\newcommand{\GP}{
+  \coordinate (U1V1) at (0,2);
+  \coordinate (U2V1) at (0,1);
+  \coordinate (U3V1) at (0,0);
+  \coordinate (U1V2) at (1,2);
+  \coordinate (U2V2) at (1,1);
+  \coordinate (U3V2) at (1,0);
+  
+  \node at (U1V1) [node,label=left:{\scriptsize $<U_1,V_1>$}] {};
+  \node at (U2V1) [node,label=left:{\scriptsize $<U_2,V_1>$}] {};
+  \node at (U3V1) [node,label=left:{\scriptsize $<U_3,V_1>$}] {};
+  \node at (U1V2) [node,label=right:{\scriptsize $<U_1,V_2>$}] {};
+  \node at (U2V2) [node,label=right:{\scriptsize $<U_2,V_2>$}] {};
+  \node at (U3V2) [node,label=right:{\scriptsize $<U_3,V_2>$}] {};
+}
+\begin{scope}[shift={(8,0)}]
+  \GP
+
+\draw [-,edge] (U1V1) -- (U3V1) -- (U3V2) -- (U1V2) -- cycle;
+\draw [-,edge] (U2V1) -- (U2V2);
+
+\node at (0.5,-1) {Cartesian product: $G \square H$};
+\end{scope}
+
+\begin{scope}[shift={(0,-5)}]
+  \GP
+\draw [-,edge] (U1V1) -- (U2V2) -- (U3V1);
+\draw [-,edge] (U1V2) -- (U2V1) -- (U3V2);
+  
+\node at (0.5,-1) {Tensor product: $G\times H$};
+\end{scope}
+
+
+\begin{scope}[shift={(8,-5)}]
+  \GP
+\draw [-,edge] (U1V1) -- (U3V1) -- (U3V2) -- (U1V2) -- cycle;
+\draw [-,edge] (U1V1) -- (U2V2) -- (U3V1);
+\draw [-,edge] (U1V2) -- (U2V1) -- (U3V2);
+\draw [-,edge] (U2V1) -- (U2V2);
+\node at (0.5,-1) {Strong product: $G\boxtimes H$};
+\end{scope}
+
+
+\end{tikzpicture}
 
 \end{document}

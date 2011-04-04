@@ -1,0 +1,70 @@
+\begin{tikzpicture}
+[node/.style={shape = circle, fill=black,inner sep = 3pt},
+edge/.style={line width=2pt}]
+\def\radius{1}
+\begin{scope}
+  \coordinate (A) at (135:\radius);
+  \coordinate (B) at (45:\radius);
+  \coordinate (C) at (-45:\radius);
+  \coordinate (D) at (-135:\radius);
+  
+  \draw [-,edge] (A) -- (C);
+    \draw [-,edge] (B) -- (D);
+  \draw [-,edge] 
+  (A) node [node,label=above left:{\scriptsize A}] {} -- 
+  (B) node [node,label=above right:{\scriptsize B}] {} --
+  (C) node [node,label=below right:{\scriptsize C}] {} --
+  (D) node [node,label=below left:{\scriptsize D}] {} -- (A);
+
+  \node at (0,-2.7) {$G$};
+\end{scope}
+
+\def\radius{1.414214}
+\begin{scope}[shift={(5,0)}]
+  \coordinate (AB) at (90:\radius);
+  \coordinate (AD) at (150:\radius);
+  \coordinate (AC) at (210:\radius);
+  \coordinate (CD) at (270:\radius);
+  \coordinate (BC) at (330:\radius);
+  \coordinate (BD) at (30:\radius);  
+
+  \draw [-,edge] (AD) -- (BD) -- (CD) -- cycle;
+  \draw [-,edge] (AB) -- (AC) -- (BC) -- cycle;
+  \draw [-,edge] 
+  (AB) node [node,label=above:{\scriptsize AB}] {} -- 
+  (AD) node [node,label=above left:{\scriptsize AD}] {} --
+  (AC) node [node,label=below left:{\scriptsize AC}] {} --
+  (CD) node [node,label=below:{\scriptsize CD}] {} -- 
+  (BC) node [node,label=below right:{\scriptsize BC}] {} -- 
+  (BD) node [node,label=above right:{\scriptsize BD}] {} -- (AB);
+  \node at (0,-2.7) {$L(G)$};
+\end{scope}
+
+
+\def\radius{1.414214}
+\begin{scope}[shift={(11,0)}]
+  \coordinate (AB) at (90:\radius);
+  \coordinate (AD) at (150:\radius);
+  \coordinate (AC) at (210:\radius);
+  \coordinate (CD) at (270:\radius);
+  \coordinate (BC) at (330:\radius);
+  \coordinate (BD) at (30:\radius);  
+
+  \draw [-,edge] 
+  (AB) node [node,label=above:{\scriptsize AB}] {} -- 
+  (CD) node [node,label=below:{\scriptsize CD}] {};
+  \draw [-,edge] 
+  (AD) node [node,label=above left:{\scriptsize AD}] {} --
+  (BC) node [node,label=below right:{\scriptsize BC}] {};
+  \draw [-,edge] 
+  (AC) node [node,label=below left:{\scriptsize AC}] {} --
+  (BD) node [node,label=above right:{\scriptsize BD}] {};
+  \node at (0,-2.7) {$\overline{L(G)}$};
+\end{scope}
+
+
+\end{tikzpicture}
+
+
+
+
