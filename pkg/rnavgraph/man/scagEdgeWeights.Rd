@@ -4,7 +4,7 @@
 \title{
   Create a from-to edge matrix with the scagnostic weights
 }
-%\description{}
+\description{Create a from-to edge matrix with the scagnostic weights.}
 \usage{
 scagEdgeWeights(data,
 				scags = c("Clumpy", "NotClumpy", "Monotonic", "NotMonotonic",

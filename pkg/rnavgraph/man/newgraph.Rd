@@ -9,7 +9,7 @@
   the graph creating facility provided by the \pkg{graph} package.
 }
 \usage{
-newgraph(nodeNames, mat, weights = NULL, directed = FALSE, isAdjacency = FALSE, ...)
+newgraph(nodeNames, mat, weights = NULL, directed = FALSE, isAdjacency = FALSE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,9 +39,7 @@ newgraph(nodeNames, mat, weights = NULL, directed = FALSE, isAdjacency = FALSE, 
 \author{
 Adrian Waddell and R. Wayne Oldford
 }
-\note{
-%%  ~~further notes~~
-}
+%\note{%%  ~~further notes~~}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

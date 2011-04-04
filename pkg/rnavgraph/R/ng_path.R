@@ -124,15 +124,22 @@ setMethod(f = "show",
 		
 		
 		
+		if(length(ngEnv$paths@path) == 1) {
+			savedPaths <- tclVar(paste('{',ngEnv$paths@path,'}'))
+			savedGraphs <-  tclVar(paste('{',ngEnv$paths@graph,'}'))
+		}else {
+			savedPaths <- tclVar(ngEnv$paths@path)
+			savedGraphs <- tclVar(ngEnv$paths@graph)
+		}
+		
 		## Saved Paths
-		savedPaths <- tclVar(ngEnv$paths@path)
 #tclvalue(savedPaths) <- paths
 		scr0 <- tkscrollbar(f.paths, repeatinterval=5, command=function(...){tkyview(tl,...);tkyview(tl2,...)})
 		tl<-tklistbox(f.paths,height=12, selectmode="browse", listvariable=savedPaths, yscrollcommand=function(...){tkset(scr0,...)}, background="white", exportselection=0)
 		tkpack(tl, side="left", fill = "both", expand = TRUE)
 		tkpack(scr0, side="left", fill= "y")
 		
-		savedGraphs <- tclVar(ngEnv$paths@path)
+
 		tl2<-tklistbox(f.paths,height=12, listvariable=savedGraphs, width = 20, selectmode="browse", yscrollcommand=function(...){tkset(scr0,...)}, background="white", exportselection=0)
 		tkpack(tl2, side="right", fill = "both")
 		

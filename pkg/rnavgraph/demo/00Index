@@ -6,7 +6,7 @@ ng_2d_images_frey_LLE	Almost 2000 images of Brendan's face, taken from sequentia
 ng_2d_images_frey_isomap	Almost 2000 images of Brendan's face, taken from sequential frames of a small video. Size: 20x28
 ng_2d_images_iris	Iris data example with RnavGraph plotting facility and downloaded images from the internet
 ng_2d_iris	Iris data example with RnavGraph plotting facility
-ng_2d_iris	Olive data example: 2 sessions with linked data
+ng_2d_olive	Olive data example: 2 sessions with linked data
 ng_2d_myplot_base	Scatterplots using the base plotting device, data = iris
 ng_2d_myplot_grid	Scatterplots using the grid plotting device, data = iris
 ng_2d_myplot_rgl	Scatterplots using the rgl plotting device, data = iris
