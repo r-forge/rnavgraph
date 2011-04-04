@@ -7,7 +7,7 @@ Author: Adrian R. Waddell and Wayne R. Oldford
 Maintainer: Adrian Waddell <adrian@waddell.ch>
 Description: GUI to explore high didimensional data using graphs as navigational infrastructure.
 License: GPL-2
-Suggests:  PairViz, scagnostics, rgl, grid, MASS, rggobi, RGtk2, hexbin
+Suggests:  PairViz, scagnostics, rgl, grid, MASS, rggobi, RGtk2, hexbin, RDRToolbox
 Depends: methods, graphics, tcltk, graph
 Imports: RBGL
 LazyLoad: yes
