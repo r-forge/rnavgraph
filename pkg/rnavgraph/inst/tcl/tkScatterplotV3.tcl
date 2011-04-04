@@ -37,7 +37,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     
     ## Window can only be destroyed by navGraph
     wm protocol $ttID WM_DELETE_WINDOW {
-	tk_messageBox -message "Only RnavGraph can destroy this window!"
+	tk_messageBox -message "Only the parent graph display can destroy this window!" -parent $ttID
     }
 
 
