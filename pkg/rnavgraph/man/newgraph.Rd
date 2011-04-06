@@ -9,7 +9,7 @@
   the graph creating facility provided by the \pkg{graph} package.
 }
 \usage{
-newgraph(nodeNames, mat, weights = NULL, directed = FALSE, isAdjacency = FALSE,...)
+newgraph(nodeNames, mat, weights = NULL, directed = FALSE, isAdjacency = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,6 +29,9 @@ newgraph(nodeNames, mat, weights = NULL, directed = FALSE, isAdjacency = FALSE,.
 }
   \item{isAdjacency}{
     If argument mat is adjacency matrix.
+}
+  \item{\dots}{
+		Currently not needed.
 }
 }
 %\details{%%  ~~ If necessary, more details than the description above ~~}
