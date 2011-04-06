@@ -52,7 +52,16 @@ LG <- linegraph(G, sep = "::")
 ng.lg <- ng_graph("3d transition", LG, "::", "kamadaKawaiSpring" )
 
 ## Visualization instruction
-viz1 <- ng_2d_ggobi(ng.iris, ng.lg)
+\donttest{
+viz1 <- ng_2d_ggobi(ng.iris, ng.lg) 
+}
+\donttest{
 viz1
+}
+
+## Start a navGraph session
+\donttest{
+nav <- navGraph(ng.iris, ng.lg, viz1)
+}
 }
 
