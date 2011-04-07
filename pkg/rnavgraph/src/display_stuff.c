@@ -49,7 +49,7 @@ static int display_shapes_Cmd(
 
 	// initialize variables
 	int canvas_width, canvas_height;
-	Tk_Window wmain, toplevel, canvas;
+	Tk_Window wmain, canvas;
 	char *ttID, *ngInstance, *ngLinkedInstance, *dataName, *viz;
 	char tclCmd[2000];
 	double x, y, w2, h2;
@@ -57,7 +57,7 @@ static int display_shapes_Cmd(
 	Tcl_Obj **xcoord, **ycoord, **size, **color, **selected;
 	Tcl_Obj *ptr_cx, *ptr_cy, *ptr_zf, *ptr_brcol, *ptr_x, *ptr_y, *ptr_size, *ptr_sel, *ptr_col;
 	int nx,ny,ns,nc,nsel;
-	char *brush_color, *obj_color, *bg_color;
+	char *brush_color, *obj_color;
 	double c_x, c_y, sq_zf;
 	Tcl_Obj *ng_windowManager, *ng_data;
 	int i;
@@ -259,7 +259,7 @@ static int display_zoombox_Cmd(
 
 	// initialize variables
 	int canvas_width, canvas_height;
-	Tk_Window wmain, toplevel, canvas;
+	Tk_Window wmain, canvas;
 	char *ttID, *ngInstance, *ngLinkedInstance, *dataName, *viz;
 	char tclCmd[2000], tmpCmd[2000], tmpStr[2000];
 	double x, y, w2, h2;
@@ -272,7 +272,7 @@ static int display_zoombox_Cmd(
 	double c_x, c_y, sq_zf;
 	Tcl_Obj *ng_windowManager, *ng_data;
 	int i;
-	int obj_selected, obj_size, r;
+	int obj_selected;
 	double x_screen, y_screen;
 	Tcl_Obj *key1, *key2, *ptr_zb_area_w, *ptr_zb_area_h;
 
@@ -559,26 +559,26 @@ static int display_images_Cmd(
 
 	// initialize variables
 	int canvas_width, canvas_height;
-	Tk_Window wmain, toplevel, canvas;
+	Tk_Window wmain, canvas;
 	char *ttID, *ngInstance, *ngLinkedInstance, *dataName, *viz;
 	char tclCmd[2000];
 	double x, y, w2, h2;
 
 	Tcl_Obj **xcoord, **ycoord, **color, **selected;
-	Tcl_Obj *ptr_cx, *ptr_cy, *ptr_zf, *ptr_brcol, *ptr_x, *ptr_y, *ptr_halo, *ptr_imgw2, *ptr_imgh2, *ptr_sel, *ptr_col, *ptr_img;
+	Tcl_Obj *ptr_cx, *ptr_cy, *ptr_zf, *ptr_brcol, *ptr_x, *ptr_y, *ptr_halo, *ptr_imgw2, *ptr_sel, *ptr_col, *ptr_img; //, *ptr_imgh2
 	int nx,ny,nc,nsel, nh, nw2,nh2,nimg;
-	char *brush_color, *obj_color, *bg_color;
+	char *brush_color, *obj_color;
 	double c_x, c_y, sq_zf;
 	Tcl_Obj *ng_windowManager, *ng_data;
 	int i;
-	int obj_selected, obj_size, r;
+	int obj_selected;
 	double x_screen, y_screen;
 
 
-	Tcl_Obj **images, **images_orig, **diag_old, **image_w2, **image_h2, **image_halo;
-	int iobj_diag, iobj_diag_old, image_width, image_height, obj_image_halo;
+	Tcl_Obj **images, **image_w2, **image_h2, **image_halo;//, **diag_old, **images_orig
+	int obj_image_halo; //image_height, image_width, iobj_diag_old, iobj_diag
 	double image_width2, image_height2;
-	char *obj_image_name, *obj_image_name_orig;
+	char *obj_image_name; //, *obj_image_name_orig;
 	Tk_PhotoHandle srcImage;
 
 

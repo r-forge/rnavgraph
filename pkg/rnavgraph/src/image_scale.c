@@ -30,7 +30,7 @@ static int imgScale_Cmd(
 	Tk_PhotoHandle srcImage, destImage;
 	int di, dj;
 	double scalex, scaley, sx2, sy2, newalpha;
-	int returnCode;
+	//int returnCode;
 	int width, height, newwid, newhgt;
 	double newdiag, ratio;
 
