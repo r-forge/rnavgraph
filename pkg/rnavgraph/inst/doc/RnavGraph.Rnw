@@ -361,13 +361,13 @@ where \texttt{nav} is the navGraph handler.\\
 This example session shows essentially the work flow of using \texttt{navGraph}. The rest of this vignette discusses each step in detail.  It also shows a variety of visualizations.
 
 \section{Data}
-Every \texttt{NG\_data} object needs a unique name and a data set in the form of a \texttt{data.frame} with solely numeric variables. The \texttt{shortnames}, \texttt{group} and \texttt{label} argument are optional. It is important that the \texttt{data.frame} used only contains numeric variables, as this is the only data type supported for visualization at the moment and it simplifies some \texttt{navGraph} internal procedures. Hence, when trying to pass on non-numeric variables, \texttt{ng\_data()} throws an error
-<<echo=TRUE,eval=FALSE>>=
-ng.test <- ng_data("test", data = data.frame(a = c("A","B","C","B")))
-@
-<<echo=FALSE,eval=TRUE,results=verbatim>>=
-try(ng.test <- ng_data("test", data = data.frame(a = c("A","B","C","B"))))
-@ 
+Every \texttt{NG\_data} object needs a unique name and a data set in the form of a \texttt{data.frame} with solely numeric variables. The \texttt{shortnames}, \texttt{group} and \texttt{label} argument are optional. It is important that the \texttt{data.frame} used only contains numeric variables, as this is the only data type supported for visualization at the moment and it simplifies some \texttt{navGraph} internal procedures. Hence, when trying to pass on non-numeric variables, \texttt{ng\_data()} throws an error.\\
+% <<echo=TRUE,eval=FALSE>>=
+% ng.test <- ng_data("test", data = data.frame(a = c("A","B","C","B")))
+% @
+% <<echo=FALSE,eval=TRUE,results=verbatim>>=
+% try(ng.test <- ng_data("test", data = data.frame(a = c("A","B","C","B"))))
+% @ 
 
 
 The \texttt{name} argument takes a string which must be unique between all \texttt{NG\_data} objects passed on to \texttt{navGraph}. \texttt{navGraph} will, based on the data- and graph- names, link graph and data via the visualization instructions. A minimal working \texttt{NG\_data} object can be created with
