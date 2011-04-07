@@ -1,5 +1,5 @@
 require(RnavGraph) || stop("RnavGraph library not available")
-require(RnavGraphImgData) || stop('You need the RnavGraphImgData package installed!')
+require(RnavGraphImageData) || stop('You need the RnavGraphImageData package installed!')
 require(RDRToolbox)|| stop('You need the RDRToolbox package installed!')
 
 local({

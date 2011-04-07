@@ -1,4 +1,4 @@
-Package: RnavGraphImgData
+Package: RnavGraphImageData
 Type: Package
 Title: Some image data used in the RnavGraph package demos
 Version: 0.0.1

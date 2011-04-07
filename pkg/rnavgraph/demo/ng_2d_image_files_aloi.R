@@ -1,10 +1,10 @@
 require(RnavGraph) || stop("RnavGraph library not available")
-require(RnavGraphImgData) || stop('You need the RnavGraphImgData package installed!')
+require(RnavGraphImageData) || stop('You need the RnavGraphImageData package installed!')
 require(png) || stop('You need the png package installed!')
 
 local({
 			## path to the object images
-			imgPath <- system.file("aloi_small", package="RnavGraphImgData")
+			imgPath <- system.file("aloi_small", package="RnavGraphImageData")
 			aloi_images <- list.files(path=imgPath, full.names=TRUE)
 			length(aloi_images)
 			aloi_images[1:5]
