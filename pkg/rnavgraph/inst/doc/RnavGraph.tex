@@ -411,18 +411,13 @@ where \texttt{nav} is the navGraph handler.\\
 This example session shows essentially the work flow of using \texttt{navGraph}. The rest of this vignette discusses each step in detail.  It also shows a variety of visualizations.
 
 \section{Data}
-Every \texttt{NG\_data} object needs a unique name and a data set in the form of a \texttt{data.frame} with solely numeric variables. The \texttt{shortnames}, \texttt{group} and \texttt{label} argument are optional. It is important that the \texttt{data.frame} used only contains numeric variables, as this is the only data type supported for visualization at the moment and it simplifies some \texttt{navGraph} internal procedures. Hence, when trying to pass on non-numeric variables, \texttt{ng\_data()} throws an error
-\begin{Schunk}
-\begin{Sinput}
-> ng.test <- ng_data("test", data = data.frame(a = c("A", "B", 
-+     "C", "B")))
-\end{Sinput}
-\end{Schunk}
-\begin{Schunk}
-\begin{Soutput}
-Variable: a is not numeric!
-\end{Soutput}
-\end{Schunk}
+Every \texttt{NG\_data} object needs a unique name and a data set in the form of a \texttt{data.frame} with solely numeric variables. The \texttt{shortnames}, \texttt{group} and \texttt{label} argument are optional. It is important that the \texttt{data.frame} used only contains numeric variables, as this is the only data type supported for visualization at the moment and it simplifies some \texttt{navGraph} internal procedures. Hence, when trying to pass on non-numeric variables, \texttt{ng\_data()} throws an error.\\
+% <<echo=TRUE,eval=FALSE>>=
+% ng.test <- ng_data("test", data = data.frame(a = c("A","B","C","B")))
+% @
+% <<echo=FALSE,eval=TRUE,results=verbatim>>=
+% try(ng.test <- ng_data("test", data = data.frame(a = c("A","B","C","B"))))
+% @ 
 
 
 The \texttt{name} argument takes a string which must be unique between all \texttt{NG\_data} objects passed on to \texttt{navGraph}. \texttt{navGraph} will, based on the data- and graph- names, link graph and data via the visualization instructions. A minimal working \texttt{NG\_data} object can be created with
@@ -662,7 +657,7 @@ If the \texttt{Rgraphviz} package is installed, one can plot a \texttt{graph} ob
 > plot(G)
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-033}
+\includegraphics{sweave_p-031}
 \end{center}
 
 We have written some functions which ease the graph creation part. Often the users want to start from a complete variable graph. We provide the \texttt{completegraph} function which takes a vector of node names as the argument
@@ -675,7 +670,7 @@ We have written some functions which ease the graph creation part. Often the use
 > plot(G, "neato")
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-034}
+\includegraphics{sweave_p-032}
 \end{center}
 
 We also introduce the \texttt{newgraph} R function which either takes an adjacency- or a from-to-edge matrix to create a graph
@@ -690,7 +685,7 @@ We also introduce the \texttt{newgraph} R function which either takes an adjacen
 > plot(G, "neato")
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-035}
+\includegraphics{sweave_p-033}
 \end{center}
 Note how the node ``E'' was added to the graph. Graphs can also be directed, however \texttt{RnavGraph} does not constrain the bullet in direction if an edge exists. Hence this feature is for the current \texttt{RnavGraph} version not from importance, however for completeness 
 
@@ -701,7 +696,7 @@ Note how the node ``E'' was added to the graph. Graphs can also be directed, how
 > plot(G, "neato")
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-036}
+\includegraphics{sweave_p-034}
 \end{center}
 
 The from-to-edge matrix can also be numeric
@@ -715,7 +710,7 @@ The from-to-edge matrix can also be numeric
 > plot(G, "neato")
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-037}
+\includegraphics{sweave_p-035}
 \end{center}
 
 Weights can also added to Graphs via the weights argument. Note however that \texttt{navGraph} does not visualize them, however they might be important for greedy path finding algorithms
@@ -800,7 +795,7 @@ As mentioned earlier, the \texttt{newgraph} function takes also adjacency matric
 > plot(G, "neato")
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-040}
+\includegraphics{sweave_p-038}
 \end{center}
 Note that all the graphs from the \texttt{graph} class have the function \texttt{nodes} and \texttt{edges} defined
 \begin{Schunk}
@@ -927,7 +922,7 @@ The name of each \texttt{NG\_graph} object, as for the \texttt{NG\_data} object,
 > plot(ng.LGnot)
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-047}
+\includegraphics{sweave_p-045}
 \end{center}
 
 As for the \texttt{NG\_data} object, you can access or modify with the \texttt{ng\_get} and \texttt{ng\_set} function, respectively.
@@ -1804,7 +1799,7 @@ Session 1, Data iris is new!
 \begin{Soutput}
 RnavGraph handler:
 ---
-created       : Sun Apr  3 23:09:38 2011 
+created       : Thu Apr  7 14:01:24 2011 
 last updated  : not 
 ---
 graphs        : iris : 3D, iris : 4D 
@@ -1821,8 +1816,8 @@ You can now brush data and change color and size of objects and add paths. You c
 \begin{Soutput}
 RnavGraph handler:
 ---
-created       : Sun Apr  3 23:09:38 2011 
-last updated  : Sun Apr  3 23:09:38 2011 
+created       : Thu Apr  7 14:01:24 2011 
+last updated  : Thu Apr  7 14:01:24 2011 
 ---
 graphs        : iris : 3D, iris : 4D 
 data          : iris 
@@ -2069,7 +2064,7 @@ We now could manually create a variable graph using \texttt{newgraph} where we o
 > plot(G)
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-104}
+\includegraphics{sweave_p-102}
 \end{center}
 %$
 where the weights are part of the graph \texttt{G}, see for example
@@ -2118,7 +2113,7 @@ Now this becomes tedious if you have multiple scagnostic measures and hence you 
 > plot(G_1)
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-108}
+\includegraphics{sweave_p-106}
 \end{center}
 And for multiple scagnostic measures
 \begin{Schunk}
