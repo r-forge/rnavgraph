@@ -896,7 +896,7 @@ static int display_glyphs_Cmd(
 
 	// initialize variables
 	int canvas_width, canvas_height;
-	Tk_Window wmain, toplevel, canvas;
+	Tk_Window wmain, canvas;
 	char *ttID, *ngInstance, *ngLinkedInstance, *dataName, *viz;
 	char tclCmd[2000],tmpCmd[5000],tmpStr[5000];
 	double x, y, w2, h2;
@@ -904,7 +904,7 @@ static int display_glyphs_Cmd(
 	Tcl_Obj **xcoord, **ycoord, **size, **color, **selected;
 	Tcl_Obj *ptr_cx, *ptr_cy, *ptr_zf, *ptr_brcol, *ptr_x, *ptr_y, *ptr_size, *ptr_sel, *ptr_col, *ptr_glyph, *ptr_gla;
 	int nx,ny,ns,nc,nsel,ngl;
-	char *brush_color, *obj_color, *bg_color;
+	char *brush_color, *obj_color;
 	double c_x, c_y, sq_zf;
 	Tcl_Obj *ng_windowManager, *ng_data;
 	int i, ii;
@@ -912,7 +912,7 @@ static int display_glyphs_Cmd(
 	double x_screen, y_screen;
 
 
-	double alpha, glyph_coord;
+	double alpha;
 	Tcl_Obj **glyphs_outer, **glyphs_inner, **glyph_alpha;
 	int glyph_nvar;
 	double glyph_polygon;
@@ -1153,19 +1153,19 @@ static int display_text_Cmd(
 
 	// initialize variables
 	int canvas_width, canvas_height;
-	Tk_Window wmain, toplevel, canvas;
+	Tk_Window wmain, canvas;
 	char *ttID, *ngInstance, *ngLinkedInstance, *dataName, *viz;
 	char tclCmd[2000];
 	double x, y, w2, h2;
 
 	Tcl_Obj **xcoord, **ycoord, **text, **color, **selected;
-	Tcl_Obj *ptr_cx, *ptr_cy, *ptr_zf, *ptr_brcol, *ptr_x, *ptr_y, *ptr_size, *ptr_sel, *ptr_col, *ptr_txt;
+	Tcl_Obj *ptr_cx, *ptr_cy, *ptr_zf, *ptr_brcol, *ptr_x, *ptr_y, *ptr_sel, *ptr_col, *ptr_txt;
 	int nx,ny,nc,nsel,ntxt;
-	char *brush_color, *obj_color, *bg_color, *obj_text;
+	char *brush_color, *obj_color, *obj_text;
 	double c_x, c_y, sq_zf;
 	Tcl_Obj *ng_windowManager, *ng_data;
 	int i;
-	int obj_selected, obj_size, r;
+	int obj_selected;
 	double x_screen, y_screen;
 
 
