@@ -3,7 +3,7 @@ Type: Package
 Title: Using graphs as a navigational infrastructure.
 Version: 0.0.7
 Date: 2011-02-12
-Author: Adrian R. Waddell and Wayne R. Oldford
+Author: Adrian R. Waddell and R. Wayne Oldford
 Maintainer: Adrian Waddell <adrian@waddell.ch>
 Url: http://adrian.waddell.ch/
 Description: GUI to explore high dimensional data (including image data) using graphs as navigational infrastructure.
