@@ -11,11 +11,11 @@
 \section{Methods}{
 \describe{
 
-\item{\code{signature(object = "NavGraph_handler")}}{ ~~describe this method here }
+\item{\code{signature(object = "NavGraph_handler")}}{ }
 
-\item{\code{signature(object = "NG_data")}}{ ~~describe this method here }
+\item{\code{signature(object = "NG_data")}}{ }
 
-\item{\code{signature(object = "NG_graph")}}{ ~~describe this method here }
+\item{\code{signature(object = "NG_graph")}}{ }
 }}
 \keyword{methods}
 \keyword{ ~~ other possible keyword(s)}
