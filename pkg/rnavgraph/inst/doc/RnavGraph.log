@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.5)  10 APR 2011 20:28
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.5)  10 APR 2011 21:52
 entering extended mode
  %&-line parsing enabled.
 **RnavGraph.tex
@@ -580,21 +580,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 45--46
 
  []
 
-LaTeX Font Info:    Try loading font information for TS1+aett on input line 93.
 
-(/usr/share/texmf/tex/latex/R/ts1aett.fd
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
+
+ []
+
+[3]
+LaTeX Font Info:    Try loading font information for TS1+aett on input line 95.
+
+ (/usr/share/texmf/tex/latex/R/ts1aett.fd
 File: ts1aett.fd 
 )
-LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 93.
+LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 95.
 
 
 (/usr/share/texmf-texlive/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `TS1/aett/m/sl' in size <12> not available
-(Font)              Font shape `TS1/cmtt/m/sl' tried instead on input line 93.
- [3]
-Underfull \hbox (badness 10000) in paragraph at lines 98--100
+(Font)              Font shape `TS1/cmtt/m/sl' tried instead on input line 95.
+
+Underfull \hbox (badness 10000) in paragraph at lines 100--102
 
  []
 
@@ -605,67 +611,62 @@ File: img/Iris3Dgraph.png Graphic file (type png)
 File: img/Iris2D.png Graphic file (type png)
 
 <use img/Iris2D.png>
-Underfull \hbox (badness 10000) in paragraph at lines 128--133
+Underfull \hbox (badness 10000) in paragraph at lines 130--135
 
  []
 
 [4 <./img/Iris3Dgraph.png (PNG copy)> <./img/Iris2D.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 134--136
+Underfull \hbox (badness 10000) in paragraph at lines 136--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--141
+Underfull \hbox (badness 10000) in paragraph at lines 139--143
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 142--145
+Underfull \hbox (badness 10000) in paragraph at lines 144--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 146--151
+Underfull \hbox (badness 10000) in paragraph at lines 148--153
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--155
+Underfull \hbox (badness 10000) in paragraph at lines 154--157
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--157
+Underfull \hbox (badness 10000) in paragraph at lines 158--159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--163
+Underfull \hbox (badness 10000) in paragraph at lines 163--165
 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 164--166
+Underfull \hbox (badness 10000) in paragraph at lines 166--168
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 167--169
+Underfull \hbox (badness 10000) in paragraph at lines 169--171
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 170--173
+Underfull \hbox (badness 10000) in paragraph at lines 172--175
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--177
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 178--179
+Underfull \hbox (badness 10000) in paragraph at lines 176--179
 
  []
 
@@ -679,8 +680,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 182--183
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--185
+
+ []
+
 (./lg.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 184--193
+Underfull \hbox (badness 10000) in paragraph at lines 186--195
 
  []
 
@@ -688,37 +694,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 184--193
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 194--197
+Underfull \hbox (badness 10000) in paragraph at lines 196--199
 
  []
 
 [6] (./products.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 198--212
+Underfull \hbox (badness 10000) in paragraph at lines 200--214
 
  []
 
 [7]
 
 LaTeX Font Warning: Font shape `T1/aett/bx/n' undefined
-(Font)              using `T1/aett/m/n' instead on input line 215.
+(Font)              using `T1/aett/m/n' instead on input line 217.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 216--218
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 219--222
+Underfull \hbox (badness 10000) in paragraph at lines 218--220
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--225
+Underfull \hbox (badness 10000) in paragraph at lines 221--224
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 226--229
+Underfull \hbox (badness 10000) in paragraph at lines 225--227
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 228--231
 
  []
 
@@ -727,40 +733,40 @@ Underfull \hbox (badness 10000) in paragraph at lines 226--229
 code.tex
 File: tikzlibrarycalc.code.tex 2008/02/04 v2.00 (rcs-revision 1.5)
 )
-Underfull \hbox (badness 10000) in paragraph at lines 314--315
+Underfull \hbox (badness 10000) in paragraph at lines 316--317
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 317--322
+Underfull \hbox (badness 10000) in paragraph at lines 319--324
 
  []
 
 [8 <./img/f1_1.png> <./img/f1_2.png> <./img/f2_1.png> <./img/f2_2.png> <./img/m
 1_1.png> <./img/m1_2.png> <./img/m2_1.png> <./img/m3_1.png> <./img/m4_1.png> <.
 /img/m4_2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 326--329
+Underfull \hbox (badness 10000) in paragraph at lines 328--331
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 381--382
+Underfull \hbox (badness 10000) in paragraph at lines 383--384
 
  []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 408--409
+Underfull \hbox (badness 10000) in paragraph at lines 410--411
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 413--420
+Underfull \hbox (badness 10000) in paragraph at lines 415--422
 
  []
 
 [10]
 LaTeX Font Info:    Font shape `TS1/aett/m/n' in size <12> not available
-(Font)              Font shape `TS1/cmtt/m/n' tried instead on input line 444.
+(Font)              Font shape `TS1/cmtt/m/n' tried instead on input line 446.
  [11] <img/tk2dcolors.png, id=82, 428.60126pt x 326.21875pt>
 File: img/tk2dcolors.png Graphic file (type png)
 
@@ -802,19 +808,19 @@ weave_p-035.pdf>]
 <sweave_p-038.pdf, id=124, 433.62pt x 433.62pt>
 File: sweave_p-038.pdf Graphic file (type pdf)
  <use sweave_p-038.pdf> [18 <./sweave_p-038.pdf>] [19]
-Underfull \hbox (badness 10000) in paragraph at lines 885--886
+Underfull \hbox (badness 10000) in paragraph at lines 887--888
 
  []
 
 <sweave_p-045.pdf, id=135, 722.7pt x 361.35pt>
 File: sweave_p-045.pdf Graphic file (type pdf)
  <use sweave_p-045.pdf> [20]
-Underfull \hbox (badness 10000) in paragraph at lines 942--943
+Underfull \hbox (badness 10000) in paragraph at lines 944--945
 
  []
 
 [21 <./sweave_p-045.pdf>] [22]
-Underfull \hbox (badness 10000) in paragraph at lines 1068--1069
+Underfull \hbox (badness 10000) in paragraph at lines 1070--1071
 
  []
 
@@ -826,13 +832,13 @@ File: img/tk2dimages1.png Graphic file (type png)
 File: img/imageDigits.png Graphic file (type png)
 
 <use img/imageDigits.png>
-Overfull \hbox (24.96231pt too wide) in paragraph at lines 1201--1202
+Overfull \hbox (24.96231pt too wide) in paragraph at lines 1203--1204
 []\T1/aer/m/n/12 For other ex-am-ples of im-port-ing greyscale im-ages from txt
  data file see the \T1/aett/m/n/12 ng_2d_images_alpha_letter\T1/aer/m/n/12 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1206--1208
+Underfull \hbox (badness 10000) in paragraph at lines 1208--1210
 
  []
 
@@ -842,7 +848,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <img/aloi.jpg, id=160, 316.7835pt x 237.88875pt>
 File: img/aloi.jpg Graphic file (type jpg)
  <use img/aloi.jpg> [25 <./img/imageDigits.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1266--1267
+Underfull \hbox (badness 10000) in paragraph at lines 1268--1269
 
  []
 
@@ -855,58 +861,58 @@ File: img/tk2dImagesObject.png Graphic file (type png)
 File: img/tk2dGlyphs.png Graphic file (type png)
 
 <use img/tk2dGlyphs.png> [28 <./img/tk2dGlyphs.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1473--1474
+Underfull \hbox (badness 10000) in paragraph at lines 1475--1476
 
  []
 
 [29]
-Underfull \hbox (badness 10000) in paragraph at lines 1527--1528
+Underfull \hbox (badness 10000) in paragraph at lines 1529--1530
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1572--1573
+Underfull \hbox (badness 10000) in paragraph at lines 1574--1575
 
  []
 
 [30]
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 1614.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 1616.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 1614.
+(Font)              size <5> substituted on input line 1616.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <5.5> not available
-(Font)              size <5> substituted on input line 1614.
+(Font)              size <5> substituted on input line 1616.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 1614.
+(Font)              size <5> substituted on input line 1616.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1636--1637
+Underfull \hbox (badness 10000) in paragraph at lines 1638--1639
 []\T1/aer/m/n/12 brush_colors (vect
  []
 
 [31]
-Underfull \hbox (badness 10000) in paragraph at lines 1662--1663
+Underfull \hbox (badness 10000) in paragraph at lines 1664--1665
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1698--1699
+Underfull \hbox (badness 10000) in paragraph at lines 1700--1701
 
  []
 
 [32] (./tikz_drag.tex)
-LaTeX Font Info:    Try loading font information for TS1+aer on input line 1712
+LaTeX Font Info:    Try loading font information for TS1+aer on input line 1714
 .
  (/usr/share/texmf/tex/latex/R/ts1aer.fd
 File: ts1aer.fd 
 )
 LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <12> not available
-(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 1712.
+(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 1714.
 
 (./tikz_edgeSelect.tex) [33] (./tikz_modifyGraph.tex) (./tikz_animation.tex)
 (./tikz_walk.tex
@@ -915,53 +921,53 @@ Overfull \hbox (3.6435pt too wide) in paragraph at lines 60--61
  []
 
 [34])
-Underfull \hbox (badness 10000) in paragraph at lines 1756--1757
+Underfull \hbox (badness 10000) in paragraph at lines 1758--1759
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1772--1773
+Underfull \hbox (badness 10000) in paragraph at lines 1774--1775
 
  []
 
 [35] [36]
-Underfull \hbox (badness 10000) in paragraph at lines 1860--1861
+Underfull \hbox (badness 10000) in paragraph at lines 1862--1863
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1871--1872
+Underfull \hbox (badness 10000) in paragraph at lines 1873--1874
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1878--1879
+Underfull \hbox (badness 10000) in paragraph at lines 1880--1881
 
  []
 
 File: img/Iris2D.png Graphic file (type png)
 <use img/Iris2D.png>
-Underfull \hbox (badness 10000) in paragraph at lines 1889--1890
+Underfull \hbox (badness 10000) in paragraph at lines 1891--1892
 
  []
 
 [37]
-Underfull \hbox (badness 10000) in paragraph at lines 1901--1902
+Underfull \hbox (badness 10000) in paragraph at lines 1903--1904
 
  []
 
 [38]
-Underfull \hbox (badness 10000) in paragraph at lines 1923--1924
+Underfull \hbox (badness 10000) in paragraph at lines 1925--1926
 
  []
 
 [39]
-Underfull \hbox (badness 10000) in paragraph at lines 1990--1991
+Underfull \hbox (badness 10000) in paragraph at lines 1992--1993
 
  []
 
 [40]
-Underfull \hbox (badness 10000) in paragraph at lines 2046--2047
+Underfull \hbox (badness 10000) in paragraph at lines 2048--2049
 
  []
 
@@ -1007,7 +1013,7 @@ type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texmf-texlive/fonts/type1/public
 /amsfonts/symbols/msam7.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1
 200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfst1200.pfb></usr/share/
 texmf/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on RnavGraph.pdf (48 pages, 812924 bytes).
+Output written on RnavGraph.pdf (48 pages, 813123 bytes).
 PDF statistics:
  311 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

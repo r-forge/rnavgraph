@@ -25,9 +25,7 @@ package. Use \code{vignette("RnavGraph")}.
 Adrian Waddell and R. Wayne Oldford
 }
 \references{
-  ## TODO
-  Hurley and Oldford [2008], Graphs as navigational infrastructure for high dimensional data spaces.
-
+C. B. Hurley and R. W. Oldford. ''Graphs as navigational infrastructure for high dimensional data spaces.'' Computational Statistics (2011). 
 }
 
 
