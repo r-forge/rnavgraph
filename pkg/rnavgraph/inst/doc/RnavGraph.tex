@@ -58,14 +58,14 @@ A closer look into \texttt{RnavGraph} reveals that a relatively large set of fun
 > ls("package:RnavGraph")
 \end{Sinput}
 \begin{Soutput}
- [1] "completegraph"       "L2Distance"          "linegraph"          
- [4] "navGraph"            "newgraph"            "ng_2d"              
- [7] "ng_2d_ggobi"         "ng_2d_myplot"        "ng_data"            
-[10] "ng_get"              "ng_graph"            "ng_image_array_gray"
-[13] "ng_image_files"      "ng_set"              "ng_set<-"           
-[16] "ng_update"           "ng_walk"             "plot"               
-[19] "scagEdgeWeights"     "scagGraph"           "scagNav"            
-[22] "shortnames"          "shortnames<-"       
+ [1] "completegraph"       "linegraph"           "navGraph"           
+ [4] "newgraph"            "ng_2d"               "ng_2d_ggobi"        
+ [7] "ng_2d_myplot"        "ng_data"             "ng_get"             
+[10] "ng_graph"            "ng_image_array_gray" "ng_image_files"     
+[13] "ng_set"              "ng_set<-"            "ng_update"          
+[16] "ng_walk"             "plot"                "scagEdgeWeights"    
+[19] "scagGraph"           "scagNav"             "shortnames"         
+[22] "shortnames<-"       
 \end{Soutput}
 \end{Schunk}
 
@@ -82,6 +82,7 @@ The source code of these demos can be found in the system directory shown in the
 > system.file("demo", package = "RnavGraph")
 \end{Sinput}
 \end{Schunk}
+Many of the demos require data from the \texttt{RnavGraphImageData} package also written by us.\\
 
 All said, though, this vignette should itself provide the best introduction to \texttt{RnavGraph} and its full functionality.
 \subsection{A simple example}
@@ -1061,10 +1062,16 @@ Notice the output of the \texttt{viz1} object. It says that it addresses the \te
 \end{Schunk}
 
 \subsubsection{Working with Images (from some text source)}
-The main reason we implemented the \texttt{tk2d} device is because we wanted the \texttt{RnavGraph} package to be useful to explore image data. All images get imported as tcl \texttt{image} objects since they later will be displayed on a tk canvas widget. This has the implication that the user needs a running \texttt{Img} tcl extension set up for the tcltk version R connects to via the \texttt{tcltk} R package. If the images however eventually exist as an R object of some sort (e.g. a matrix), the tcl \texttt{Img} extension is not needed. You can get an overview of the data provided by the \texttt{RnavGraph} package with
+The main reason we implemented the \texttt{tk2d} device is because we wanted the \texttt{RnavGraph} package to be useful to explore image data. All images get imported as tcl \texttt{image} objects since they later will be displayed on a tk canvas widget. This has the implication that the user needs a running \texttt{Img} tcl extension set up for the tcltk version R connects to via the \texttt{tcltk} R package. If the images however eventually exist as an R object of some sort (e.g. a matrix), the tcl \texttt{Img} extension is not needed. For the examples in this vignette and for some of the demos, we require the \texttt{RnavGraphImageData} package. 
 \begin{Schunk}
 \begin{Sinput}
-> data(package = "RnavGraph")
+> library(RnavGraphImageData)
+\end{Sinput}
+\end{Schunk}
+you can get an overview of the data provided by the package with
+\begin{Schunk}
+\begin{Sinput}
+> data(package = "RnavGraphImageData")
 \end{Sinput}
 \end{Schunk}
 \modify{Much of this data is from the webpage of Sam Roweis \tiny{http://www.cs.nyu.edu/$\sim$roweis/data.html}}.\\
@@ -1229,7 +1236,7 @@ If your image data source is a bmp, gif, ico, jpeg, pcx, pixmap, png, ppm, posts
 \end{table}
 
 
-We work with a data set from the Library of Amsterdam \modify{http://staff.science.uva.nl/$\sim$aloi/}. The download is the ``Quater resolution (192 $\times$ 144)'' which whose size is 60MB and contains $1000-250$ objects with each three different viewing angles \modify{2250} images. We have attached a resized version ($38x29$ pixels) in the \texttt{RnavGraph} package in order to save space. 
+We work with a data set from the Library of Amsterdam \modify{http://staff.science.uva.nl/$\sim$aloi/}. The download is the ``Quater resolution (192 $\times$ 144)'' which whose size is 60MB and contains $1000-250$ objects with each three different viewing angles \modify{2250} images. We have attached a resized version ($38x29$ pixels) in the \texttt{RnavGraphImageData} package in order to save space. 
 
 \begin{center}
   \includegraphics[width = 0.6\textwidth]{img/aloi.jpg}
@@ -1238,7 +1245,7 @@ We work with a data set from the Library of Amsterdam \modify{http://staff.scien
 The path to the images is
 \begin{Schunk}
 \begin{Sinput}
-> imgPath <- system.file("aloi_small", package = "RnavGraph")
+> imgPath <- system.file("aloi_small", package = "RnavGraphImageData")
 > aloi_images <- list.files(path = imgPath, full.names = TRUE)
 > length(aloi_images)
 \end{Sinput}
@@ -1249,11 +1256,11 @@ The path to the images is
 > aloi_images[1:5]
 \end{Sinput}
 \begin{Soutput}
-[1] "/usr/local/lib/R/site-library/RnavGraph/aloi_small/1000_c.png"
-[2] "/usr/local/lib/R/site-library/RnavGraph/aloi_small/1000_l.png"
-[3] "/usr/local/lib/R/site-library/RnavGraph/aloi_small/1000_r.png"
-[4] "/usr/local/lib/R/site-library/RnavGraph/aloi_small/251_c.png" 
-[5] "/usr/local/lib/R/site-library/RnavGraph/aloi_small/251_l.png" 
+[1] "/usr/local/lib/R/site-library/RnavGraphImageData/aloi_small/1000_c.png"
+[2] "/usr/local/lib/R/site-library/RnavGraphImageData/aloi_small/1000_l.png"
+[3] "/usr/local/lib/R/site-library/RnavGraphImageData/aloi_small/1000_r.png"
+[4] "/usr/local/lib/R/site-library/RnavGraphImageData/aloi_small/251_c.png" 
+[5] "/usr/local/lib/R/site-library/RnavGraphImageData/aloi_small/251_l.png" 
 \end{Soutput}
 \end{Schunk}
 We sample 400 images, so that we do not have to deal with all 2250 images.
@@ -1794,7 +1801,7 @@ Session 1, Data iris is new!
 \begin{Soutput}
 RnavGraph handler:
 ---
-created       : Sun Apr 10 21:52:04 2011 
+created       : Mon Apr 11 12:47:42 2011 
 last updated  : not 
 ---
 graphs        : iris : 3D, iris : 4D 
@@ -1811,8 +1818,8 @@ You can now brush data and change color and size of objects and add paths. You c
 \begin{Soutput}
 RnavGraph handler:
 ---
-created       : Sun Apr 10 21:52:04 2011 
-last updated  : Sun Apr 10 21:52:04 2011 
+created       : Mon Apr 11 12:47:42 2011 
+last updated  : Mon Apr 11 12:47:42 2011 
 ---
 graphs        : iris : 3D, iris : 4D 
 data          : iris 
@@ -2059,7 +2066,7 @@ We now could manually create a variable graph using \texttt{newgraph} where we o
 > plot(G)
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-101}
+\includegraphics{sweave_p-102}
 \end{center}
 %$
 where the weights are part of the graph \texttt{G}, see for example
@@ -2108,7 +2115,7 @@ Now this becomes tedious if you have multiple scagnostic measures and hence you 
 > plot(G_1)
 \end{Sinput}
 \end{Schunk}
-\includegraphics{sweave_p-105}
+\includegraphics{sweave_p-106}
 \end{center}
 And for multiple scagnostic measures
 \begin{Schunk}
