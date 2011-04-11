@@ -1,4 +1,5 @@
 require(RnavGraph) || stop("RnavGraph library not available")
+require(RnavGraphImgData) || stop('You need the RnavGraphImgData package installed!')
 
 local({
 			data(binaryalphadigits)  ## load data
@@ -11,7 +12,7 @@ local({
 			## group label of images
 			group <- rep(c(0:9,LETTERS),39)
 			
-			## isomap, to save time, the isomap coordinates are provided by the RnavGraph package
+			## isomap, to save time, the isomap coordinates are provided by the RnavGraphImageData package
 #			require(vegan) || stop('You need the vegan package installed!')
 #			dis <- vegdist(binaryalphadigits)
 #			ordalphadigits <- isomap(dis, k=6)

@@ -1,4 +1,6 @@
 require(RnavGraph) || stop("RnavGraph library not available")
+require(RnavGraphImgData) || stop('You need the RnavGraphImgData package installed!')
+
 local({
 			ng.iris <- ng_data(name = "iris", data = iris[,1:4],
 					shortnames = c('s.L', 's.W', 'p.L', 'p.W'),

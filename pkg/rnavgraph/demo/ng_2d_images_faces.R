@@ -1,4 +1,5 @@
 require(RnavGraph) || stop("RnavGraph library not available")
+require(RnavGraphImgData) || stop('You need the RnavGraphImgData package installed!')
 require(PairViz) || stop('You need the PairViz package installed!')
 
 local({
