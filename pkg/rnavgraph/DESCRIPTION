@@ -14,6 +14,6 @@ Imports: RBGL
 LazyLoad: yes
 Collate: 'AllGenerics.R' 'ng_data.R' 'ng_graph.R' 'ng_path.R' 'ng_image.R' 'SettingClasses.R'
  'NavGraphHandler.R' 'GraphDisplay.R' 'Visualization.R' 'Visualization2D.R' 'Viz2D_Ggobi.R' 'Viz2D_Axis.R'
- 'Viz2D_tk2d.R' 'FunctionNavGraph.R' 'graphtools.R' 'navGraph.R' 'scagNav.R' 'zzz.R'
+ 'Viz2D_tk2d.R' 'FunctionNavGraph.R' 'graphtools.R' 'navGraph.R' 'scagNav.R' 'L2Distance' 'zzz.R'
 
 
