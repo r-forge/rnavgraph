@@ -23,7 +23,8 @@ importFrom(RBGL,kamadaKawaiSpringLayout,fruchtermanReingoldForceDirectedLayout)
 		scagNav,
 		scagGraph,
 		scagEdgeWeights,
-		plot
+		plot,
+		L2Distance
 	)
 #exportPattern("^ng_")
 

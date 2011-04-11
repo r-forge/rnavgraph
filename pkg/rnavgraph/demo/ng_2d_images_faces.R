@@ -1,6 +1,4 @@
-## TODO: Finish, this is just for debugging
 require(RnavGraph) || stop("RnavGraph library not available")
-require(RnavGraphImageData) || stop('You need the RnavGraphImageData package installed!')
 require(PairViz) || stop('You need the PairViz package installed!')
 
 local({

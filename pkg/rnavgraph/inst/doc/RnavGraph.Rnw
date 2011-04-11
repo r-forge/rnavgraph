@@ -61,7 +61,6 @@ The source code of these demos can be found in the system directory shown in the
 <<echo=TRUE,eval=FALSE>>=
 system.file("demo", package="RnavGraph")
 @ 
-Many of the demos require data from the \texttt{RnavGraphImageData} package also written by us.\\
 
 All said, though, this vignette should itself provide the best introduction to \texttt{RnavGraph} and its full functionality.
 \subsection{A simple example}
@@ -745,13 +744,9 @@ viz2 <- ng_2d(data = ng.iris, graph = ng.lgnot)
 @ 
 
 \subsubsection{Working with Images (from some text source)}
-The main reason we implemented the \texttt{tk2d} device is because we wanted the \texttt{RnavGraph} package to be useful to explore image data. All images get imported as tcl \texttt{image} objects since they later will be displayed on a tk canvas widget. This has the implication that the user needs a running \texttt{Img} tcl extension set up for the tcltk version R connects to via the \texttt{tcltk} R package. If the images however eventually exist as an R object of some sort (e.g. a matrix), the tcl \texttt{Img} extension is not needed. For the examples in this vignette and for some of the demos, we require the \texttt{RnavGraphImageData} package. 
-<<>>=
-library(RnavGraphImageData)
-@ 
-you can get an overview of the data provided by the package with
+The main reason we implemented the \texttt{tk2d} device is because we wanted the \texttt{RnavGraph} package to be useful to explore image data. All images get imported as tcl \texttt{image} objects since they later will be displayed on a tk canvas widget. This has the implication that the user needs a running \texttt{Img} tcl extension set up for the tcltk version R connects to via the \texttt{tcltk} R package. If the images however eventually exist as an R object of some sort (e.g. a matrix), the tcl \texttt{Img} extension is not needed. You can get an overview of the data provided by the \texttt{RnavGraph} package with
 <<eval=FALSE>>=
-data(package='RnavGraphImageData')
+data(package='RnavGraph')
 @ 
 \modify{Much of this data is from the webpage of Sam Roweis \tiny{http://www.cs.nyu.edu/$\sim$roweis/data.html}}.\\
 
@@ -870,7 +865,7 @@ shell("convert image.png image.jpg")
 \end{table}
 
 
-We work with a data set from the Library of Amsterdam \modify{http://staff.science.uva.nl/$\sim$aloi/}. The download is the ``Quater resolution (192 $\times$ 144)'' which whose size is 60MB and contains $1000-250$ objects with each three different viewing angles \modify{2250} images. We have attached a resized version ($38x29$ pixels) in the \texttt{RnavGraphImageData} package in order to save space. 
+We work with a data set from the Library of Amsterdam \modify{http://staff.science.uva.nl/$\sim$aloi/}. The download is the ``Quater resolution (192 $\times$ 144)'' which whose size is 60MB and contains $1000-250$ objects with each three different viewing angles \modify{2250} images. We have attached a resized version ($38x29$ pixels) in the \texttt{RnavGraph} package in order to save space. 
 
 \begin{center}
   \includegraphics[width = 0.6\textwidth]{img/aloi.jpg}
@@ -878,7 +873,7 @@ We work with a data set from the Library of Amsterdam \modify{http://staff.scien
 
 The path to the images is
 <<>>=
-imgPath <- system.file("aloi_small", package="RnavGraphImageData")
+imgPath <- system.file("aloi_small", package="RnavGraph")
 aloi_images <- list.files(path=imgPath, full.names=TRUE)
 length(aloi_images)
 aloi_images[1:5]
