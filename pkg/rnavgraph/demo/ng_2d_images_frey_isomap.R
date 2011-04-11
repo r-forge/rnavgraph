@@ -31,4 +31,4 @@ local({
 			
 		})
 
-cat(paste("\n\nThe source code of this demo file is located at:\n",system.file("demo", "ng_2d_images_frey.R", package="RnavGraph"),"\n\n\n"))
+cat(paste("\n\nThe source code of this demo file is located at:\n",system.file("demo", "ng_2d_images_frey_isomap.R", package="RnavGraph"),"\n\n\n"))
