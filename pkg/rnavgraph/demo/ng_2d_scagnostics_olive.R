@@ -1,4 +1,7 @@
 require(RnavGraph) || stop("RnavGraph library not available")
+require(scagnostics) || stop("scagnostics library not available")
+require(PairViz) || stop("PairViz library not available")
+
 
 local({
 			data(olive)
@@ -11,8 +14,8 @@ local({
 			)
 			
 			scagNav(data = ng.olive,
-					scags = c("Clumpy", "NotClumpy",
-							"Monotonic", "NotMonotonic",
+					scags = c("Monotonic", "NotMonotonic",
+							"Clumpy", "NotClumpy",
 							"Convex", "NotConvex",  
 							"Stringy", "NotStringy",
 							"Skinny", "NotSkinny",
@@ -20,7 +23,8 @@ local({
 							"Sparse", "NotSparse",
 							"Striated", "NotStriated",
 							"Skewed", "NotSkewed"),
+					glyphs = hpaths(shortnames(ng.olive)),
 					topFrac = 0.15,
-					sep = "**")
+					sep = "::")
 		})
 cat(paste("\n\nThe source code of this demo file is located at:\n",system.file("demo", "ng_2d_scagnostics_olive.R", package="RnavGraph"),"\n\n\n"))
