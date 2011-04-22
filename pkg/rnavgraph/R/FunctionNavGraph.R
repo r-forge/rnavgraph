@@ -178,7 +178,9 @@
 													activebackground = col)
 											if(obj == "background"){
 												tkconfigure(ngEnv$canvas, background = col)	
-											}else{
+											} else if (obj == "bulletActive") {
+												tkitemconfigure(ngEnv$canvas, "bullet", activefill = col)	
+											}else {
 												.normalState(ngEnv)
 											}
 										}
