@@ -23,21 +23,21 @@ setClass(
 				path = "character"
 		),
 		prototype=list(
-				background = "ivory",
-				bullet = "yellow2",
-				bulletActive = "orange",
-				nodes = "purple3",
-				nodesActive = "seagreen2",
-				adjNodes = "violetred1",
-				adjNodesActive = "hotpink",
-				notVisitedEdge = "thistle1",
-				visitedEdge = "plum",
-				edgeActive = "blue",
-				labels = "purple3",
-				labelsActive = "seagreen2",
-				adjLabels = "violetred",
-				adjLabelsActive = "hotpink",
-				path = "black"
+				background = "white",
+				bullet = "#fdfd96",           ## Pastel Yellow
+				bulletActive = "#ff6961",     ## Pastel Red
+				nodes = "#444444",            ## Gray
+				nodesActive = "#03C03C",      ## Pastel Dark Green
+				adjNodes = "#FFB347",         ## Pastel Orange
+				adjNodesActive =  "#ff6961",  ## Pastel Red
+				notVisitedEdge = "#444444",   ## Gray
+				visitedEdge ="#CFCFC4",       ## Pastel Gray
+				edgeActive = "#03C03C",       ## Pastel Dark Green
+				labels = "#444444",				    ## Gray
+				labelsActive = "#03C03C",     ## Pastel Dark Green
+				adjLabels = "#ff8f00",        ## Princeton Orange
+				adjLabelsActive ="#ff6961",   ## Pastel Red
+				path = "#c23b22"              ## Pastel Dark Red
 		)
 )
 
@@ -68,8 +68,8 @@ setClass(
 		prototype = list(
 				bulletRadius = 15,
 				nodeRadius = 10,
-				lineWidth = 1,
-				highlightedLineWidth = 3
+				lineWidth = 2,
+				highlightedLineWidth = 4
 		)
 )
 
@@ -82,9 +82,9 @@ setClass(
 				linked = "logical"
 		),
 		prototype = list(
-				bg = "grey16",
-				brush_colors = c('darkorchid', 'hotpink', 'firebrick3', 'steelblue', 'olivedrab', 'coral', 'saddlebrown', 'dimgray', 'yellow1'),
-				brush_color = "white",
+				bg = "white",
+				brush_colors = c('#966fd6', '#ff69b4', '#c23b22', '#779ecb', '#03c03c', '#ffb347', '#836953', '#cfcfc4', '#FFEF00'),
+				brush_color = "#dfff00",
 				linked = TRUE
 		)
 )
