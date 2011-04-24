@@ -83,8 +83,9 @@ setClass(
 		),
 		prototype = list(
 				bg = "white",
-				brush_colors = c('#966fd6', '#ff69b4', '#c23b22', '#779ecb', '#03c03c', '#ffb347', '#836953', '#cfcfc4', '#FFEF00'),
-				brush_color = "#dfff00",
+				## RColorBrewer qualitative, 9 classes, color scheme: Set1
+				brush_colors = c('#377EB8', '#4DAF4A', '#984EA3', '#FF7F00', '#FFFF33', '#A65628', '#F781BF', '#999999', '#E41A1C'),
+				brush_color = "magenta",
 				linked = TRUE
 		)
 )
