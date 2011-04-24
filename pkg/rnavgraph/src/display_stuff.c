@@ -1113,9 +1113,9 @@ static int display_glyphs_Cmd(
 					}
 					
 					if(obj_selected) {
-					  sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,brush_color, i);
+					  sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -outline black -width 1",ttID,tmpCmd,brush_color, i);
 					} else {
-					  sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -width 0",ttID,tmpCmd,obj_color, i);
+					  sprintf(tclCmd,"%s.canvas create polygon %s -fill %s -tag [list data %i glyph polygon] -outline black -width 1",ttID,tmpCmd,obj_color, i);
 					}
 					Tcl_Eval(interp,tclCmd);
 
