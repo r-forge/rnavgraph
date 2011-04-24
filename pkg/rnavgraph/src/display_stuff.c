@@ -222,9 +222,9 @@ static int display_shapes_Cmd(
 
 					// printf("x:%f.3, y:%f.3, size:%d, col:%s, sel:%d\n",x,y,obj_size,obj_color,obj_selected);
 					if(obj_selected) {
-						sprintf(tclCmd,"%s.canvas create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i shape] -width 0",ttID,x_screen-r,y_screen-r,x_screen+r,y_screen+r, brush_color, i);
+						sprintf(tclCmd,"%s.canvas create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i shape] -width 1",ttID,x_screen-r,y_screen-r,x_screen+r,y_screen+r, brush_color, i);
 					} else {
-						sprintf(tclCmd,"%s.canvas create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i shape] -width 0",ttID,x_screen-r,y_screen-r,x_screen+r,y_screen+r, obj_color, i);
+						sprintf(tclCmd,"%s.canvas create oval %.3f %.3f %.3f %.3f -fill %s -tag [list data %i shape] -width 1",ttID,x_screen-r,y_screen-r,x_screen+r,y_screen+r, obj_color, i);
 					}
 					Tcl_Eval(interp,tclCmd);
 				}
