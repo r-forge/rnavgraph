@@ -6,6 +6,7 @@
 // windows:
 // gcc -shared -o imgscale.dll -DUSE_TCL_STUBS -DUSE_TK_STUBS -I C:\Tcl\include -c imagescale_adrian_85.c -L C:\Tcl\lib -ltclstub85 -ltkstub85 -lm
 
+int j = 0;
 
 #if TEA
 #include <tcl.h>

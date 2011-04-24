@@ -1,3 +1,5 @@
+int i = 0;
+
 #if TEA
 #include <tcl.h>
 #include <tk.h>
@@ -280,8 +282,8 @@ static int display_zoombox_Cmd(
 	double zbox_width, zbox_height;
 	double zbox_width2, zbox_height2;
 	double zbox_p_width, zbox_p_height;
-	double region_width, region_height;
-	double region_center_x, region_center_y;
+	double region_width = 0, region_height = 0;
+	double region_center_x = 0, region_center_y = 0;
 
 	Tcl_Obj **deactivated, *ptr_deactivated;
 	int ndeactivated, obj_deactive;
@@ -579,7 +581,7 @@ static int display_images_Cmd(
 	int obj_image_halo; //image_height, image_width, iobj_diag_old, iobj_diag
 	double image_width2, image_height2;
 	char *obj_image_name; //, *obj_image_name_orig;
-	Tk_PhotoHandle srcImage;
+	//Tk_PhotoHandle srcImage;
 
 
 	Tcl_Obj **deactivated, *ptr_deactivated;
