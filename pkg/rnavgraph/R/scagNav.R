@@ -76,8 +76,8 @@ scagEdgeWeights <- function(
 	
 	weightsScag <- matrix(rep(-99, nE*length(scags)), nrow = nE)
 	for(i in 1:nE) {
-		name1 <- paste(varNames[ftE[i,1]],"*",varNames[ftE[i,2]])
-		name2 <- paste(varNames[ftE[i,2]],"*",varNames[ftE[i,1]])
+		name1 <- tolower(paste(varNames[ftE[i,1]],"*",varNames[ftE[i,2]]))
+		name2 <- tolower(paste(varNames[ftE[i,2]],"*",varNames[ftE[i,1]]))
 		
 		i1 <- match(name1,scagColNames)
 		i2 <- match(name2,scagColNames)
