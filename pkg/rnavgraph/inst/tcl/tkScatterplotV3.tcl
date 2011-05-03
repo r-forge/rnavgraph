@@ -334,7 +334,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    }
 	    
 	    ## save new in brush list
-	    puts stdout "widget $widget and col $new_col"
+	    ##puts stdout "widget $widget and col $new_col"
 	    lset ::ng_data("$ngLinkedInstance\.$dataName\.brush_colors") $widget $new_col
 
 	    
@@ -434,13 +434,15 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
     #button press in main
     bind $canvas_2d <Button-1> {
-	#puts stdout "Button Click"
+	#puts stdout "Button Click: Canvas"
 	set ::ng_mouse_x %x
 	set ::ng_mouse_y %y
 
 	## if brush is on, the brush square should folow the mouse
 	set ttID [winfo toplevel %W]
 	set ngInstance [$ttID\.ngInstance cget -text]
+	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
+	set dataName [$ttID\.dataName cget -text]
 	set viz [$ttID\.viz cget -text]
 	
 	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "on"} {
@@ -449,6 +451,14 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set dx [expr {%x-[lindex $brush_xy 2]}]
 	    set dy [expr {%y-[lindex $brush_xy 3]}]
 	    brush $ttID $dx $dy
+	} elseif {$::ng_ctrl_L} {	
+	    ## Move curent and all selected points around
+	    
+	    set widget [lindex [%W itemcget current -tag] 0]
+	    if {$widget ne "data"} {
+		set ::ng_data("$ngLinkedInstance\.$dataName\.move_selected") "-1"
+		#puts stdout "no data"
+	    }
 	}
     }
 
@@ -489,6 +499,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     bind $ttID <KeyRelease-Control_L> {
 	#puts stdout "Ctrl release"
 	set ::ng_ctrl_L 0
+	set ::ng_data("$ngLinkedInstance\.$dataName\.move_selected") "-1"
     }
 
 
@@ -496,6 +507,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
     # select Bindings
     $canvas_2d bind data <Button-1> {
+	#puts stdout "Button Click: Data Canvas"
 	## change item from select to deselect and vice verca
 	set ttID [winfo toplevel %W]
 	set ngInstance [$ttID\.ngInstance cget -text]	    
@@ -503,13 +515,25 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]	    
 	set dataName [$ttID\.dataName cget -text]	
 	
-	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "off"} {
+	if {$::ng_ctrl_L} {	
+	    ## Move curent and all selected points around
+	    #set tmpdataId $::ng_data("$ngLinkedInstance\.$dataName\.temp_selected")
+	    #set sel $::ng_data("$ngLinkedInstance\.$dataName\.selected")
+	    
+	    
+	    #set canvasId [$ttID\.canvas find withtag current]
+	    set dataId [lindex [$ttID\.canvas gettags current] 1]
+	    
+	    set ::ng_data("$ngLinkedInstance\.$dataName\.move_selected") $dataId
+	    
+	} elseif {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "off"} {
+	    ## Select points	
 	    set canvasId [$ttID\.canvas find withtag current]
 	    set dataId [lindex [$ttID\.canvas gettags current] 1]
-
+	    
 	    
 	    set tmpdataId $::ng_data("$ngLinkedInstance\.$dataName\.temp_selected")
-
+	    
 	    if { $tmpdataId ne "-1"} {
 		## one point was temporarily selected
 		## deselect the previously selected point
@@ -553,6 +577,34 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
     }
     
+    ## deselect all points and deactivate brush
+    bind $canvas_2d <Double-ButtonRelease-3> {
+	
+   	global ng_data
+    	set ttID [winfo toplevel %W]
+	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
+	set ngInstance [$ttID\.ngInstance cget -text]
+	set viz [$ttID\.viz cget -text]
+	set dataName [$ttID\.dataName cget -text]
+	
+	set n [llength $ng_data("$ngLinkedInstance\.$dataName\.selected")]
+	set ng_data("$ngLinkedInstance\.$dataName\.selected") [lrepeat $n 0]
+
+	foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
+		set ngInstance [$tt\.ngInstance cget -text]	    
+		set tviz [$tt\.viz cget -text]
+	    update_displays $tt $ngInstance $dataName $tviz
+	}
+	set ::ng_data("$ngLinkedInstance\.$dataName\.temp_selected") -1
+
+	## delete brush
+	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "on"} {
+	    
+	    $ttID\.nav.selection.brush.cb toggle
+	    $ttID\.canvas delete brush
+	    
+	}
+    }
 
     ## reset button
     bind $sel_none <Button-1> {
@@ -733,7 +785,8 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     
 
     ## Move brush    
-    bind $canvas_2d <B1-Motion> {
+    bind $canvas_2d <B1-Motion> {\
+	global ng_data
 #	puts stdout all
 	set dx [expr {%x - $::ng_mouse_x}]
 	set dy [expr {%y - $::ng_mouse_y}]
@@ -746,8 +799,38 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	## if brush is on move brush
 	if {$::ng_windowManager("$ngInstance\.$viz\.brush") eq "on"} {
 	    brush $ttID $dx $dy
-	}
-	
+	} elseif {$::ng_ctrl_L} {
+
+	    if {$ng_data("$ngLinkedInstance\.$dataName\.move_selected") ne "-1"} {
+
+		set selection $ng_data("$ngLinkedInstance\.$dataName\.selected")
+		lset selection $ng_data("$ngLinkedInstance\.$dataName\.move_selected") 1
+		
+		if {$ng_data("$ngLinkedInstance\.$dataName\.temp_selected") ne "-1"} {
+		    lset selection $ng_data("$ngLinkedInstance\.$dataName\.temp_selected") 1
+		}
+		## move points
+		set zf $::ng_windowManager("$ngInstance\.$viz\.zoom_factor")
+		set w $::ng_windowManager("$ngInstance\.$viz\.cwidth")
+		set h $::ng_windowManager("$ngInstance\.$viz\.cheight")
+		
+		set i 0
+		foreach sel $selection tx $ng_data("$ngInstance\.$dataName\.xcoord")\
+		    ty $ng_data("$ngInstance\.$dataName\.ycoord") {
+			if {$sel} {
+			    lset ng_data("$ngInstance\.$dataName\.xcoord") $i\
+				[expr {$tx + double($dx)/double($w)*2.0/sqrt($zf)}]
+			    lset ng_data("$ngInstance\.$dataName\.ycoord") $i\
+				[expr {$ty - double($dy)/double($h)*2.0/sqrt($zf)}]	
+			}
+			incr i
+		    }
+		foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
+		    set ngInstance [$tt\.ngInstance cget -text]
+		    update_displays $tt $ngInstance $dataName $viz
+		}
+	    }
+	}	
 	set ::ng_mouse_x %x
 	set ::ng_mouse_y %y
     }
@@ -921,16 +1004,18 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 #	}
 #    }
 
-    
-    ## Zooming with scroll wheel in main window
-    if {$isWindows eq 1} {
-	# zoom windows
-	
+
 	bind $canvas_2d <Enter> {
 ##	    set ttID [winfo toplevel %W]
 ##	    focus $ttID\.canvas
 	    focus %W
 	}
+
+    
+    ## Zooming with scroll wheel in main window
+    if {$isWindows eq 1} {
+	# zoom windows
+	
 	
 	bind $canvas_2d <Leave> {
 	    focus [winfo toplevel %W]
@@ -1011,7 +1096,6 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    set ::ng_windowManager("$ngInstance\.$viz\.zoom_center_y")\
 		[expr {$::ng_windowManager("$path\zoom_center_y")+$ddy}]
 	    
-	    ## HERE
 	    update_zoomfactor $ttID $path\
 		$::ng_windowManager("$path\zoom_factor")\
 		$::ng_windowManager("$path\zoom_center_x")\
@@ -1172,14 +1256,14 @@ proc update_zoomfactor {ttID path factor center_x center_y} {
     
     if {$factor > 1} {
 	if {$center_x < -1} {	
-	    set $center_x -1 
+	    set center_x -1 
 	} elseif {$center_x > 1} {
-	    set $center_x 1
+	    set center_x 1
 	}
 	if {$center_y < -1} {	
-	    set $center_y -1 
+	    set center_y -1 
 	} elseif {$center_y > 1} {
-	    set $center_y 1
+	    set center_y 1
 	}
 	
 

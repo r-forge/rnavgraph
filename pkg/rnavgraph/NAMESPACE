@@ -34,8 +34,8 @@ export(ng_get,"ng_set<-", ng_set)
 ## ng_graph
 #export(plot)
 ##visualization
-#exportClass(NG_Visualization, NG_Viz2DAxis)
-#export(inititializeViz, updateViz, closeViz)
+exportClass(NG_Visualization, NG_Viz2DAxis)
+export(inititializeViz, updateViz, closeViz)
 ## scagGraph
 #export(scagNav,scagGraph,scagEdgeWeights)
 
