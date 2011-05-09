@@ -179,7 +179,8 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 	    foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 		set ngInstance [$tt\.ngInstance cget -text]
 		$tt\.nav\.selection\.brush\.c configure -bg $new_col
-		update_displays $tt $ngInstance $dataName $viz
+		set tviz [$tt\.viz cget -text]
+		update_displays $tt $ngInstance $dataName $tviz
 	    }
 
 	 
@@ -827,7 +828,8 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 		    }
 		foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
 		    set ngInstance [$tt\.ngInstance cget -text]
-		    update_displays $tt $ngInstance $dataName $viz
+		    set tviz [$tt\.viz cget -text]
+		    update_displays $tt $ngInstance $dataName $tviz
 		}
 	    }
 	}	
