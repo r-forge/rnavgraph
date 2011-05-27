@@ -1422,7 +1422,10 @@ The \texttt{tk2d} displays the data always twice, in the ``main view'' on the le
 If zoomed in, you can move your current view in the ``main view'' by pressing the right mouse button and dragging your view to the desired place. In the ``world view'' you can just drag and drop the viewing rectangle (left mouse button).
  
  \subsubsection{Brushing and Selecting}
-The \texttt{tk2d} display allows to change the color, size and hiding (deactivate) of each object. We use size and color since they are (the only) two attributes that are shared between points, glyphs, images and text. \modify{Currently the text size however does not change!}. You can select points \modify{objects} only in the ``main view'' by either selecting and deselecting them with a left mouse click or by using the brush tool. Selecting them with a mouse click deselects the previously with a mouse click selected point. If you want to select points permanently you need to press the Shift key. When you check the brush checkbox, a gray rectangle appears in the upper right corner. You can resize the brush rectangle by dragging the solid rectangle on its right lower corner. You can move the rectangle by clicking anywhere in the ``main view'' and the brush rectangle jumps to your mouse cursor and also moves with it while your mouse button is still pressed. By default, the points below the brush rectangle don't get brushed permanently. If you want to brush permanently you need to press the Shift key while brushing. Points can only be deselected individually by clicking on them with the shift key pressed, or all together by pressing the non button.
+The \texttt{tk2d} display allows to change the color, size and hiding (deactivate) of each object. We use size and color since they are (the only) two attributes that are shared between points, glyphs, images and text. \modify{Currently the text size however does not change!}. You can select points \modify{objects} only in the ``main view'' by either selecting and deselecting them with a left mouse click or by using the brush tool. Selecting them with a mouse click deselects the previously with a mouse click selected point. If you want to select points permanently you need to press the Shift key. When you check the brush checkbox, a gray rectangle appears in the upper right corner. You can resize the brush rectangle by dragging the solid rectangle on its right lower corner. You can move the rectangle by clicking anywhere in the ``main view'' and the brush rectangle jumps to your mouse cursor and also moves with it while your mouse button is still pressed. By default, the points below the brush rectangle don't get brushed permanently. If you want to brush permanently you need to press the Shift key while brushing. Points can only be deselected individually by clicking on them with the shift key pressed, or all together by either pressing the none button or by double clicking the right mouse button while pointing the courser on the main view.
+
+\subsubsection{Moving Individual Points Temporarily}
+If you need to spread out some points in order to get a closer look at each point, you can either zoom in or move the selected points by mouse drag and drop while pressing the \texttt{Ctrl} key. Once you change the bullet state, all points go back to their location according the bullet state.
 
 \subsubsection{Deactivating and Reactivating points}
 Once you have grouped a set of points by assigning them different color and size, you might want to hide them so you can group the rest of the points without the distraction of the already grouped points. You can do this by selecting these points and then press ``deactivate'' in the modify menu. The button will then stay highlighted to indicate that not all the data is shown. You can deactivate different data points in multiple steps by selecting them and repeatedly pressing the ``deactivate'' button. Once you press the ``reactivate'' button all point will appear again.
@@ -1432,6 +1435,8 @@ Once you have grouped a set of points by assigning them different color and size
 Once you have some points selected, you can change their size and color. You can change the size of the points immediately pressing the ``abs'' or ``rel'' + or -. The \texttt{tk2d} gives each object a size attribute. absolute (abs) resizing changes all selected objects to the minimum of the object's sizes plus or minus one size. The relative (rel) resizing increments or decrements all sizes by one. If you were to select five objects with the sizes $\{2,3,3,4,6\}$ and press the rel - button, your new sizes would be $\{1,2,2,3,5\}$ and if you were to press the rel - button again you would get $\{0,1,1,2,5\}$. \modify{Note that you can get negative sizes which theoretically would not show on the ``main view'' anymore, we chose however to display them with minimal possible display size. This might be confusing at the beginning}. If you have a set of points selected with the sizes $\{2,3,3,4,6\}$ and you were to press the abs + button you would get $\{3,3,3,3,3\}$ or the abs - button you would get $\{1,1,1,1,1\}$. Size changes take effect immediately.\\
 
 Changing the color of objects takes place once you have some points brushed and select a colorbox. However you wont notice the change until you deselect all the points. (Use Selection none, invert or all).
+
+
 
 \subsubsection{Linking Data between two \texttt{tk2d} displays}
 If you display twice (or more) the same data in two \texttt{tk2d} displays that are controlled from within the same or different \texttt{navGraph} sessions, modifying one point in a particular \texttt{tk2d} display modifies all the points from the same data in all \texttt{tk2d} displays. Such an example session could be
@@ -1836,6 +1841,11 @@ nav <- navGraph(ng.data)
 
 ng_walk(nav, eulerian(as(ng_get(ng_get(nav,"graphs")[[1]],"graph")),"graphNEL"))
 @ 
+
+\section{Acknowledgments}
+We'd like to thank the R community who contributes actively to the \texttt{R} mailing list. We'd like to thank Simon Urbanek in particular, as he helped us to deal with a few problems that caused us headaches for some time.
+
+\texttt{RnavGraph} is partially supported by an Ontario Graduate Scholarship.
 
 
 \section*{References}

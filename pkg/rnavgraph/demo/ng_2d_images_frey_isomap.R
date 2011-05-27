@@ -22,13 +22,27 @@ local({
 			ng.frey
 			
 			
-			
+			V <- mapply(function(x){paste("i",x,sep="")},1:dims)
 			ng.iso.frey <- ng_data(name = "ISO_frey",
 						data = iso.frey[sel,],
-						shortnames = mapply(function(x){paste("i",x,sep="")},1:dims))
+						shortnames = V)
 				
-			nav <- scagNav(ng.iso.frey,c("Clumpy","Outlying","Skewed","Monotonic", "Striated"),
-							images=ng.frey)
+			#nav <- scagNav(ng.iso.frey,c("Clumpy","Outlying","Skewed","Monotonic", "Striated"),
+			#				images=ng.frey)
+			
+			G <- completegraph(V)
+			
+			LG <- linegraph(G)
+			LGnot <- complement(LG)
+			
+			ng.LG <- ng_graph("3d frey", LG)
+			ng.LGnot <- ng_graph("4d frey", LGnot)
+			
+			viz3d <- ng_2d(ng.iso.frey,ng.LG, images = ng.frey)
+			viz4d <- ng_2d(ng.iso.frey,ng.LGnot, images = ng.frey)
+			
+			nav <- navGraph(ng.iso.frey,list(ng.LG,ng.LGnot),list(viz3d,viz4d))
+			
 			
 		})
 
