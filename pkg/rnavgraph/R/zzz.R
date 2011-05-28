@@ -28,7 +28,7 @@
 	}
 	
 	if(identical(didLoad,FALSE)) {
-		warning("Can not load the tk Img extension.")	
+		warning("Can not load the tk Img extension. Hence you can not use the 'ng_image_files' R function.")	
 	}
 	
 }

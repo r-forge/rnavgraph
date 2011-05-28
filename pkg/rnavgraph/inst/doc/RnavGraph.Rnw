@@ -1113,7 +1113,7 @@ and finally, you can call \texttt{navGraph} as used
 nav <- navGraph(ng.iris,ng.lg, viz1)
 @ 
 Note, that by default the base graphics system stores all the plotting instructions onto a device in order to be able to redraw the device if it gets moved or scaled etc... In context with \texttt{navGraph} were we are to plot and re-plot the data many times, this behavior is a nuisance and slows down your computer. Hence you can turn this behavior of the current display of (once it exists) with the following command
-<<>>=
+<<eval=FALSE>>=
 dev.control(displaylist = "inhibit")
 @ 
 
