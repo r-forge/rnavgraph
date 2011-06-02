@@ -1,8 +1,8 @@
 Package: RnavGraph
 Type: Package
 Title: Using graphs as a navigational infrastructure.
-Version: 0.0.8
-Date: 2011-02-12
+Version: 0.0.9
+Date: 2011-06-02
 Author: Adrian R. Waddell and R. Wayne Oldford
 Maintainer: Adrian Waddell <adrian@waddell.ch>
 Url: http://adrian.waddell.ch/
