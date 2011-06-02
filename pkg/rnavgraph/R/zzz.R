@@ -7,8 +7,8 @@
 	tcl("source", tclfile)
 	
 	## image resizing function in C 
-	.Tcl(paste('load',system.file("libs",.Platform$r_arch,paste("ImgscaleTea",.Platform$dynlib.ext,sep=''),package="RnavGraph")))
-	.Tcl(paste('load',system.file("libs",.Platform$r_arch,paste("DisplaystuffTea",.Platform$dynlib.ext,sep=''),package="RnavGraph")))
+	.Tcl(paste('load "',system.file("libs",.Platform$r_arch,paste("ImgscaleTea",.Platform$dynlib.ext,sep=''),package="RnavGraph"),'"',sep=''))
+	.Tcl(paste('load "',system.file("libs",.Platform$r_arch,paste("DisplaystuffTea",.Platform$dynlib.ext,sep=''),package="RnavGraph"),'"',sep=''))
 	
 	
 	## tk2d display
