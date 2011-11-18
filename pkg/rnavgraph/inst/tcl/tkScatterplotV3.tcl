@@ -164,9 +164,9 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
     ## change brush color
     bind $fbrush.c <Double-ButtonRelease-1> {
-
+	set ttID [winfo toplevel %W]
 	set col [%W cget -bg]
-	set new_col [tk_chooseColor -initialcolor $col]
+	set new_col [tk_chooseColor -initialcolor $col -parent $ttID]
 	
 	if {$new_col ne ""} {
 	    set ttID [winfo toplevel %W]
@@ -320,9 +320,11 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
 
     $canvas_col bind "color && !bg" <Double-ButtonRelease-1> {
+	
+	set ttID [winfo toplevel %W]
 	set widget [lindex [%W itemcget current -tag] 3]
 	set col [%W itemcget "$widget && dot" -fill]
-	set new_col [tk_chooseColor -initialcolor $col]
+	set new_col [tk_chooseColor -initialcolor $col -parent $ttID]
 
 	if {$new_col ne ""} {
 	    set ttID [winfo toplevel %W]
@@ -345,9 +347,9 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
 
     ## Change Background Color
     $canvas_col bind "color && bg" <Double-ButtonRelease-1> {
-
+	set ttID [winfo toplevel %W]
 	set col [%W itemcget "bg && dot" -fill]
-	set new_col [tk_chooseColor -initialcolor $col]
+	set new_col [tk_chooseColor -initialcolor $col -parent $ttID]
 	
 	
 	if {$new_col ne ""} {

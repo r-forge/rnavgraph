@@ -114,7 +114,7 @@ The large yellow circle on the rightmost node of the graph is called the ``bulle
 
 Note how the other nodes are coloured differently, and the edges to them highlighted, depending upon whether they share an edge with the bullet's current node or not.  
 You can move the bullet to a connected node simply by double-clicking on the destination node, by selecting the destination node and scrolling, or by simply selecting and dragging the bullet itself.
-However you choose to do so, the bullet will dynamically traverse the edge from origin to destination node while, at the same time, the scatterplot display
+Whatever way you choose, the bullet will dynamically traverse the edge from origin to destination node while, at the same time, the scatterplot display
 will ``follow'' the bullet's path smoothly updating its display.\\
 
 Try it, moving the bullet from the original node \texttt{s.L:s.W} to the upper left node \texttt{s.W:p.W}.
@@ -455,7 +455,7 @@ herefore.
   \label{fig:ggobicolors}
   \centering
   \includegraphics[width = 0.6\textwidth]{img/ggobicolors.png}
-  \caption{Mapping of the \texttt{group} argument to colors in the ggobi dispaly.}  
+  \caption{Mapping of the \texttt{group} argument to colors in the ggobi display.}  
 \end{figure}
 
 For the \modify{\texttt{tk2d}} display, the \texttt{group} variable could also be a vector of strings contained in the \texttt{colors()} output. For example
