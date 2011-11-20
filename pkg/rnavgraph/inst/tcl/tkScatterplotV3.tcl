@@ -776,7 +776,7 @@ proc tk_2d_display {ttID ngInstance ngLinkedInstance dataName viz withImages wit
     }
     
     bind $cb_brush <ButtonRelease-1> {
-    	set ttID [winfo toplevel %W]
+    	set ttID [winfo toplevel %W]info ex
     	set ngInstance [$ttID\.ngInstance cget -text]
 	set ngLinkedInstance [$ttID\.ngLinkedInstance cget -text]
     	set dataName [$ttID\.dataName cget -text]
@@ -1641,3 +1641,17 @@ proc change_size {ttID abs val} {
 	## no points selected, 
     }
 }
+
+
+## refresh all display with a certain name
+proc refresh_linked {ngLinkedInstance dataName} {
+    if {[info exists ::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID")]} {
+	foreach tt $::ng_windowManager("$ngLinkedInstance\.$dataName\.ttID") {
+	    set ngInstance [$tt\.ngInstance cget -text]	    
+	    set tviz [$tt\.viz cget -text]
+	    update_displays $tt $ngInstance $dataName $tviz
+	}
+    }
+}
+
+

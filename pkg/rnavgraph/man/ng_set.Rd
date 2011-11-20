@@ -31,6 +31,6 @@ Adrian Waddell and Wayne Oldford
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{navGraph}}, \code{\link{ng_set-methods}}, \code{\link{ng_get}}, \code{\link{ng_get-methods}} 
+\code{\link{navGraph}}, \code{\link{ng_set-methods}}, \code{\link{ng_get}}, \code{\link{ng_get-methods}}, \code{\link{ng_set_color<-}}, \code{\link{ng_get_color}},  \code{\link{ng_set_size<-}}, \code{\link{ng_get_size}}
 }
 %\examples{}

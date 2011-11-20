@@ -205,3 +205,150 @@ setReplaceMethod(
 				return(tmp)
 			} 
 		})
+
+
+## ng_get_color
+ng_get_color <- function(obj, dataName) {
+
+  if(!is(obj, "NavGraph_handler")) {
+    stop('[ng_get_color]: first arguments needs to be a NavGraph_handler object')
+  }
+
+  dnames <- sapply(obj@data, function(x)x@name)
+  
+  isMissing <- FALSE
+  if(missing(dataName)) {
+    if(length(obj@data) > 1) {
+      cat("Specify data name. Choose from:\n")
+      cat(paste('   ', paste(sapply(obj@data, function(x)x@name), collapse = ', '), '\n'))
+      isMissing <- TRUE
+    } else {
+      dataName <- dnames[1]
+    }
+  } else {
+    ## does dataName exist
+    if(!(dataName %in% dnames)) {
+      stop(paste('[ng_get_color]: data name "',dataName,'" does not exist in your NavGraph_handler', sep=''))
+    }
+  }
+
+  if(!isMissing) {
+    return(as.character(tcl('set',paste('ng_data("',obj@env$ng_LinkedInstance,'.',dataName,'.','color','")',sep = ''))))
+  }
+  
+}
+
+
+setReplaceMethod(
+                 f = "ng_set_color",
+                 signature = signature(obj = "NavGraph_handler"),
+                 function(obj,dataName,value){
+
+                   dnames <- sapply(obj@data, function(x)x@name)
+
+                   isMissing <- FALSE
+                   if(missing(dataName)) {
+                     if(length(obj@data) > 1) {
+                       cat("Specify data name. Choose from:\n")
+                       cat(paste('   ', paste(sapply(obj@data, function(x)x@name), collapse = ', '), '\n'))
+                       isMissing <- TRUE
+                     } else {
+                       dataName <- dnames[1]
+                     }
+                   } else {
+                     ## does dataName exist
+                     if(!(dataName %in% dnames)) {
+                       stop(paste('[ng_get_color]: data name "',dataName,'" does not exist in your NavGraph_handler', sep=''))
+                     }
+                   }
+
+                   if(!isMissing){
+                     ## where is the data stored
+                     ind <- match(dataName,dnames)[1]
+                     n <- dim(obj@data[[ind]]@data)[1]
+                     
+                     if(length(value) == 1) {
+                       tcl('set',paste('ng_data("',obj@env$ng_LinkedInstance,'.',dataName,'.','color','")',sep = ''), rep(value, n))
+                     } else if(length(value) == n) {
+                       tcl('set',paste('ng_data("',obj@env$ng_LinkedInstance,'.',dataName,'.','color','")',sep = ''), value)
+                     } else {
+                       stop('[ng_set_color]: length of specified color vector does not match with data dimension')
+                     }
+                     tcl('refresh_linked', obj@env$ng_LinkedInstance, dataName)
+                   }
+                   return(obj)
+                 })
+
+
+
+## ng_get_size
+ng_get_size <- function(obj, dataName) {
+
+  if(!is(obj, "NavGraph_handler")) {
+    stop('[ng_get_color]: first arguments needs to be a NavGraph_handler object')
+  }
+
+  dnames <- sapply(obj@data, function(x)x@name)
+  
+  isMissing <- FALSE
+  if(missing(dataName)) {
+    if(length(obj@data) > 1) {
+      cat("Specify data name. Choose from:\n")
+      cat(paste('   ', paste(sapply(obj@data, function(x)x@name), collapse = ', '), '\n'))
+      isMissing <- TRUE
+    } else {
+      dataName <- dnames[1]
+    }
+  } else {
+    ## does dataName exist
+    if(!(dataName %in% dnames)) {
+      stop(paste('[ng_get_color]: data name "',dataName,'" does not exist in your NavGraph_handler', sep=''))
+    }
+  }
+
+  if(!isMissing) {
+    return(as.numeric(tcl('set',paste('ng_data("',obj@env$ng_LinkedInstance,'.',dataName,'.','size','")',sep = ''))))
+  }
+  
+}
+
+
+setReplaceMethod(
+                 f = "ng_set_size",
+                 signature = signature(obj = "NavGraph_handler"),
+                 function(obj,dataName,value){
+                   dnames <- sapply(obj@data, function(x)x@name)
+                   
+                   isMissing <- FALSE
+                   if(missing(dataName)) {
+                     if(length(obj@data) > 1) {
+                       cat("Specify data name. Choose from:\n")
+                       cat(paste('   ', paste(sapply(obj@data, function(x)x@name), collapse = ', '), '\n'))
+                       isMissing <- TRUE
+                     } else {
+                       dataName <- dnames[1]
+                     }
+                   } else {
+                     ## does dataName exist
+                     if(!(dataName %in% dnames)) {
+                       stop(paste('[ng_get_color]: data name "',dataName,'" does not exist in your NavGraph_handler', sep=''))
+                     }
+                   }
+
+                   if(!isMissing){
+                     ## where is the data stored
+                     ind <- match(dataName,dnames)[1]
+                     n <- dim(obj@data[[ind]]@data)[1]
+                     
+                     if(length(value) == 1) {
+                       tcl('set',paste('ng_data("',obj@env$ng_LinkedInstance,'.',dataName,'.','size','")',sep = ''), rep(value, n))
+                     } else if(length(value) == n) {
+                       tcl('set',paste('ng_data("',obj@env$ng_LinkedInstance,'.',dataName,'.','size','")',sep = ''), value)
+                     } else {
+                       stop('[ng_set_color]: length of specified color vector does not match with data dimension')
+                     }
+                     tcl('refresh_linked', obj@env$ng_LinkedInstance, dataName)
+                   }
+                   return(obj)
+                 })
+

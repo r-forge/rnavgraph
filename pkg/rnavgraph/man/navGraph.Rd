@@ -107,7 +107,7 @@ navGraph(data, graph = NULL, viz = NULL, settings = NULL)
 \code{\link{ng_data}}, \code{\link{ng_graph}}, \code{\link{ng_2d}},
 \code{\link{ng_2d_myplot}}, \code{\link{ng_2d_ggobi}},
 \code{\link{scagNav}}, \code{\link{ng_get-methods}}, \code{\link{ng_set-methods}},
-\code{\link{ng_update}}, \code{\link{ng_walk}}
+\code{\link{ng_update}}, \code{\link{ng_walk}}, \code{\link{ng_set_color<-}}, \code{\link{ng_get_color}},  \code{\link{ng_set_size<-}}, \code{\link{ng_get_size}}
 }
 \examples{
 ## Define a NG_data object

@@ -35,8 +35,28 @@
 %\begin{center}
 %{\Huge {\bf RnavGraph} -- Navigating dimensional data}
 %\end{center}
+
+\section{Installation}
+We tried to keep the dependencies low, however to try all demos or the compile the package from source you need quite a few packages running on your computer. Linux users need the \texttt{libtk-img-dev}, \texttt{tcl-dev} and \texttt{tk-dev} system libraries installed. We recommend to install the suggested (optional, but needed for demos) packages, run the following sequence of code an \texttt{R} session with administrator/root rights
+<<eval = FALSE>>=
+install.packages(c("PairViz", "scagnostics", "rgl", "grid",
+ "MASS", "RGtk2", "hexbin", "vegan"), dependencies = TRUE)
+source("http://www.bioconductor.org/biocLite.R")
+biocLite("graph")
+biocLite("RBGL")
+biocLite("RDRToolbox")
+@ 
+\texttt{RnavGraph} and \texttt{RnavGraphImageData} are then installed as follows
+<<eval=FALSE>>=
+install.packages("RnavGraph")
+install.packages("RnavGraphImageData")
+@ 
+
+In order to install \texttt{rggobi} and \texttt{Rgraphviz} you need to make sure to install the program \texttt{graphviz} and \texttt{ggobi} before the corresponding \texttt{R} packages.
+
 \section{Introduction}
 \texttt{RnavGraph} provides interactive visualization tools for exploring high dimensional space through lower dimensional trajectories, based on the concepts first presented in Hurley and Oldford (2011).  
+
 
 \subsection{Getting started}
 The \texttt{RnavGraph}  package is available from the Comprehensive R Archive Network (CRAN). We used extensively S4 classes and the Tcl and Tk API via the \texttt{tcltk} R package. Most of the visualization, both for the graph and the 2d scatterplots, build upon the Tk canvas widget.\\
@@ -1436,6 +1456,51 @@ Once you have some points selected, you can change their size and color. You can
 
 Changing the color of objects takes place once you have some points brushed and select a colorbox. However you wont notice the change until you deselect all the points. (Use Selection none, invert or all).
 
+\subsubsection{Getting and Setting Color and Size}
+You can get (retrieve) and set the color and size for each point back to your \texttt{R} session, as long your \texttt{navGraph} session is still active (running). Note that you can get the colors and sizes also from an \texttt{navGraph} handler that does not point to an active \texttt{navGraph} session (more on this later).\\
+
+For an active \texttt{navGraph} session, you can use the \texttt{ng\_get\_color}, \texttt{ng\_get\_size}, \texttt{ng\_set\_color<-} and \texttt{ng\_set\_size<-} functions. 
+
+<<>>=
+data(olive)
+ng.olive <- ng_data(name = "Olive",
+		data = data.frame(olive[,-c(1,2)]))
+
+nav <- navGraph(list(ng.iris,ng.olive)) ## Start navGraph Session with two data sets
+
+## get colors
+colIris <- ng_get_color(nav, "iris")
+sizeOlive <- ng_get_size(nav, "Olive")
+
+## the following will tell you to specify your data set
+col <- ng_get_color(nav)
+
+## set all points for iris data to red
+ng_set_color(nav,"iris") <- "red"
+
+## set to random colors
+ng_set_color(nav,"iris") <- sample(c("red","yellow","green"),replace = TRUE, 150)
+
+## set all points to same size
+ng_set_size(nav,"iris") <- 1
+
+## set set points to random sizes
+ng_set_size(nav,'iris') <- sample(1:7, replace=TRUE, 150)
+@ 
+
+Consult the manual entries for more details.\\
+
+If you have an updated! (\texttt{ng\_update}) \texttt{navGraph} handler and closed the \texttt{navGraph} session, you can still access color and size as follows
+<<>>=
+nav <- ng_update(nav)
+## For iris
+attrIris <- ng_get(ng_get(nav,"data")[[1]],"group")
+attrIris[1:4]
+## For olive
+attrOlive <- ng_get(ng_get(nav,"data")[[2]],"group")
+attrOlive[1:4]
+@ 
+where the returned string combines the color code and size information.
 
 
 \subsubsection{Linking Data between two \texttt{tk2d} displays}

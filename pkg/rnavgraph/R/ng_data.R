@@ -57,7 +57,9 @@ ng_data <- function(name, data, shortnames = character(0), group = numeric(0), l
 		if(is(labels,"factor")) {
 			labels <- as.character(labels)
 		}
-	}
+	} else {
+          labels <- as.character(1:dim(data)[1])
+        }
 	
 	name = gsub(' ','',name, fixed=TRUE)
 	
@@ -74,6 +76,7 @@ ng_data <- function(name, data, shortnames = character(0), group = numeric(0), l
 	
 	new("NG_data", data = data, name = name, shortnames = shortnames, group = group, labels= labels)
 }
+
 
 
 ## Printvector and Tableelement are important for the show method
@@ -135,8 +138,12 @@ setMethod("show","NG_data",
 			if(length(object@labels) == 0){
 				cat("  label: labels weren't defined.\n")
 			}else{
-				cat(paste("  labels:",	printvector(unique(object@labels)),"\n"))
-			}
+                          if(length(unique(object@labels))>25) {
+                            cat(paste("  labels: ",	printvector(unique(object@labels)[1:25]),"..\n", sep = ''))
+                          } else { 
+                            cat(paste("  labels:",	printvector(unique(object@labels)),"\n"))
+                          }
+                        }
 		})
 
 

@@ -3,7 +3,7 @@ setClass(
 		representation = representation(
 				devName = "integer",
 				FUN = "character",
-				devType = "character",
+				devType = "OptionalCharNULL",
 				scaled = "logical"
 		),
 		contains = "NG_Visualization2d"
@@ -18,10 +18,12 @@ ng_2d_myplot <- function(data,graph,fnName, device = "base", scaled=TRUE){
 	if(is(graph,"NG_graph") == FALSE){
 		stop("graph is no NG_graph object.\n")
 	}
-	if(!(device %in% c("base", "grid", "ggplot2", "lattice", "rgl"))) {
-		stop("argument device has to be either 'base', 'grid', 'ggplot2', 'lattice' or 'rgl'.")
-	}
 	
+	if(!is.null(device)) {
+	 if(!(device %in% c("base", "grid", "ggplot2", "lattice", "rgl"))) {
+	 	stop("argument device has to be either 'base', 'grid', 'ggplot2', 'lattice' or 'rgl'.")
+	 }
+	}
 	
 	## match Variable names with Graph nodes
 	varNames <-	vizVarNames(graph,data)
@@ -47,7 +49,8 @@ setMethod(
 		signature = "NG_Viz2DAxis",
 		definition = function(viz,ngEnv){
 			
-			## open new device	
+			## open new device
+		  	if(!is.null(viz@devType)) {
 			if(any(viz@devType %in% c("base", "grid", "ggplot2", "lattice"))){
 				dev.new(title= ngEnv$graph@name)
 				viz@devName <- dev.cur()			
@@ -55,7 +58,7 @@ setMethod(
 				rgl.open()
 				viz@devName <- rgl.cur()							
 			}
-			
+			}
 			
 			## initialize rotation matrix	
 			viz <- initRotation(viz,ngEnv)
@@ -98,13 +101,13 @@ setMethod(
 			
 			
 			
-			
+			if(!is.null(viz@devType)) {
 			if(viz@devType == "rgl"){
 				rgl.set(viz@devName)
 			} else {
 				dev.set(viz@devName)			
 			}
-			
+			}
 			viz <- ng_2dRotationMatrix(viz,ngEnv)		
 
 			ii <-  c("x","y","group","labels","order","from","to","percentage","data") %in% names(formals(get(viz@FUN)))
@@ -132,10 +135,12 @@ setMethod(
 		f = "closeViz",
 		signature = "NG_Viz2DAxis",
 		definition = function(viz,ngEnv){
+if(!is.null(viz@devType)) {
 			if(viz@devType == "rgl"){
 				rgl.close(viz@devName)			
 			} else {
 				dev.off(viz@devName)			
 			}
+}
 			return(viz)
 		})

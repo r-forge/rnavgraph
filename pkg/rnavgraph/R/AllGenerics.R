@@ -20,6 +20,12 @@ setGeneric(name = "ng_get",
 setGeneric(name = "ng_set<-",
 		def = function(object,what,value){standardGeneric("ng_set<-")})
 
+setGeneric(name = "ng_set_color<-",
+		def = function(obj,dataName,value){standardGeneric("ng_set_color<-")})
+
+setGeneric(name = "ng_set_size<-",
+		def = function(obj,dataName,value){standardGeneric("ng_set_size<-")})
+
 setGeneric(name = "ng_set",
 		def = function(object){standardGeneric("ng_set")})
 

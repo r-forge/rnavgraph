@@ -1,3 +1,5 @@
 New to Version 0.1.0
 --------------------
-- color choosers open now centered over their parent windows
+
+* new functions/methods: ng_get_color, ng_set_color<-, ng_get_size, ng_set_size<-
+* color choosers open now centered over their parent windows
