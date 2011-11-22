@@ -53,8 +53,8 @@ setGeneric(name = "adjacent",
 
 ## NG_Visualization
 setGeneric(
-		name = "inititializeViz",
-		def = function(viz,ngEnv){standardGeneric("inititializeViz")})
+		name = "initializeViz",
+		def = function(viz,ngEnv){standardGeneric("initializeViz")})
 
 setGeneric(
 		name = "updateViz",

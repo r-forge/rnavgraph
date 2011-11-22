@@ -27,7 +27,7 @@
 ## switching a graph calls .closePlots and .initializePlots
 ## changing the bullet state invokes .updatePlots
 .initializePlots <- function(ngEnv) {
-	assign(ngEnv$selViz,sapply(get(ngEnv$selViz,envir = ngEnv),function(viz)inititializeViz(viz,ngEnv)),envir = ngEnv)	
+	assign(ngEnv$selViz,sapply(get(ngEnv$selViz,envir = ngEnv),function(viz)initializeViz(viz,ngEnv)),envir = ngEnv)	
 }
 
 .updatePlots <- function(ngEnv) {

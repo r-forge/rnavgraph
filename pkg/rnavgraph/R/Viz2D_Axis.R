@@ -45,7 +45,7 @@ ng_2d_myplot <- function(data,graph,fnName, device = "base", scaled=TRUE){
 
 
 setMethod(
-		f = "inititializeViz",
+		f = "initializeViz",
 		signature = "NG_Viz2DAxis",
 		definition = function(viz,ngEnv){
 			

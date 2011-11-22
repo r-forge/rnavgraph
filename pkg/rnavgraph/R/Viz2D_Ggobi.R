@@ -44,7 +44,7 @@ ng_2d_ggobi <- function(data,graph){
 
 ## Initialize Plots
 setMethod(
-		f = "inititializeViz",
+		f = "initializeViz",
 		signature = "NG_Viz2D_Ggobi",
 		definition = function(viz,ngEnv){
 						

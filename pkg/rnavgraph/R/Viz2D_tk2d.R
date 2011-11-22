@@ -76,7 +76,7 @@ ng_2d <- function(data, graph, images = NULL, glyphs = NULL) {
 
 ## Initialize Plots
 setMethod(
-		f = "inititializeViz",
+		f = "initializeViz",
 		signature = "NG_Viztk2d",
 		definition = function(viz,ngEnv){
 			
