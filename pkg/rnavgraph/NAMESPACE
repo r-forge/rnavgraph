@@ -38,8 +38,8 @@ export("ng_set_size<-")
 ## ng_graph
 #export(plot)
 ##visualization
-exportClass(NG_Visualization, NG_Viz2DAxis)
-export(inititializeViz, updateViz, closeViz)
+#exportClass(NG_Visualization, NG_Viz2DAxis)
+#export(inititializeViz, updateViz, closeViz)
 ## scagGraph
 #export(scagNav,scagGraph,scagEdgeWeights)
 
