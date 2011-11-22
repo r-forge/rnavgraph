@@ -17,7 +17,7 @@ local({
 	
 			## Images
 			## sample a few
-			sel <- sample(1:dim(frey)[2],600, replace = FALSE)
+			sel <- seq(1,dim(frey)[2],3)
 			ng.frey <- ng_image_array_gray('Brendan_Frey',frey[,sel],28,20, img_in_row = FALSE, rotate = 90)
 			ng.frey
 			
