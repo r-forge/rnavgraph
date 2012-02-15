@@ -24,8 +24,8 @@ importFrom(RBGL,kamadaKawaiSpringLayout,fruchtermanReingoldForceDirectedLayout)
 		scagGraph,
 		scagEdgeWeights,
 		plot,
-               ng_get_color,
-               ng_get_size
+                ng_get_color,
+                ng_get_size
 	)
 #exportPattern("^ng_")
 
@@ -39,7 +39,8 @@ export("ng_set_size<-")
 #export(plot)
 ##visualization
 #exportClass(NG_Visualization, NG_Viz2DAxis)
-#export(initializeViz, updateViz, closeViz)
+exportClass(NG_Visualization)
+export(initializeViz, updateViz, closeViz)
 ## scagGraph
 #export(scagNav,scagGraph,scagEdgeWeights)
 

@@ -58,7 +58,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 					if(all(sapply(get(arg),function(x){is(x,arg_class)}))){
 						assign(paste(arg,"List", sep = ''),get(arg))	
 					}else{
-						stop(paste("[navGraph] elements in list ",arg," are not from class NG_",arg, sep = ''))
+						stop(paste("[navGraph] elements in list ",arg," are not from class ",arg_class, sep = ''))
 					}
 				} else {
 					stop(paste("[navGraph] argument ",arg," is neither a list of NG_", arg," objects nor a NG_", arg," object",sep = ''))
@@ -927,7 +927,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 	
 	
 	## Tk Canvas Scatterplot
-	whichScaledData <- sapply(vizList,function(x){any(class(x) %in% c("NG_Viztk2d","NG_Viz2DAxis"))})
+	whichScaledData <- sapply(vizList,function(x){is(x,"NG_Viztk2d")|is(x,"NG_Viz2DAxis")})
 	
 	if(any(whichScaledData)) {
 		ngEnv$scaledData <- list()
@@ -960,7 +960,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 		
 		ngEnv$t.vizcounter <- 1
 		vizList <- lapply(vizList, FUN = function(viz){
-					if(class(viz) == "NG_Viztk2d") {
+					if(is(viz,"NG_Viztk2d")) {
 						
 						viz@viz_name <- paste("viz",t.vizcounter,sep = '') 
 						vizN <- viz@viz_name

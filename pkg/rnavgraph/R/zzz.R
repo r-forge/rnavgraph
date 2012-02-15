@@ -18,9 +18,7 @@
 	## load Img tk extension
 	sysname <- Sys.info()[1]
 	didLoad <- TRUE
-	if(sysname == "Windows") {
-		## TODO: Img extension for windows. Alternative R functions?
-	} else if (sysname == "Darwin") {
+	if (sysname == "Darwin") {
 		addTclPath("/System/Library/Tcl")
 		didLoad <- tclRequire('Img')
 	} else {
@@ -28,7 +26,7 @@
 	}
 	
 	if(identical(didLoad,FALSE)) {
-		warning("Can not load the tk Img extension. Hence you can not use the 'ng_image_files' R function.")	
+		warning("Can not load the tk Img extension. Hence you can not use the 'ng_image_files' R function. Read the package vignette on how to set up tcl/tk.")	
 	}
 	
 }

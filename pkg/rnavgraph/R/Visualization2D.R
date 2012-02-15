@@ -233,3 +233,6 @@ ng_2d_dist <- function(viz,ngEnv) {
 	}
 	return(d)
 }
+
+
+

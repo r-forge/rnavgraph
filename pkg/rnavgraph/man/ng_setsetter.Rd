@@ -25,9 +25,7 @@ ng_set(object, what) <- value
 \details{
 Using ng_set is risky because we don't guarantee that the objects gets updated correctly. We recommend to just re-create the object.
 }
-\value{
 
-}
 %\references{%% ~put references to the literature/web site here ~}
 \author{
 Adrian Waddell and Wayne Oldford

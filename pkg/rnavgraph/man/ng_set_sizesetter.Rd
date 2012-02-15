@@ -22,12 +22,7 @@ String of the data name. If not specified and only one data set is beeing used i
 	Replacement vector or single value specifing the sizes (>0) of points.
   }
 }
-\details{
-   
-}
-\value{
 
-}
 %\references{%% ~put references to the literature/web site here ~}
 \author{
 Adrian Waddell and Wayne Oldford
