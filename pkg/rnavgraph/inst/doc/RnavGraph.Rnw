@@ -2028,7 +2028,7 @@ We'd like to thank the R community who contributes actively to the \texttt{R} ma
 \section*{References}
 
 \begin{itemize}
-\item Hurley, C. B.; and R. W. Oldford. “Graphs as Navigational Infrastructure for High Dimensional Data Spaces.” Computational Statistics (February 2011).
-\item Wilkinson, Leland; Anushka Anand; Robert Grossman. “Graph-theoretic Scagnostics.” Proceedings - IEEE Symposium on Information Visualization (2005): 157-164.
+\item Hurley, C. B.; and R. W. Oldford. ``Graphs as Navigational Infrastructure for High Dimensional Data Spaces.'' Computational Statistics (February 2011).
+\item Wilkinson, Leland; Anushka Anand; Robert Grossman. ``Graph-theoretic Scagnostics.'' Proceedings - IEEE Symposium on Information Visualization (2005): 157-164.
 \end{itemize}
 \end{document}
