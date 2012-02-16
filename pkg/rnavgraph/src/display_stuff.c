@@ -189,22 +189,22 @@ static int display_shapes_Cmd(
 
 			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
 				obj_deactive = 0;
-				puts("could not read deactive element.");
+				// puts("could not read deactive element.");
 			}
 
 			if(!obj_deactive) {
 				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
 					x = 0;
-					puts("could not read x element.");
+					// puts("could not read x element.");
 				}
 				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
 					y = 0;
-					puts("could not read y element.");
+					// puts("could not read y element.");
 				}
 
 				if(Tcl_GetIntFromObj(interp, size[i], &obj_size)) {
 					obj_size = 1;
-					puts("could not read object size element.");
+					// puts("could not read object size element.");
 				}
 
 				x_screen = (x-c_x)*w2*sq_zf+w2;
@@ -216,7 +216,7 @@ static int display_shapes_Cmd(
 					obj_color = Tcl_GetStringFromObj(color[i], NULL);
 
 					if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-						puts("could not read whether point is selected or not");
+						// puts("could not read whether point is selected or not");
 						obj_selected = 0;
 					}
 
@@ -233,7 +233,7 @@ static int display_shapes_Cmd(
 			}
 		}
 	} else {
-		puts("update points: Data vectors are not of the same length.");
+		// puts("update points: Data vectors are not of the same length.");
 	}
 
 	sprintf(tclCmd,"%s.canvas raise brush",ttID);
@@ -494,21 +494,21 @@ static int display_zoombox_Cmd(
 
 			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
 				obj_deactive = 0;
-				puts("could not read deactive element.");
+				// puts("could not read deactive element.");
 			}
 
 			if(!obj_deactive) {
 
 				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
 					x = 0;
-					puts("could not read x element.");
+					// puts("could not read x element.");
 				}
 				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
 					y = 0;
-					puts("could not read y element.");
+					// puts("could not read y element.");
 				}
 				if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-					puts("could not read whether point is selected or not");
+					// puts("could not read whether point is selected or not");
 					obj_selected = 0;
 				}
 
@@ -793,29 +793,29 @@ static int display_images_Cmd(
 
 			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
 				obj_deactive = 0;
-				puts("could not read deactive element.");
+				// puts("could not read deactive element.");
 			}
 
 			if(!obj_deactive) {
 				//printf("p%i ",i);
 				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
 					x = 0;
-					puts("could not read x element.");
+					// puts("could not read x element.");
 				}
 				//printf("x-");
 				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
 					y = 0;
-					puts("could not read y element.");
+					// puts("could not read y element.");
 				}
 				//printf("y-");
 				if(Tcl_GetDoubleFromObj(interp, image_w2[i], &image_width2)) {
 					image_width2 = 5;
-					puts("could not read w2 element.");
+					// puts("could not read w2 element.");
 				}
 				//printf("w2-");
 				if(Tcl_GetDoubleFromObj(interp, image_h2[i], &image_height2)) {
 					image_height2 = 5;
-					puts("could not read h2 element.");
+					// puts("could not read h2 element.");
 				}
 				//printf("h2-");
 
@@ -828,12 +828,12 @@ static int display_images_Cmd(
 
 					//printf("cond-");
 					if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-						puts("could not read whether point is selected or not");
+						// puts("could not read whether point is selected or not");
 						obj_selected = 0;
 					}
 					//printf("sel-");
 					if(Tcl_GetIntFromObj(interp, image_halo[i], &obj_image_halo)) {
-						puts("could not read halo tcl variable");
+						// puts("could not read halo tcl variable");
 						obj_selected = 0;
 					}
 					//printf("halo-");
@@ -867,7 +867,7 @@ static int display_images_Cmd(
 			}
 		}
 	} else {
-		puts("update images: Data vectors are not of the same length.");
+		// puts("update images: Data vectors are not of the same length.");
 	}
 
 
@@ -1062,22 +1062,22 @@ static int display_glyphs_Cmd(
 		for (i = 0; i < nx; i++) {
 			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
 				obj_deactive = 0;
-				puts("could not read deactive element.");
+				// puts("could not read deactive element.");
 			}
 
 			if(!obj_deactive) {
 				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
 					x = 0;
-					puts("could not read x element.");
+					// puts("could not read x element.");
 				}
 				//printf("x-");
 				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
 					y = 0;
-					puts("could not read y element.");
+					// puts("could not read y element.");
 				}
 				if(Tcl_GetIntFromObj(interp, size[i], &obj_size)) {
 					obj_size = 1;
-					puts("could not read object size element.");
+					// puts("could not read object size element.");
 				}
 
 
@@ -1090,7 +1090,7 @@ static int display_glyphs_Cmd(
 					obj_color = Tcl_GetStringFromObj(color[i], NULL);
 
 					if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-						puts("could not read whether point is selected or not");
+						// puts("could not read whether point is selected or not");
 						obj_selected = 0;
 					}
 
@@ -1293,21 +1293,21 @@ static int display_text_Cmd(
 
 			if(Tcl_GetIntFromObj(interp, deactivated[i], &obj_deactive)) {
 				obj_deactive = 0;
-				puts("could not read deactive element.");
+				// puts("could not read deactive element.");
 			}
 
 			if(!obj_deactive) {
 
 				if(Tcl_GetDoubleFromObj(interp, xcoord[i], &x)) {
 					x = 0;
-					puts("could not read x element.");
+					// puts("could not read x element.");
 				}
 				if(Tcl_GetDoubleFromObj(interp, ycoord[i], &y)) {
 					y = 0;
-					puts("could not read y element.");
+					// puts("could not read y element.");
 				}
 				if(Tcl_GetIntFromObj(interp, selected[i], &obj_selected)) {
-					puts("could not read whether point is selected or not");
+					// puts("could not read whether point is selected or not");
 					obj_selected = 0;
 				}
 
@@ -1330,7 +1330,7 @@ static int display_text_Cmd(
 			Tcl_Eval(interp,tclCmd);
 		}
 	} else {
-		puts("update points: Data vectors are not of the same length.");
+		// puts("update points: Data vectors are not of the same length.");
 	}
 
 
