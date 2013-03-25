@@ -1,18 +1,18 @@
-.onLoad <- function(lib, pkg) {
+.onLoad <- function(libname, pkgname) {
 	
 	.Tcl('set ng_windowManager("ngInstance") 0')
 	
 	## graph display
-	tclfile <- file.path(.find.package(package = "RnavGraph"),"tcl", "GraphDisplay.tcl")
+	tclfile <- file.path(.find.package(package = pkgname, lib.loc = libname),"tcl", "GraphDisplay.tcl")
 	tcl("source", tclfile)
 	
 	## image resizing function in C 
-	.Tcl(paste('load "',system.file("libs",.Platform$r_arch,paste("ImgscaleTea",.Platform$dynlib.ext,sep=''),package="RnavGraph"),'"',sep=''))
-	.Tcl(paste('load "',system.file("libs",.Platform$r_arch,paste("DisplaystuffTea",.Platform$dynlib.ext,sep=''),package="RnavGraph"),'"',sep=''))
+	.Tcl(paste('load "',system.file("libs",.Platform$r_arch,paste("ImgscaleTea",.Platform$dynlib.ext,sep=''), package = pkgname, lib.loc = libname),'"',sep=''))
+	.Tcl(paste('load "',system.file("libs",.Platform$r_arch,paste("DisplaystuffTea",.Platform$dynlib.ext,sep=''),package = pkgname, lib.loc = libname),'"',sep=''))
 	
 	
 	## tk2d display
-	tclfile <- file.path(.find.package(package = "RnavGraph"),"tcl", "tkScatterplotV3.tcl")
+	tclfile <- file.path(.find.package(package = pkgname, lib.loc = libname),"tcl", "tkScatterplotV3.tcl")
 	tcl("source", tclfile)
 	
 	## load Img tk extension
@@ -31,8 +31,8 @@
 	
 }
 
-.onAttach <- function(lib, pkg) {
+.onAttach <- function(libname, pkgname) {
 	packageStartupMessage("\nRnavGraph Version ",
-			utils::packageDescription("RnavGraph", field="Version"),
+			utils::packageDescription(pkg = pkgname, lib.loc = libname, field="Version"),
 			'\nPlease read the package vignette. Use vignette("RnavGraph").\n\n')	
 }

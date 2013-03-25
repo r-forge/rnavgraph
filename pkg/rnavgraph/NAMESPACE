@@ -3,7 +3,7 @@ import(tcltk) ## import all functionality
 import(graph)
 importFrom(graphics,plot)
 import(methods)
-importFrom(RBGL,kamadaKawaiSpringLayout,fruchtermanReingoldForceDirectedLayout)
+##importFrom(RBGL,kamadaKawaiSpringLayout,fruchtermanReingoldForceDirectedLayout)
 
 ## exports
 	export(

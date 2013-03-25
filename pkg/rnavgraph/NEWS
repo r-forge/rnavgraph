@@ -1,6 +1,17 @@
+July 2012, Version 0.1.4
+------------------------
+* RBGL 1.32.1 temporarily sacrifieced layout.cpp, hence
+  kamadaKawaiSpring and fruchtermanReingold layouts
+  currently not working
+
+New to Version 0.1.3
+--------------------
+* fixed .onLoad and .onAttach
+
 New to Version 0.1.2
 --------------------
-* Added Slicing
+* Vignette updated
+* Minor Bug fixes
 
 New to Version 0.1.1
 --------------------
