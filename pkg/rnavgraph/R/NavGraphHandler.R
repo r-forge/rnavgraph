@@ -169,7 +169,7 @@ setMethod(f = "ng_get",
 						return(obj@data)
 					}		
 				}else if(what == "ggobi"){
-					if(is(nav@env$g,"GGobi")){
+					if(is(obj@env$g,"GGobi")){
 						return(obj@ggobi)
 					}else{
 						stop("[ng_get] ggobi was not initialized.")

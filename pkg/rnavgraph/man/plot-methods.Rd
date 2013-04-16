@@ -1,7 +1,7 @@
 \name{plot-methods}
 \docType{methods}
 \alias{plot-methods}
-\alias{plot,NG_graph-method}
+\alias{plot,NG_graph,ANY-method}
 \title{ Plot the graph saved in a NG_data object.}
 \description{
 	Once the graph is within a NG_graph object, it has a layout associated. Plot plots the graph with this layout.

@@ -137,7 +137,8 @@ setMethod(
 		definition = function(viz,ngEnv){
 if(!is.null(viz@devType)) {
 			if(viz@devType == "rgl"){
-				rgl.close(viz@devName)			
+				rgl.set(viz@devName)
+				rgl.close()		
 			} else {
 				dev.off(viz@devName)			
 			}

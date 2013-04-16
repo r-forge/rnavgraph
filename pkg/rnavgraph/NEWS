@@ -1,3 +1,7 @@
+April 2013, Version 0.1.5
+-------------------------
+* Some changes to compile without warnings under R 3.0
+
 July 2012, Version 0.1.4
 ------------------------
 * RBGL 1.32.1 temporarily sacrifieced layout.cpp, hence

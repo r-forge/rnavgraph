@@ -3,7 +3,7 @@
 	.Tcl('set ng_windowManager("ngInstance") 0')
 	
 	## graph display
-	tclfile <- file.path(.find.package(package = pkgname, lib.loc = libname),"tcl", "GraphDisplay.tcl")
+	tclfile <- file.path(find.package(package = pkgname, lib.loc = libname),"tcl", "GraphDisplay.tcl")
 	tcl("source", tclfile)
 	
 	## image resizing function in C 
@@ -12,7 +12,7 @@
 	
 	
 	## tk2d display
-	tclfile <- file.path(.find.package(package = pkgname, lib.loc = libname),"tcl", "tkScatterplotV3.tcl")
+	tclfile <- file.path(find.package(package = pkgname, lib.loc = libname),"tcl", "tkScatterplotV3.tcl")
 	tcl("source", tclfile)
 	
 	## load Img tk extension

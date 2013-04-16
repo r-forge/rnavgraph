@@ -64,10 +64,11 @@ Once \texttt{tcl/tk} is set up correctly, start an \texttt{R} session (under lin
 source("http://www.bioconductor.org/biocLite.R")
 biocLite("graph")
 biocLite("RBGL")
+biocLite("Rgraphviz")
 biocLite("RDRToolbox")
 
-install.packages(c("PairViz", "scagnostics", "rgl", "grid",
- "MASS", "RGtk2", "hexbin", "vegan", "png"), dependencies = TRUE)
+install.packages(c("PairViz", "scagnostics", "rgl", "MASS",
+      "RGtk2", "hexbin", "vegan", "png"), dependencies = TRUE)
 @ 
 
 Check for errors and warnings. \texttt{RnavGraph} and \texttt{RnavGraphImageData} are then installed as follows
@@ -76,7 +77,7 @@ install.packages("RnavGraph")
 install.packages("RnavGraphImageData")
 @ 
 
-In order to install \texttt{rggobi} and \texttt{Rgraphviz} you need to make sure to install the programs \texttt{graphviz} and \texttt{ggobi} before installing the corresponding \texttt{R} packages.\\
+In order to install \texttt{rggobi} you need to first install \texttt{ggobi} (\texttt{www.ggobi.org}).\\
 
 If you experience any problems, watch the installation videos on \verb|www.navgraph.com| or contact us.
 \newpage

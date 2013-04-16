@@ -79,8 +79,8 @@
 						.highlightAdj(ngEnv)
 						
 					}else {
-						w <- .tcl2num(tcl('winfo','width',canvas))
-						h <- .tcl2num(tcl('winfo','height',canvas))
+						w <- .tcl2num(tcl('winfo','width',ngEnv$canvas))
+						h <- .tcl2num(tcl('winfo','height',ngEnv$canvas))
 						
 						tkdelete(ngEnv$canvas,'all')
 						tkcreate(ngEnv$canvas, 'text',w/2,h/2, text = 'No Nodes!', fill = ngEnv$settings$color$labels)	

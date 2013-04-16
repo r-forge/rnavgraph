@@ -347,7 +347,7 @@ setMethod(f = "show",
 ## carfule what argument the function takes (vector or string?)
 .isPath <- function(graph,path){
 	
-	t.nodes <- nodeNr(graph,nodeSeq)
+	t.nodes <- nodeNr(graph,path)
 	
 	edgeM <- matrix(tail(head(rep(t.nodes,each=2), n=-1L), n=-1L),ncol=2, byrow = 2)	
 	

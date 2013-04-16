@@ -1,7 +1,7 @@
 ## Imports
 import(tcltk) ## import all functionality
 import(graph)
-importFrom(graphics,plot)
+#importFrom(graphics,plot)
 import(methods)
 ##importFrom(RBGL,kamadaKawaiSpringLayout,fruchtermanReingoldForceDirectedLayout)
 

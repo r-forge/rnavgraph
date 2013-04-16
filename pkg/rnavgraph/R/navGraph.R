@@ -1,4 +1,9 @@
 navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
+	## omit no visible binding note
+	t.vizcounter <- NULL
+	g <- NULL
+	Glist <- NULL
+
 	##
 	## RnavGraph can be started by
 	## - either passing by a navGraph handler
@@ -103,7 +108,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 				vizList <- vector("list", length = 2*n)
 				
 				if(is.null(names(GList))){
-					graph_names <- paste('g',1:length(glist), sep = '')
+					graph_names <- paste('g',1:length(Glist), sep = '')
 				} else {
 					graph_names <- names(GList)
 				}
@@ -177,7 +182,7 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 				dataList <- data
 			}
 			if(!all(sapply(dataList, FUN=function(x){is(x,"NG_data")}))) {
-				stop("[navGraph] some elements in list data are not from class NG_data")
+				stop("[navGraph] some elements in list data are nGlistot from class NG_data")
 			}
 			
 			## tk2d windows?
@@ -336,7 +341,8 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 		assign(paste('graph',i,sep=''), graphList[[i]], envir = ngEnv)
 	}
 	cGraph <- 'graph1' ## active graph
-	graph <- graph1	   ## physical active graph
+	assign('graph', get(cGraph)) ## physical active graph	
+
 	
 	
 	
@@ -414,51 +420,51 @@ navGraph <- function(data, graph = NULL, viz = NULL, settings = NULL) {
 				tkitemconfigure(ngEnv$canvas,'edge && graph', fill=ngEnv$settings@color@notVisitedEdge)
 				tkdtag(ngEnv$canvas, 'all', 'visited')
 			})
-	tkadd(fileMenu,"command", label="Save navGraph Handler", command=function(){				
-				ttwin <- tktoplevel()
-				tktitle(ttwin) <- "Save a navGraph handler"
-				loc <- .tcl2str(tkwm.geometry(ngEnv$tt))
-				loc1 <- unlist(strsplit(loc,split = '+',  fixed = TRUE))
-				tkwm.geometry(ttwin,paste("+",as.numeric(loc1[2])+30,"+",as.numeric(loc1[3])+150,sep=""))			
-				tkgrab(ttwin)
-				tkpack(tkframe(ttwin, height = 10),side = "top")
-				l <- tklabel(ttwin, text = "Save the navGraph handler in the global environment as:")
-				tkpack(l,side = "top", anchor = "w", padx = 5)
-				entry <- tkentry(ttwin)
-				tkpack(entry, side = "top", fill = "x",padx = 5, pady = 5)
-				f.b <- tkframe(ttwin)
-				tkpack(f.b, side = "top", padx = 5)
-				tkpack(tkframe(ttwin, height = 5),side = "top")
-				bok <- tkbutton(f.b,text="OK", command=function(){.save()})
-				bcan <- tkbutton(f.b,text="Cancel", command=function(){tkdestroy(ttwin)})
-				tkpack(bok,bcan, side = "left", anchor = "center", padx = 10)
-				tkfocus(entry)
-				tkbind(entry,"<Return>",function(){.save()})
-				.save <- function(){
-					varName <- .tcl2str(tkget(entry))
-					if (length(varName) != 0) {
-						if (varName %in% ls(.GlobalEnv)) {
-							if (tk_messageBox("yesno",paste('Variable "',varName,'" already exists. Overwrite it?',sep=""), parent = ttwin) == "yes") {
-								cat(paste("Session", ngEnv$ng_instance,"navGraph handler saved (overwritten) as:",varName,'\n'))
-								assign(varName, new("NavGraph_handler", env = ngEnv, ggobi = NULL,
-												graphs = graphList, data = dataList, viz = vizList,
-												settings = settings, paths = paths, activePath = tclvalue(activePath),
-												activePathGraph = tclvalue(activePathGraph), dateCreated = date(),
-												dateUpdated = "not"), envir = .GlobalEnv)
-								tkdestroy(ttwin)
-							}
-						} else {
-							cat(paste("Session", ngEnv$ng_instance, "navGraph handler saved as:",varName,'\n'))
-							assign(varName, new("NavGraph_handler", env = ngEnv, ggobi = NULL,
-											graphs = graphList, data = dataList, viz = vizList,
-											settings = settings, paths = paths, activePath = tclvalue(activePath),
-											activePathGraph = tclvalue(activePathGraph), dateCreated = date(),
-											dateUpdated = "not"), envir = .GlobalEnv)
-							tkdestroy(ttwin)
-						}
-					}
-				}
-			})
+#	tkadd(fileMenu,"command", label="Save navGraph Handler", command=function(){				
+#				ttwin <- tktoplevel()
+#				tktitle(ttwin) <- "Save a navGraph handler"
+#				loc <- .tcl2str(tkwm.geometry(ngEnv$tt))
+#				loc1 <- unlist(strsplit(loc,split = '+',  fixed = TRUE))
+#				tkwm.geometry(ttwin,paste("+",as.numeric(loc1[2])+30,"+",as.numeric(loc1[3])+150,sep=""))			
+#				tkgrab(ttwin)
+#				tkpack(tkframe(ttwin, height = 10),side = "top")
+#				l <- tklabel(ttwin, text = "Save the navGraph handler in the global environment as:")
+#				tkpack(l,side = "top", anchor = "w", padx = 5)
+#				entry <- tkentry(ttwin)
+#				tkpack(entry, side = "top", fill = "x",padx = 5, pady = 5)
+#				f.b <- tkframe(ttwin)
+#				tkpack(f.b, side = "top", padx = 5)
+#				tkpack(tkframe(ttwin, height = 5),side = "top")
+#				bok <- tkbutton(f.b,text="OK", command=function(){.save()})
+#				bcan <- tkbutton(f.b,text="Cancel", command=function(){tkdestroy(ttwin)})
+#				tkpack(bok,bcan, side = "left", anchor = "center", padx = 10)
+#				tkfocus(entry)
+#				tkbind(entry,"<Return>",function(){.save()})
+#				.save <- function(){
+#					varName <- .tcl2str(tkget(entry))
+#					if (length(varName) != 0) {
+#						if (varName %in% ls(.GlobalEnv)) {
+#							if (tk_messageBox("yesno",paste('Variable "',varName,'" already exists. Overwrite it?',sep=""), parent = ttwin) == "yes") {
+#								cat(paste("Session", ngEnv$ng_instance,"navGraph handler saved (overwritten) as:",varName,'\n'))
+#								assign(varName, new("NavGraph_handler", env = ngEnv, ggobi = NULL,
+#												graphs = graphList, data = dataList, viz = vizList,
+#												settings = settings, paths = paths, activePath = tclvalue(activePath),
+#												activePathGraph = tclvalue(activePathGraph), dateCreated = date(),
+#												dateUpdated = "not"), envir = .GlobalEnv)
+#								tkdestroy(ttwin)
+#							}
+#						} else {
+#							cat(paste("Session", ngEnv$ng_instance, "navGraph handler saved as:",varName,'\n'))
+#							assign(varName, new("NavGraph_handler", env = ngEnv, ggobi = NULL,
+#											graphs = graphList, data = dataList, viz = vizList,
+#											settings = settings, paths = paths, activePath = tclvalue(activePath),
+#											activePathGraph = tclvalue(activePathGraph), dateCreated = date(),
+#											dateUpdated = "not"), envir = .GlobalEnv)
+#							tkdestroy(ttwin)
+#						}
+#					}
+#				}
+#			})
 	
 	tkadd(fileMenu,"separator")
 	tkadd(fileMenu,"command",label="Quit",command=function(){
