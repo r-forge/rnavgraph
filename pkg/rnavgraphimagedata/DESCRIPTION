@@ -1,10 +1,11 @@
 Package: RnavGraphImageData
 Type: Package
 Title: Some image data used in the RnavGraph package demos
-Version: 0.0.2
-Date: 2010-06-28
+Version: 0.0.3
+Date: 2013-04-30
 Author: Adrian R. Waddell and R. Wayne Oldford
-Maintainer: Adrian Waddell <arwaddell@math.uwaterloo.ca>
+Maintainer: Adrian Waddell <adrian@waddell.ch>
+URL: http://www.navgraph.com
 Description: Image data used as examples in the RnavGraph R package. See the demos in the RnavGraph package.
 Depends: R (>= 2.10.0)
 Suggests: RnavGraph
