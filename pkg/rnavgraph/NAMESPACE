@@ -11,7 +11,6 @@ import(methods)
 		completegraph,
 		linegraph,
 		newgraph,
-		ng_2d_ggobi,
 		ng_2d_myplot,
 		ng_2d,
 		ng_data,
@@ -44,7 +43,3 @@ export(initializeViz, updateViz, closeViz)
 ## scagGraph
 #export(scagNav,scagGraph,scagEdgeWeights)
 
-## Ggbobi stuff (old)
-#importFrom(graph,edgeMatrix, ftM2graphNEL)
-#importFrom(rggobi,ggobi,glyph_colour,displays.GGobi,close.GGobiDisplay,pmode,display,ggobi_gtk_main_window)
-#importFrom(RGtk2, gtkToggleButtonSetActive)

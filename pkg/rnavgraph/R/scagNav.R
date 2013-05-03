@@ -205,7 +205,6 @@ scagNav <- function (data,   # ngdata object
 # "random", 
 # "kamadaKawaiSpring",
 # "fruchtermanReingold"
-#ggobi glyph_size 
 ) {
 	if(require(scagnostics)){
 		

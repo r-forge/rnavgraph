@@ -77,7 +77,7 @@ ng_2d_myplot(data, graph, fnName, device = "base", scaled = TRUE)
 
 \seealso{
   \code{\link{navGraph}}, \code{\link{ng_data}}, \code{\link{ng_graph}},
-  \code{\link{ng_get-methods}}, \code{\link{ng_set-methods}}, \code{\link{ng_2d}}, \code{\link{ng_2d_ggobi}}
+  \code{\link{ng_get-methods}}, \code{\link{ng_set-methods}}, \code{\link{ng_2d}}
 }
 \examples{
 library(grid)

@@ -15,9 +15,7 @@ setClass(
 setMethod(f = "show",
 		signature = "NG_Visualization",
 		definition = function(object){
-			if(is(object,"NG_Viz2D_Ggobi")){
-				cat("2D Scatterplot with ggobi: ng_2d_ggobi()\n")
-			}else if(is(object,"NG_Viz2DAxis")){
+			if(is(object,"NG_Viz2DAxis")){
 				cat("2D Axis Plot: nd_2d_myplot()\n")
 				cat(paste("Plot function:",object@FUN,'\n'))
 			}else if(is(object,"NG_Viztk2d")){

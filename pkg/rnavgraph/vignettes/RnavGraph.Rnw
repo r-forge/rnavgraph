@@ -39,9 +39,11 @@
 \section{Installation}
 \texttt{RnavGraph} depends on a working \texttt{tcl/tk} build and on two \texttt{R} packages that do not come with an \texttt{R} base installation, i.e. the \texttt{graph} and \texttt{RBGL} packages from the bioconductor repositories. However we suggest you to install a couple of other packages from the \texttt{CRAN} repositories in order run all the package demos.\\
 
-Getting the \texttt{tcl/tk} build (version 8.5) set up correctly requires different steps on each OS:
+Getting \texttt{tcl/tk} (version 8.5 or 8.6) set up correctly requires different steps on each OS:
 \begin{itemize}
-\item \textbf{OSX}: A \texttt{tcl/tk} build for \texttt{X11} is required. Go to the R project webpage (www.r-project.org) and follow link ``download R'', choose the \texttt{CRAN} server closest to you, follow the ``Download R for MacOS X'' link and then the ``tools'' link in the ``Subdirectories'' section. Download and install the \texttt{tcl/tk} 8.5 build.
+\item \textbf{OSX 10.8+}: Make sure \texttt{XQuartz} is installed: \verb|http://xquartz.macosforge.org/landing/|
+\item \textbf{OSX and R 3.0.0+}: No additional installation steps required. \texttt{R} 3.0.0 comes bundled with the \texttt{tcl/tk} 8.6.0 \texttt{X11} libraries.
+\item \textbf{OSX and R 2.8.0 - 2.15.3}: A \texttt{tcl/tk} build (version 8.5) for \texttt{X11} is required. Go to the R project webpage (www.r-project.org) and follow link ``download R'', choose the \texttt{CRAN} server closest to you, follow the ``Download R for MacOS X'' link and then the ``tools'' link in the ``Subdirectories'' section. Download and install the \texttt{tcl/tk} 8.5 build.
 \item \textbf{Linux}: Linux users need the \texttt{libtk-img-dev}, \texttt{tcl-dev} and \texttt{tk-dev} system libraries for \texttt{tcl/tk} version 8.5 installed.
 \item \textbf{Windows}: If you plan to import images from files (\texttt{.png,.jpg}, etc.) you need a working \texttt{Img} tcl extension. It is easiest to install the free \texttt{ActiveTcl} build and link \texttt{R} against it. To do so
   \begin{itemize}
@@ -52,7 +54,7 @@ Getting the \texttt{tcl/tk} build (version 8.5) set up correctly requires differ
   % see https://stat.ethz.ch/pipermail/r-help/2005-August/077811.html
 \end{itemize}
 
-\texttt{RnavGraph} requires \texttt{tcl/tk} version 8.5. Any other version won't work with \texttt{RnavGraph}. You may check your \texttt{tcl/tk} version accessible from \texttt{R} by starting \texttt{R} and entering
+\texttt{RnavGraph} requires \texttt{tcl/tk} version $8.5$. Version $8.6$ seems to work too, please contact us if you experience difficulties. \texttt{tcl/tk} version $8.4$ will not work with \texttt{RnavGraph}. You may check your \texttt{tcl/tk} version accessible from \texttt{R} by starting \texttt{R} and entering
 <<eval = FALSE>>=
 library(tcltk)
 .Tcl('set tcl_version')
@@ -62,13 +64,9 @@ Once \texttt{tcl/tk} is set up correctly, start an \texttt{R} session (under lin
 
 <<eval = FALSE>>=
 source("http://www.bioconductor.org/biocLite.R")
-biocLite("graph")
-biocLite("RBGL")
-biocLite("Rgraphviz")
-biocLite("RDRToolbox")
-
+biocLite("graph"); biocLite("RBGL"); biocLite("Rgraphviz"); biocLite("RDRToolbox")
 install.packages(c("PairViz", "scagnostics", "rgl", "MASS",
-      "RGtk2", "hexbin", "vegan", "png"), dependencies = TRUE)
+      "hexbin", "vegan", "png"), dependencies = TRUE)
 @ 
 
 Check for errors and warnings. \texttt{RnavGraph} and \texttt{RnavGraphImageData} are then installed as follows
@@ -76,8 +74,6 @@ Check for errors and warnings. \texttt{RnavGraph} and \texttt{RnavGraphImageData
 install.packages("RnavGraph")
 install.packages("RnavGraphImageData")
 @ 
-
-In order to install \texttt{rggobi} you need to first install \texttt{ggobi} (\texttt{www.ggobi.org}).\\
 
 If you experience any problems, watch the installation videos on \verb|www.navgraph.com| or contact us.
 \newpage
@@ -127,11 +123,7 @@ The Iris data provides a set of 150 points in a four-dimensional space; our obje
 <<eval=FALSE>>=
 navGraph(ng.iris)
 @ 
-Alternatively, if you have \texttt{rggobi} working in R and would like to visualize the data via \texttt{ggobi}, call
-<<eval=FALSE>>=
-navGraph(ng.iris, settings=list(defaultDisplay = "ggobi"))
-@ 
-Either of these calls will produce a {\em navigation graph} (or {\em navgraph} for short) as shown in
+This call will produce a {\em navigation graph} (or {\em navgraph} for short) as shown in
 Figure \ref{fig:session1}(a)
 
 
@@ -147,7 +139,7 @@ Figure \ref{fig:session1}(a)
 \label{fig:session1}
 \end{figure}
 and a ``visualization'' such as that of Figure  \ref{fig:session1}(b).
-Here, Figure  \ref{fig:session1}(b) is a \texttt{2D} display, native to \texttt{navGraph}, as produced by the first of the above \texttt{navGraph} calls (the second call would produce a \texttt{ggobi} session instead).   
+Figure  \ref{fig:session1}(b) is a \texttt{2D} display, native to \texttt{navGraph}.   
 The variates \texttt{Sepal.Length} and \texttt{Sepal.Width} determine the coordinates of the points in the scatterplot and the \texttt{group}, here  \texttt{Iris\$Species}, determine the point colours.  
 If you select ``text'' in the  \texttt{2D} plot, the point symbols will be replaced by the text strings
 identified by the \texttt{labels} argument in the definition of the ``ng data'' \texttt{ng.iris}.\\
@@ -487,20 +479,6 @@ The output of \texttt{navGraph} is shown in figure \ref{fig:tk2dCols}. \texttt{n
   \caption{Mapping of the \texttt{group} argument to colors in the default tk2d window.}  
 \end{figure}
 
-If the data gets visualized with \texttt{ggobi}, the mapping from the \texttt{group} argument to the display items happens as shown in figure \ref{fig:ggobicolors}. Use the code
-
-<<eval = FALSE>>=
-nav <- navGraph(ng.test, settings = list(defaultDisplay = "ggobi"))
-@ 
-herefore.
-
-\begin{figure}[h]
-  \label{fig:ggobicolors}
-  \centering
-  \includegraphics[width = 0.6\textwidth]{img/ggobicolors.png}
-  \caption{Mapping of the \texttt{group} argument to colors in the ggobi display.}  
-\end{figure}
-
 For \texttt{RnavGraph}s default display (\texttt{tk2d}, see later), the \texttt{group} variable could also be a vector of strings contained in the \texttt{colors()} output. For example
 
 <<eval = FALSE>>=
@@ -682,8 +660,7 @@ ng_set(ng.LG, "name") <- "3d transition graph"
 \section{Visualization Instructions}
 Once the \texttt{NG\_data} and \texttt{NG\_graph} objects have been defined, they have to be connected with some visualization instructions. That is, the visualization instructions tell \texttt{navGraph} what and how \texttt{navGraph} should visualize when the ball gets moved along the edges of the graph. Conceptually, \texttt{navGraph} allows for any visualization of the data, as long the user can implement them. That is, there are no constrains to dimensionality of data represented by a node or the ``morphing'' defined along an edge. This task is especially easy if the \texttt{ng\_2d\_myplot} function is used. However for best efficiency the methods \texttt{initializeViz}, \texttt{updateViz} and \texttt{closeViz} can be used to implement own --possibly new-- ideas.\\
 
-For the 2d- scatterplot example, we need a device that plots some objects at the $x$ and $y$ euclidean coordinate. The objects could be either dots, images, glyphs, text or anything else you can imagine (and implement). There are many plotting devices available in \texttt{R} (e.g. traditional graphics, grid, rgl and ggobi) and \texttt{navGraph} can deal with most of them. However when it comes to speed and \modify{double buffering}, only few of them produce satisfactory output. In addition, different devices allow for different objects to be plotted. \modify{We have implemented a new device, lets call it \texttt{tk2d},} that builds upon the tk canvas widget (so does the interactive graph). Alternatively to \texttt{tk2d} one can use the \texttt{rggobi} package and \texttt{ggobi} to visualize the scatterplots. \texttt{ggobi} however does only allow to visualize dots, rectangles and \modify{crosses} in different colors. \texttt{Ggobi} has not been maintained for a while and hence does not run well on (\modify{all to my knowledge}) current operating systems. For what follows, we will give a detailed explanation of each device. \modify{Most likely you only want to read the \texttt{tk2d} and \texttt{ggobi} subsection and then return to this section once you have more custom needs}. 
-
+For the 2d- scatterplot example, we need a device that plots some objects at the $x$ and $y$ euclidean coordinate. The objects could be either dots, images, glyphs, text or anything else you can imagine (and implement). There are many plotting devices available in \texttt{R} (e.g. traditional graphics, grid, and rgl) and \texttt{navGraph} can deal with most of them. However when it comes to speed and \modify{double buffering}, only few of them produce satisfactory output. In addition, different devices allow for different objects to be plotted. \modify{We have implemented a new device, lets call it \texttt{tk2d},} that builds upon the tk canvas widget (so does the interactive graph).
 
 \subsection{\texttt{tk2d}}
 The \texttt{tk2d} device can either display dots, images, glyphs or text (strings). 
@@ -917,32 +894,32 @@ shell("convert image.png image.jpg")
   \caption{\modify{Table (almost) directly from the useR book "Morphometrics with R" page 33.}}
 \end{table}
 
-We work with a data set from the Library of Amsterdam \modify{http://staff.science.uva.nl/$\sim$aloi/}. The download is the ``Quater resolution (192 $\times$ 144)'' which whose size is 60MB and contains $1000-250$ objects with each three different viewing angles \modify{2250} images. We have attached a resized version ($38x29$ pixels) in the \texttt{RnavGraphImageData} package in order to save space. 
+We work with a data set from the Library of Amsterdam \verb|http://staff.science.uva.nl/~aloi/|. 
+
 
 \begin{center}
-  \includegraphics[width = 0.6\textwidth]{img/aloi.jpg}
+    \includegraphics[width = 0.6\textwidth]{img/aloi.jpg}
 \end{center}
 
-The path to the images is
-<<>>=
-imgPath <- system.file("aloi_small", package="RnavGraphImageData")
+Note that these images are not part of the \texttt{RnavGraphImageData} package any more.
+
+<<eval=FALSE>>=
+imgPath <- "path to folder with png files"
 aloi_images <- list.files(path=imgPath, full.names=TRUE)
-length(aloi_images)
-aloi_images[1:5]
 @ 
-We sample 400 images, so that we do not have to deal with all 2250 images at once.
+
+We sample 400 images, so that we do not have to deal with all 2250
+images at once.
 <<eval=FALSE>>=
 sel <- sample(1:length(aloi_images),replace=FALSE)
 p.aloi_images <- aloi_images[sel]
 @ 
 
-
 \modify{Note that the \texttt{rimage} package needs the \texttt{fftw-dev} (in ubuntu) package to perform Fast Fourier Transformations.}\\
-
 
 Now, lets import the images first into the tcl layer, herefore the \modify{universal function (for jpg, png, etc.)} is \texttt{ng\_image\_files}:
 <<eval=FALSE>>=
-ng.i.objects <- ng_image_files(name="ALOI objects", path=p.aloi_images)
+ng.i.objects <- ng_image_files(name="ALOI_Objects_Images", path=p.aloi_images)
 @ 
 and again, you can see the images using
 <<eval=FALSE>>=
@@ -962,7 +939,7 @@ imgData <- t(sapply(p.aloi_images, FUN=function(path){
 @ 
 Initializing a \texttt{navGraph} session on this data and the images stays the same as in the previous example
 <<eval = FALSE>>=
-ng.iso.objects <- ng_data(name = "ISO_objects",
+ng.iso.objects <- ng_data(name = "Aloi_Objects",
 		data = data.frame(imgData),
 		shortnames = paste('i',1:3, sep = ''))
 
@@ -1105,20 +1082,7 @@ When defining the \texttt{NG\_data} object, one can specify the \texttt{labels} 
 
 
 \subsection{ggobi}
-Ggobi allows one to use different elements of data visualization and interaction then the \texttt{tk2d} display (e.g. parallel coordinate plots). Ggobi is superior to the \texttt{tk2d} display if one deals with large data sets. However ggobi does not visualize images nor glyphs. Visualization instructions which address the ggobi device can be created with the \texttt{ng\_2d\_ggobi} command. Let's demonstrate this using the \texttt{iris} data example
-
-<<eval=FALSE>>=
-vizGgobi1 <- ng_2d_ggobi(data=ng.iris, graph=ng.lg)
-vizGgobi2 <- ng_2d_ggobi(data=ng.iris, graph=ng.lgnot)
-@ 
-and finally start \texttt{navGraph}
-<<eval=FALSE>>=
-nav <- navGraph(ng.iris, list(ng.lg,ng.lgnot), list(vizGgobi1, vizGgobi2))
-@ 
-or if you only pass on the \texttt{NG\_data} object, you may use
-<<eval=FALSE>>=
-nav <- navGraph(ng.iris, settings=list(defaultDisplay = "ggobi"))
-@ 
+As from \texttt{RnavGraph} version 3.0 we have removed \texttt{ggobi} support. If you need to use navigation graphs with the \texttt{ggobi} visualization display feel free to contact us.
 
 
 \subsection{Custom visualization instructions}
@@ -1383,17 +1347,6 @@ All, except the \texttt{tk2}, settings can be controlled once a \texttt{navGraph
   \caption{\texttt{File > Settings} menu in the navigation graph GUI.}
 \end{figure}
 
-Additionally, there is an additional option that can be specified in settings. If only a \texttt{NG\_data} object gets passed to \texttt{navGraph} one can choose between the \texttt{tk2d} and \texttt{ggobi} as a display.\\
-
-<<eval=FALSE>>=
-navGraph(ng.iris, settings=list(defaultDisplay = "ggobi"))
-@ 
-or 
-<<eval=FALSE>>=
-navGraph(ng.iris, settings=list(defaultDisplay = "tk2d"))
-@ 
-The default is the \texttt{tk2d} display.
-
 \subsection{Graphical User Interface}
 Once \texttt{navGraph} has initialized the all displays, you will see one window with a graph similar to
 
@@ -1508,7 +1461,7 @@ You can now brush data and change color and size of objects and add paths. You c
 nav <- ng_update(nav)
 nav
 @ 
-Note that the last updated field changed. Updating the navGraph handler is particular useful for getting the new groups (according to color and size of the \texttt{tk2d} or \texttt{ggobi} display).
+Note that the last updated field changed. Updating the navGraph handler is particular useful for getting the new groups (according to color and size of the \texttt{tk2d} display).
 <<>>=
 ng_get(nav)
 @ 
@@ -1517,7 +1470,7 @@ the objects graphs, data and viz are lists of their corresponding \texttt{NG\_ob
 ng_get(nav,"data")
 ng_get(ng_get(nav,"data"),"group")[1:5]
 @ 
-the coding for the \texttt{tk2d} display is ``c<color>;s<size>''. However, note that you can also obtain color and size with the \texttt{ng\_get\_color} and \texttt{ng\_get\_size}function discussed below. Getting the group for each data point only works with the \texttt{tk2d} and \texttt{ggobi} data display. For any other custom display the user must provide his own way to get the new group classifiers whenever he incorporates a brushing tool. The navGraph handler can also be used to restart a navGraph session
+the coding for the \texttt{tk2d} display is ``c<color>;s<size>''. However, note that you can also obtain color and size with the \texttt{ng\_get\_color} and \texttt{ng\_get\_size}function discussed below. Getting the group for each data point only works with the \texttt{tk2d} data display. For any other custom display the user must provide his own way to get the new group classifiers whenever he incorporates a brushing tool. The navGraph handler can also be used to restart a navGraph session
 <<eval=FALSE>>=
 nav1 <- navGraph(nav)
 @ 
@@ -1531,8 +1484,6 @@ ng_walk(nav,c("s.L:s.W","s.L:p.L","p.L:p.W","s.L:p.W"))
 @ 
 
 Theoretically, the navGraph handler can be saved using \texttt{save} and restored in a new R session using the \texttt{load} command. However we recommend to initialize a new \texttt{navGraph} session from  scratch if possible.\\
-
-If a \texttt{ggobi} and \texttt{tk2d} display show the same data, then the \texttt{ng\_update} function will ask you whether you want to save the grouping of the \texttt{tk2d} or \texttt{ggobi} display.
 
 
 
@@ -1842,7 +1793,6 @@ nav <- navGraph(ng.data,ng.lg,ng_2d(ng.data,ng.lg))
 
 \subsection{Storm Tracks}
 <<eval=FALSE>>=
-library(rggobi)
 names(stormtracks)
 storms <- stormtracks[,c(2:9,11)]
 ng.storms <- ng_data(name = "Storm tracks",

@@ -1,6 +1,9 @@
-April 2013, Version 0.1.5
+April 2013, Version 0.1.6
 -------------------------
-* Some changes to compile without warnings under R 3.0
+* Removed ggobi support
+* Removed "save navGraph handler" in RnavGraph menu (as it is
+  not permitted to modify the Global Environment from package code)
+* Some changes to compile without warnings under R 3.0.0
 
 July 2012, Version 0.1.4
 ------------------------

@@ -302,9 +302,6 @@
 		ngEnv$isDestoying <- TRUE
 		cat(paste("RnavGraph Session", ngEnv$ng_instance,"closed.\n"))
 		.closePlots(ngEnv)
-		if(ngEnv$isGGobiUsed){
-			close.GGobi(ngEnv$g)
-		}
 		
 		if(!is.null(ngEnv$windowManager$settings$tt)) {
 			tkdestroy(ngEnv$windowManager$settings$tt)

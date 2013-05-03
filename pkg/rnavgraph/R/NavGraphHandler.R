@@ -2,7 +2,6 @@ setClass(
 		Class = "NavGraph_handler",
 		representation = representation(
 				env = "environment",
-				ggobi = "OptionalGGobi",
 				graphs = "list",
 				data = "list",
 				viz = "list",
@@ -88,21 +87,6 @@ ng_update <- function(nghandler){
 						})
 				
 				
-				if(all(c("NG_Viztk2d", "NG_Viz2D_Ggobi") %in% classes)) {
-					## choose which ones to save
-					notanswered <- TRUE
-					while(notanswered){
-						ANSWER <- readline(paste("For data '",dataName,"' either save the grouping from display:\n 1. tk2d\n 2. ggobi\n\n[1]/2: ", sep = ''))
-						
-						if(ANSWER == '1' || ANSWER == ''){
-							classes <- "NG_Viztk2d"
-							notanswered <- FALSE
-						}else if(ANSWER == '2'){
-							classes <- "NG_Viz2D_Ggobi"
-							notanswered <- FALSE
-						}
-					}	
-				}
 				
 				if ("NG_Viztk2d" %in% classes ){
 					## tk2d
@@ -112,10 +96,8 @@ ng_update <- function(nghandler){
 					col <- .tcl2str(paste('ng_data("',nghandler@env$ng_LinkedInstance,".",dataName,'.color")',sep = ''))
 					
 					group <- paste('c',col,';s',size,sep='')
-				}	else if ("NG_Viz2D_Ggobi" %in% classes ){
-					## ggobi
-					group <- paste("c",glyph_color(nghandler@env$g[dataName]),";t",glyph_type(nghandler@env$g[i]),";s",glyph_size(nghandler@env$g[dataName]),sep='')
 				}	
+
 				nghandler@data[[i]]@group <- group
 				
 				cols <- .tcl2str(paste('ng_data("',nghandler@env$ng_LinkedInstance,".",dataName,'.brush_colors")',sep = ''))
@@ -143,7 +125,7 @@ ng_update <- function(nghandler){
 setMethod(f = "ng_get",
 		signature = "NavGraph_handler",
 		definition = function(obj, what=NULL, ...){
-			possibleOptions <- c("graphs","paths","data","ggobi","viz")
+			possibleOptions <- c("graphs","paths","data","viz")
 			
 			if(is.null(what)){
 				cat("possible options are: ")
@@ -168,13 +150,7 @@ setMethod(f = "ng_get",
 					}else {
 						return(obj@data)
 					}		
-				}else if(what == "ggobi"){
-					if(is(obj@env$g,"GGobi")){
-						return(obj@ggobi)
-					}else{
-						stop("[ng_get] ggobi was not initialized.")
-					}	
-				}else if(what == "viz"){
+				} else if(what == "viz"){
 					if(length(obj@viz) == 1) {
 						return(obj@viz[[1]])
 					}else {
@@ -188,7 +164,7 @@ setMethod(f = "ng_get",
 setReplaceMethod(
 		f = "ng_set","NavGraph_handler",
 		function(object,what,value){
-			possibleOptions <- c("graphs","paths","data","ggobi","viz")
+			possibleOptions <- c("graphs","paths","data","viz")
 			
 			tmp <- object
 			

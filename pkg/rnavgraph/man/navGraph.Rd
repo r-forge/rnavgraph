@@ -37,8 +37,7 @@ navGraph(data, graph = NULL, viz = NULL, settings = NULL)
   }
   \item{viz}{
     a single- or a \code{list} of visualization instruction objects
-    generated for example by \code{\link{ng_2d}},
-    \code{\link{ng_2d_ggobi}} or \code{\link{ng_2d_myplot}}
+    generated for example by \code{\link{ng_2d}} or \code{\link{ng_2d_myplot}}
     function. I.e. objects from the NG_visualization class.
   }
   \item{settings}{
@@ -59,7 +58,7 @@ navGraph(data, graph = NULL, viz = NULL, settings = NULL)
   graph and visualization instruction have their own wrapper class
   provided by the \pkg{RnavGraph} package. See \code{\link{ng_data}},
   \code{\link{ng_graph}} and for the visualization instructions
-  \code{\link{ng_2d}} \code{\link{ng_2d_ggobi}}.
+  \code{\link{ng_2d}}.
 
   There are several shortcuts to start a \code{navGraph} session. All of
   them assume that the nodes of the graphs represent 2d scatterplots and
@@ -86,7 +85,7 @@ navGraph(data, graph = NULL, viz = NULL, settings = NULL)
 
   Use \code{\link{ng_update}} to update the navGraph handler with the
   current state of its associated \code{navGraph} session. If you have
-  changed some attributes such as color or size in the tk2d- or ggobi
+  changed some attributes such as color or size in the tk2d
   display, you can get the new grouping with
   \code{ng_get(ng_get(nav,"data"),"group")} back, where \var{nav} is the
   navGraph handler.  }
@@ -105,7 +104,7 @@ navGraph(data, graph = NULL, viz = NULL, settings = NULL)
 
 \seealso{
 \code{\link{ng_data}}, \code{\link{ng_graph}}, \code{\link{ng_2d}},
-\code{\link{ng_2d_myplot}}, \code{\link{ng_2d_ggobi}},
+\code{\link{ng_2d_myplot}},
 \code{\link{scagNav}}, \code{\link{ng_get-methods}}, \code{\link{ng_set-methods}},
 \code{\link{ng_update}}, \code{\link{ng_walk}}, \code{\link{ng_set_color<-}}, \code{\link{ng_get_color}},  \code{\link{ng_set_size<-}}, \code{\link{ng_get_size}}
 }

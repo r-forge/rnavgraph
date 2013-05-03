@@ -8,8 +8,8 @@
   The navGraph handler can be used to interact with a running navGraph
   session via the R prompt.
   
-  For the tk2d and ggobi display one can change color and size of the
-  data points (in ggobi also the shapes). You can retrieve this
+  For the tk2d display one can change color and size of the
+  data points. You can retrieve this
   information by updating the navGraph handler and reading the group
   attribute of the data object back. See the examples.
 }

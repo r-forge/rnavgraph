@@ -3,7 +3,6 @@
 \alias{closeViz-methods}
 \alias{closeViz,NG_Visualization-method}
 \alias{closeViz,NG_Viz2DAxis-method}
-\alias{closeViz,NG_Viz2D_Ggobi-method}
 \alias{closeViz,NG_Viztk2d-method}
 
 \title{Initialization of a new Display}

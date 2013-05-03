@@ -1,15 +1,13 @@
 ## Register an old-style (a.k.a. 'S3') class as a formally defined class
-## isS4(ggobi())
-setOldClass('GGobiScatterplotDisplay')
+
+
 setOldClass('tkwin')
 setClassUnion('OptionalTkwin',c('tkwin','NULL'))
-setClassUnion('OptionalGGobiSPDisp',c('GGobiScatterplotDisplay','NULL'))
+
 setClassUnion('OptionalCharNum',c('numeric','character'))
 setClassUnion('OptionalCharNumNULL',c('numeric','character','NULL'))
 setClassUnion('OptionalCharNULL',c('NULL','character'))
 
-setOldClass("GGobi")
-setClassUnion('OptionalGGobi',c('GGobi','NULL'))
 setGeneric("plot")
 
 

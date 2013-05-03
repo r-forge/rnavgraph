@@ -56,7 +56,7 @@ Adrian Waddell and R. Wayne Oldford
 \seealso{
   \code{\link{navGraph}}, \code{\link{ng_data}}, \code{\link{ng_graph}},
   \code{\link{ng_image_array_gray}}, \code{\link{ng_image_files}},
-  \code{\link{ng_get-methods}}, \code{\link{ng_set-methods}}, \code{\link{ng_2d_ggobi}}, \code{\link{ng_2d_myplot}}
+  \code{\link{ng_get-methods}}, \code{\link{ng_set-methods}}, \code{\link{ng_2d_myplot}}
 }
 \examples{
 ## NG_data
